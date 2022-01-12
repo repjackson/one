@@ -243,7 +243,7 @@ if Meteor.isClient
                             position: 'top-end',
                             timer: 1000
                         )
-                        Router.go "/transfer/#{@_id}/view"
+                        Router.go "/transfer/#{@_id}"
             )
 
 

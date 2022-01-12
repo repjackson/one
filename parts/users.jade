@@ -2,20 +2,23 @@ template(name='users')
     .ui.padded.stackable.grid
         .four.wide.column
             +user_cloud
+            if currentUser.admin
+                .ui.button.add_user
+                    |add user
         .twelve.wide.column
-            +session_set key='view_users' value='grid' icon='th' 
-            +session_set key='view_users' value='list' icon='list'
-            +session_set key='sort_users_direction' value='-1' icon='chevron down'
-            +session_set key='sort_users_direction' value='1' icon='chevron up'
-            +session_set key='sort_users_key' value='points' icon='coins'
-            +session_set key='sort_users_key' value='created_date' icon='clock'
-            // +session_set key='view_limit' value=1
-            +session_set key='view_limit' value=10
-            +session_set key='view_limit' value=20
-            +session_set key='view_limit' value=50
+            // +session_set key='view_users' value='grid' icon='th' 
+            // +session_set key='view_users' value='list' icon='list'
+            // +session_set key='sort_users_direction' value='-1' icon='chevron down'
+            // +session_set key='sort_users_direction' value='1' icon='chevron up'
+            // +session_set key='sort_users_key' value='points' icon='coins'
+            // +session_set key='sort_users_key' value='created_date' icon='clock'
+            // // +session_set key='view_limit' value=1
+            // +session_set key='view_limit' value=10
+            // +session_set key='view_limit' value=20
+            // +session_set key='view_limit' value=50
             .scrolling
                 // if skv_is 'view_users' 'grid'
-                .ui.stackable.three.cards
+                .ui.stackable.centered.cards
                     each user_docs
                         +user_card
                 // else if session_is 'view_users' 'list'
@@ -71,7 +74,7 @@ template(name='user_item')
 template(name='user_card')
     .card.rounded.calc_points
         img.ui.image.mobile.only(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill'}}")    
-        a.zoom.pointer.mobile.hidden.blink(href="/user/#{username}")
+        a.zoom.pointer.mobile.hidden.fly_right(href="/user/#{username}")
             unless avatar_image_id
                 img.ui.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill'}}")    
             if avatar_image_id

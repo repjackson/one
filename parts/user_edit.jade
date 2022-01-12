@@ -36,15 +36,13 @@ template(name='user_edit')
                 .four.wide.column
                     +array_edit key='allergens' label='allergens' icon='no-milk' direct=true
                     +array_edit key='food_dislikes' label='food dislikes' icon='disgusting' direct=true
+                    +link_edit key='profile_link' label='profile link' icon='link' direct=true
                     if admin
                         .ui.header
                             i.shield.icon
                             |admin
                         +boolean_edit key='admin' icon='shield' direct=true
                         +array_edit key='roles' icon='shield' direct=true
-                    else if in_dev
-                        +array_edit key='roles' icon='shield' direct=true
-                        +boolean_edit key='admin' direct=true
                     
                     
                     

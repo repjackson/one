@@ -2,7 +2,7 @@ template(name='transfers')
     .ui.stackable.padded.grid
         .sixteen.wide.column
             .ui.inline.header 
-                +i name='donate'
+                +i name='exchange'
                 |transfers
             .ui.basic.icon.button.add_transfer
                 i.large.plus.icon
@@ -74,7 +74,7 @@ template(name='transfer_view')
         .ui.stackable.padded.grid
             .centered.row 
                 .five.wide.column
-                    a(href="/user/#{_author.username}") 
+                    a.fly_right(href="/user/#{_author.username}") 
                         img.ui.circular.centered.pointer.zoom.image(src="{{c.url _author.image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                         .ui.large.center.aligned.header.pointer.zoom
                             |#{_author.name}
@@ -101,7 +101,7 @@ template(name='transfer_view')
                     +comments
                     //- +array_view key='location_tags' label='location_tags' direct=true
                 .five.wide.column
-                    a(href="/user/#{recipient.username}")
+                    a.fly_right(href="/user/#{recipient.username}")
                         img.ui.circular.centered.fluid.pointer.zoom.image(src="{{c.url recipient.image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                         .ui.large.center.aligned.header.pointer.zoom
                             |#{recipient.name}
@@ -118,6 +118,7 @@ template(name='transfer_edit')
                         |cancel
                     .ui.segment
                         .ui.inline.grey.header sender
+                        +single_user_edit key='_author_id' direct=true
                         .ui.inline.header
                             img.ui.small.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{_author.name}

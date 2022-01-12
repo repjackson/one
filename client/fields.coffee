@@ -110,7 +110,9 @@ Template.clear_value.events
             if doc
                 Docs.update parent._id,
                     $unset:"#{@key}":1
-
+            else 
+                Meteor.users.update parent._id,
+                    $unset:"#{@key}":1
 
 Template.link_edit.events
     'blur .edit_url': (e,t)->
@@ -120,6 +122,19 @@ Template.link_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val
+        else 
+            Meteor.users.update parent._id,
+                $set:"#{@key}":val
+                
+        $('body').toast(
+            showIcon: 'checkmark'
+            message: "saved"
+            # showProgress: 'bottom'
+            class: 'success'
+            # displayTime: 'auto',
+            position: "bottom right"
+        )
+            
 
 Template.datetime_edit.events
     'blur .edit_datetime': (e,t)->
@@ -129,6 +144,17 @@ Template.datetime_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val
+        else
+            Meteor.users.update parent._id,
+                $set:"#{@key}":val
+        $('body').toast(
+            showIcon: 'checkmark'
+            message: "saved"
+            # showProgress: 'bottom'
+            class: 'success'
+            # displayTime: 'auto',
+            position: "bottom right"
+        )
 
 
 # Template.i.onCreated ->
@@ -155,6 +181,14 @@ Template.icon_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                # displayTime: 'auto',
+                position: "bottom right"
+            )
 
 Template.image_link_edit.events
     'blur .image_link_val': (e,t)->
@@ -164,6 +198,14 @@ Template.image_link_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                # displayTime: 'auto',
+                position: "bottom right"
+            )
 
 
 Template.image_edit.events
@@ -215,6 +257,14 @@ Template.image_edit.events
             if doc
                 Docs.update parent._id,
                     $unset:"#{@key}":1
+            $('body').toast(
+                showIcon: 'checkmark'
+                message: "saved"
+                # showProgress: 'bottom'
+                class: 'success'
+                # displayTime: 'auto',
+                position: "bottom right"
+            )
 
 
 

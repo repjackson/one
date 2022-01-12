@@ -13,6 +13,9 @@ template(name='user_layout')
                 .row
                     //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                     .four.wide.column.scrolling
+                        a.ui.fluid.button.fly_left(href='/users')
+                            i.chevron.left.icon
+                            |users
                         a.item(href="/user/#{user_from_username_param.username}")
                             img.ui.circular.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
                         // .spacer
@@ -55,6 +58,9 @@ template(name='user_layout')
                         a.ui.button.logout_other_clients(href="#" title='logout other clients')
                             i.globe.icon
                             |log out other clients
+                        if link 
+                            a.ui.button(href=link target='_window')
+                                |app link
                     .twelve.wide.column.scrolling
                         div.global_container
                             .spacer
