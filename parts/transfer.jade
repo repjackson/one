@@ -7,13 +7,12 @@ template(name='transfers')
             .ui.basic.icon.button.add_transfer
                 i.large.plus.icon
         .sixteen.wide.column
-            .ui.five.stackable.centered.cards
+            .ui.stackable.centered.cards
                 each model_docs_helper 'transfer'
-                    .ui.card.zoomer
-                        a.fly_right(href="/transfer/#{_id}") 
-                            img.ui.image(src="{{c.url image_id width=400 height=400 crop='pad'}}")
-                        a.content(href="/transfer/#{_id}") 
-                            .ui.header 
+                    a.card.zoomer.fly_right(href="/transfer/#{_id}") 
+                        img.ui.image(src="{{c.url image_id width=400 height=400 crop='pad'}}")
+                        .content
+                            .ui.inline.header 
                                 |#{amount}p
                             i.tag.icon
                             each tags 

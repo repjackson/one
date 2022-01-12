@@ -64,7 +64,7 @@ if Meteor.isClient
 
 
     Template.event_view.onCreated ->
-        @autorun => @subscribe 'model_docs', 'order'
+        # @autorun => @subscribe 'model_docs', 'order'
     Template.event_view.events
         'click .buy_ticket': ->
             Docs.insert 
@@ -82,12 +82,7 @@ if Meteor.isClient
                 ticket_price: @point_price
         
     Template.events.onCreated ->
-        @autorun => Meteor.subscribe 'events',
-            Session.get('viewing_room_id')
-            Session.get('viewing_past')
-        @autorun => Meteor.subscribe 'model_docs', 'badge'
-        @autorun => Meteor.subscribe 'model_docs', 'room'
-        # @autorun => Meteor.subscribe 'model_docs', 'transaction'
+        @autorun => Meteor.subscribe 'model_docs', 'event', ->
         
     Template.events.events
         'click .toggle_past': ->
@@ -119,14 +114,14 @@ if Meteor.isClient
             if Session.get('viewing_past')
                 Docs.find {
                     model:'event'
-                    published:true
+                    # published:true
                     # date:$lt:moment().subtract(1,'days').format("YYYY-MM-DD")
                 }, 
                     sort:start_datetime:-1
             else
                 Docs.find {
                     model:'event'
-                    published:true
+                    # published:true
                     # date:$gt:moment().subtract(1,'days').format("YYYY-MM-DD")
                 }, 
                     sort:date:1

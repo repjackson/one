@@ -1,15 +1,10 @@
 template(name='events')
     .ui.stackable.padded.grid 
         .row
-            .four.wide.column
-                .ui.header room
-                each rooms 
-                    .ui.circular.button.select_room(class=room_button_class)
-                        img.ui.avatar.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                        |#{title}
-            .twelve.wide.column
+            .sixteen.wide.column
                 .ui.inline.header
-                    i.orange.calendar.icon
+                    // i.calendar.icon
+                    +i name='calendar'
                     |events
                 if currentUser
                     .ui.circular.basic.icon.button.add_event(title='add event')
@@ -20,7 +15,6 @@ template(name='events')
                     else
                         i.circle.outline.large.icon
                     |past
-                .spacer
                 .spacer
                 .ui.stackable.five.cards
                     each event_docs
@@ -101,8 +95,6 @@ template(name='event_edit')
                     +boolean_edit key='published' label='published' direct=true
                     .ui.icon.basic.circular.button.delete_item(title='delete')
                         i.remove.red.icon
-            .row
-                .eight.wide.column
                     +text_edit key='title' label='title' direct=true
                     .ui.header 
                         small author
@@ -130,7 +122,6 @@ template(name='event_edit')
                     unless free
                         +number_edit key='price_points' label='point price' min='0' max='100' direct=true
                     +number_edit key='price_usd' label='dollar price' min='0' max='100' direct=true
-                .eight.wide.column.scrollin
                     +html_edit key='description' label='description' direct=true
                     +image_edit key='image_id' label='image' direct=true
                     +link_edit key='link' label='link'

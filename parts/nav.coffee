@@ -4,51 +4,51 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'all_users'
         @autorun => Meteor.subscribe 'models', ->
         
-        @autorun => Meteor.subscribe 'my_cart'
+        # @autorun => Meteor.subscribe 'my_cart'
         @autorun => Meteor.subscribe 'my_unread_messages'
         @autorun => Meteor.subscribe 'global_stats'
-        @autorun => Meteor.subscribe 'my_cart_order'
-        @autorun => Meteor.subscribe 'my_cart_products'
+        # @autorun => Meteor.subscribe 'my_cart_order'
+        # @autorun => Meteor.subscribe 'my_cart_products'
 
     Template.nav.onRendered ->
-        Meteor.setTimeout ->
-            $('.menu .item')
-                .popup()
-            $('.ui.left.sidebar')
-                .sidebar({
-                    context: $('.bottom.segment')
-                    transition:'push'
-                    mobileTransition:'scale'
-                    exclusive:true
-                    duration:200
-                    scrollLock:true
-                })
-                .sidebar('attach events', '.toggle_leftbar')
-        , 2000
-        Meteor.setTimeout ->
-            $('.ui.rightbar')
-                .sidebar({
-                    context: $('.bottom.segment')
-                    transition:'push'
-                    mobileTransition:'push'
-                    exclusive:true
-                    duration:200
-                    scrollLock:true
-                })
-                .sidebar('attach events', '.toggle_rightbar')
-        , 2000
-        Meteor.setTimeout ->
-            $('.ui.topbar.sidebar')
-                .sidebar({
-                    context: $('.bottom.segment')
-                    transition:'push'
-                    mobileTransition:'push'
-                    exclusive:true
-                    duration:200
-                    scrollLock:true
-                })
-                .sidebar('attach events', '.toggle_topbar')
-        , 2000
+        # Meteor.setTimeout ->
+        #     $('.menu .item')
+        #         .popup()
+        #     $('.ui.left.sidebar')
+        #         .sidebar({
+        #             context: $('.bottom.segment')
+        #             transition:'push'
+        #             mobileTransition:'scale'
+        #             exclusive:true
+        #             duration:200
+        #             scrollLock:true
+        #         })
+        #         .sidebar('attach events', '.toggle_leftbar')
+        # , 2000
+        # Meteor.setTimeout ->
+        #     $('.ui.rightbar')
+        #         .sidebar({
+        #             context: $('.bottom.segment')
+        #             transition:'push'
+        #             mobileTransition:'push'
+        #             exclusive:true
+        #             duration:200
+        #             scrollLock:true
+        #         })
+        #         .sidebar('attach events', '.toggle_rightbar')
+        # , 2000
+        # Meteor.setTimeout ->
+        #     $('.ui.topbar.sidebar')
+        #         .sidebar({
+        #             context: $('.bottom.segment')
+        #             transition:'push'
+        #             mobileTransition:'push'
+        #             exclusive:true
+        #             duration:200
+        #             scrollLock:true
+        #         })
+        #         .sidebar('attach events', '.toggle_topbar')
+        # , 2000
         # Meteor.setTimeout ->
         #     $('.ui.secnav.sidebar')
         #         .sidebar({
