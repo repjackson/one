@@ -316,10 +316,13 @@ Template.array_edit.events
             parent = Template.parentData(5)
 
         doc = Docs.findOne parent._id
+        user = Meteor.users.findOne parent._id
         if doc
             Docs.update parent._id,
                 $pull:"#{field.key}":element
-
+        else if user
+            Meteor.users.update parent._id,
+                $pull:"#{field.key}":element
         t.$('.new_element').focus()
         t.$('.new_element').val(element)
 

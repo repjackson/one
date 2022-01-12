@@ -11,6 +11,9 @@
   height:5px !important;
 }
 
+.label {
+  margin:2px !important;
+}
 
 .zoomer{
     transition: transform 2s; /* Animation */
