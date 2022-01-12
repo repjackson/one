@@ -56,13 +56,31 @@ template(name='profile')
                             i.shield.icon
                             |admin
                     +array_view key='roles' label='roles' direct=true icon='shield'
-                    +array_view key='tags' label='tags' direct=true icon='shield'
+                    +array_view key='tags' label='tags' direct=true icon='tags'
                     a.ui.button.logout_other_clients(href="#" title='logout other clients')
                         i.globe.icon
                         |log out other clients
                     if link 
                         a.ui.button(href=link target='_window')
                             |app link
+                    if is_current_user
+                        +boolean_edit key='online' label='online' direct=true
+                        +text_edit key='current_status' label='status' icon='clock' direct=true
+                    else 
+                        if online 
+                            .ui.green.large.label 
+                                i.large.checkmark.icon
+                                |online
+                        else
+                            .ui.disabled.large.label 
+                                |offline
+                        if current_status
+                            .ui.small.header(title='status' )
+                                i.grey.clock.icon
+                                |!{current_status}
+                    if is_dev
+                        .ui.small.inline.header #{_id}
+                            
                 .twelve.wide.column.scrollin
                     .ui.stackable.grid
                         // .spacer
@@ -443,23 +461,6 @@ template(name='user_dashboard')
                 .ui.large.basic.circular.label() #{flow_volume} volume
                 //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
                 //-     i.refresh.icon
-                if is_current_user
-                    +boolean_edit key='online' label='online' direct=true
-                    +text_edit key='current_status' label='status' icon='clock' direct=true
-                else 
-                    if online 
-                        .ui.green.large.label 
-                            i.large.checkmark.icon
-                            |online
-                    else
-                        .ui.disabled.large.label 
-                            |offline
-                    if current_status
-                        .ui.small.header(title='status' )
-                            i.grey.clock.icon
-                            |!{current_status}
-                if is_dev
-                    .ui.small.inline.header #{_id}
         .four.column.row
             .column
                 // a.ui.inline.header(href="/user/#{username}/credits")

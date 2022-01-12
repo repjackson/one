@@ -1,3 +1,31 @@
+template(name='events')
+    .ui.stackable.padded.grid 
+        .row
+            .four.wide.column
+                .ui.header room
+                each rooms 
+                    .ui.circular.button.select_room(class=room_button_class)
+                        img.ui.avatar.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                        |#{title}
+            .twelve.wide.column
+                .ui.inline.header
+                    i.orange.calendar.icon
+                    |events
+                if currentUser
+                    .ui.circular.basic.icon.button.add_event(title='add event')
+                        i.plus.big.green.icon
+                .ui.large.basic.circular.button.toggle_past
+                    if viewing_past
+                        i.checkmark.large.green.icon
+                    else
+                        i.circle.outline.large.icon
+                    |past
+                .spacer
+                .spacer
+                .ui.stackable.five.cards
+                    each event_docs
+                        +event_card
+
 template(name='event_card')
     .ui.card
         if image_id
@@ -103,37 +131,6 @@ template(name='event_edit')
                         +number_edit key='price_points' label='point price' min='0' max='100' direct=true
                     +number_edit key='price_usd' label='dollar price' min='0' max='100' direct=true
                 .eight.wide.column.scrollin
-                    .ui.segment
-                        .ui.inline.header room
-                        each rooms 
-                            .ui.circular.button.select_room(class=room_button_class)
-                                img.ui.mini.rounded.inline.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}")
-                                .ui.small.inline.header #{title}
-                                if dollars_per_hour
-                                    | $#{dollars_per_hour}/hr
-                        if room_id
-                            unless key_value_is 'room_title' 'other'
-                                with event_room
-                                    // .ui.header #{title}
-                                    // |$#{dollars_per_hour}
-                                    .ui.small.header schedule for #{current_doc.date}
-                                .ui.header slot 1: 9am-11am
-                                +reserve_button slot=1
-                                .ui.header slot 2: 11am-1pm
-                                +reserve_button slot=2
-                                .ui.header slot 3: 1pm-3pm  
-                                +reserve_button slot=3
-                                .ui.header slot 4: 3pm-5pm   
-                                +reserve_button slot=4
-                            else
-                                +text_edit key='location' label='location' icon='red marker' direct=true
-                                +array_edit key='location_tags' label='location tags' icon='red tags' direct=true
-                                
-                                +datetime_edit key='start_datetime' label='start' direct=true
-                                +datetime_edit key='end_datetime' label='end' direct=true
-                         each room_reservations
-                            .ui.header reserved
-                            
                     +html_edit key='description' label='description' direct=true
                     +image_edit key='image_id' label='image' direct=true
                     +link_edit key='link' label='link'

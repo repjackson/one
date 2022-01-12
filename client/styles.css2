@@ -322,18 +322,6 @@ img {
 /*    height: auto;*/
 /*    font-size: .78571429rem;*/
 /*}*/
-/*.rightmenu:hover {*/
-/*    content:url("/menu.gif");*/
-/*    width: 35px;*/
-/*    height: auto;*/
-/*    font-size: .78571429rem;*/
-/*}*/
-/*.leftmenu:hover {*/
-/*    content:url("/leftmenu.gif");*/
-/*    width: 35px;*/
-/*    height: auto;*/
-/*    font-size: .78571429rem;*/
-/*}*/
 
 .checking_in_area {
     padding-top: 0px !important;

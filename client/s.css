@@ -6,6 +6,18 @@
 	/*padding-top: 1em;*/
 	/*padding-left: 1em;*/
 }
+.rightmenu:hover {
+    content:url("/menu.gif");
+    width: 35px;
+    height: auto;
+    font-size: .78571429rem;
+}
+.leftmenu:hover {
+    content:url("/leftmenu.gif");
+    width: 35px;
+    height: auto;
+    font-size: .78571429rem;
+}
 
 .spacer {
   height:5px !important;
