@@ -19,46 +19,20 @@ if Meteor.isClient
         @layout 'user_layout'
         @render 'user_friends'
         ), name:'user_friends'
-    Router.route '/user/:username/subs', (->
-        @layout 'user_layout'
-        @render 'user_subs'
-        ), name:'user_subs'
     Router.route '/user/:username/subscriptions', (->
         @layout 'user_layout'
         @render 'user_subs'
         ), name:'user_subscriptions'
-    Router.route '/user/:username/addresses', (->
-        @layout 'user_layout'
-        @render 'user_addresses'
-        ), name:'user_addresses'
-    Router.route '/user/:username/deliveries', (->
-        @layout 'user_layout'
-        @render 'user_deliveries'
-        ), name:'user_deliveries'
-    Router.route '/user/:username/bookmarks', (->
-        @layout 'user_layout'
-        @render 'user_bookmarks'
-        ), name:'user_bookmarks'
     Router.route '/user/:username/posts', (->
         @layout 'user_layout'
         @render 'user_posts'
         ), name:'user_posts'
-    Router.route '/user/:username/pantry', (->
-        @layout 'user_layout'
-        @render 'user_pantry'
-        ), name:'user_pantry'
-
-
-
 
 
 
 
     Template.user_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
-        # @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username, ->
-    Template.user_bookmarks.onCreated ->
-        @autorun -> Meteor.subscribe 'user_bookmark_docs', Router.current().params.username, ->
         # @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username, ->
 if Meteor.isServer 
     Meteor.publish 'user_bookmark_docs', ->
@@ -114,40 +88,6 @@ if Meteor.isClient
             #         points:@amount
             
             
-if Meteor.isClient
-    Template.user_addresses.onCreated ->
-        @autorun => Meteor.subscribe 'username_model_docs', 'address', Router.current().params.username, ->
-            
-        # if Meteor.isDevelopment
-    
-
-    Template.user_addresses.events
-        'click .save_address': ->
-            Session.set('editing_id',null)
-        'click .edit_address': ->
-            Session.set('editing_id',@_id)
-        'click .remove_address': ->
-            if confirm 'confirm delete?'
-                Docs.remove @_id
-        'click .add_address': ->
-            new_id = 
-                Docs.insert
-                    model:'address'
-            Session.set('editing_id',new_id)
-            
-           
-           
-            
-    Template.user_addresses.helpers
-        is_editing_address: ->
-            Session.equals('editing_id',@_id)
-            
-            
-        user_address_docs: ->
-            Docs.find 
-                model:'address'
-                _author_username:Router.current().params.username
-        
 if Meteor.isServer
     Meteor.methods
         'calc_user_credit': (user_id)->

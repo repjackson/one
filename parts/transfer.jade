@@ -84,7 +84,7 @@ template(name='transfer_view')
                     if is_dev
                         +remove_button
                     .f14
-                        |#{description}
+                        |!{description}
                     .spacer
                     +image_view key='image_id' label='image' direct=true
                     div 
@@ -146,7 +146,7 @@ template(name='transfer_edit')
                     +time_edit key='time' label='time' direct=true   
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                 .six.wide.column
-                    +textarea_edit key='description' label='description' direct=true
+                    +html_edit key='description' label='description' direct=true
                     +image_edit key='image_id' label='image' direct=true
                     div 
                     div

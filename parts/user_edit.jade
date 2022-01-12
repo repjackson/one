@@ -16,7 +16,7 @@ template(name='user_edit')
                         +password_edit
                         //- +phone_editor
                         +username_edit
-                    if is_admin
+                    if admin
                         with user_from_username_param
                             .ui.orange.button.remove_user 
                                 i.remove.icon
@@ -36,7 +36,7 @@ template(name='user_edit')
                 .four.wide.column
                     +array_edit key='allergens' label='allergens' icon='no-milk' direct=true
                     +array_edit key='food_dislikes' label='food dislikes' icon='disgusting' direct=true
-                    if is_admin
+                    if admin
                         .ui.header
                             i.shield.icon
                             |admin

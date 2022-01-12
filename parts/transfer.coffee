@@ -11,15 +11,6 @@ if Meteor.isClient
 #         # console.log found
 #         found
     
-#     Router.route '/transfers', (->
-#         @layout 'layout'
-#         @render 'transfers'
-#         ), name:'transfers'
-#     Router.route '/transfer/:doc_id', (->
-#         @layout 'layout'
-#         @render 'transfer_view'
-#         ), name:'transfer_view'
-    
     Template.transfers.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'transfer', 20, ->
             

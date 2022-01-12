@@ -113,3 +113,16 @@ template(name='shortcut_modal')
                     .item 
                         .header #{combo}
                         .content #{action}
+
+
+template(name='footer')
+    .ui.segment 
+        .ui.header footer 
+        .ui.list
+            each user_docs 
+                .item #{username}
+        .ui.header 
+            |docs 
+        .ui.list
+            each doc_docs
+                .item #{title} #{model}

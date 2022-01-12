@@ -6,6 +6,8 @@ Template.registerHelper 'parent_doc', () ->
     Docs.findOne @parent_id
     # Template.parentData()
 
+Template.registerHelper 'is_admin', (model) ->
+    Meteor.user() and Meteor.user().admin
 Template.registerHelper 'user_bookmark_docs', (model) ->
     Docs.find 
         _id:$in:Meteor.user().bookmark_ids

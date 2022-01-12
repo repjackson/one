@@ -1,22 +1,14 @@
 template(name='nav')
     // https://fomantic-ui.com/elements/icon.html#/icon
     #topnav.topnav.ui.attached.borderless.inverted.menu.hscroll
-        if is_loading
-            .icon.item
-                i.big.loading.grey.refresh.icon.cancel
-        else 
-            // a.icon.item.toggle_leftbar.no_blink
-            //     // .ui.avatar.image.leftmenu
-            //     i.large.bars.grey.icon
-            //     // .ui.avatar.image
-            //     //     .mobile.hidden
-            //     //         +i name='menu--v1'
-                    
-            //         img.ui.avatar.image.mobile.only(src="/android-chrome-96x96.png")
+        // if is_loading
+        //     .icon.item
+        //         i.big.loading.grey.refresh.icon.cancel
+        // else 
         a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" )
             +i name='yin-yang'
             // i.large.home.icon
-            // span.mobile.hidden riverside
+            span.mobile.hidden one
         // .search.item.zoomer.mobile.hidden(title='search')
         //     .ui.icon.transparent.input
         //         if current_product_search
@@ -27,6 +19,11 @@ template(name='nav')
         a.icon.item(href="/users")
             // i.large.inbox.icon
             +i name='groups'
+            |users 
+        a.icon.item(href="/transfers")
+            // i.large.inbox.icon
+            +i name='exchange'
+            |transfers
         .right.menu
             a.icon.item(href="/inbox")
                 // i.large.inbox.icon
@@ -36,34 +33,18 @@ template(name='nav')
                 +i name='chat'
             // .icon.item 
             //     i.large.search.icon
-            a.icon.item(href="/m/model")
-                // i.large.inbox.icon
-                +i name='database'
             if currentUser
-                // if cart_items.count
-                // a.icon.item.toggle_cartbar
-                a.icon.item(href="/cart" class="{{isActivePath '/cart'}}")
-                    // i.large.cart.icon
-                    strong #{cart_items.count}
-                    |$#{my_cart_subtotal}
-                    .ui.avatar.image.cart
-                        +i name='shopping-cart'
-                    each cart_items
-                        img.ui.avatar.image(src="{{c.url product_image_id width=200 height=200 gravity='face' crop='fill'}}")
+                if currentUser.admin
+                    a.icon.item(href="/m/model")
+                        // i.large.inbox.icon
+                        +i name='database'
+                    a.item(href="/admin" title='admin')
+                        +i name='shield'
                 a.item.toggle_topbar.mobile.hidden(title='alerts')
                     // i.wallet.icon
                     // .ui.avatar.image.bell
                     +i name='notification'
-                if is_admin
-                    a.item(href="/admin" title='admin')
-                        +i name='shield'
                 // a.item(href='/user/#{currentUser.username}/credit' class="{{isActiveRoute 'user_credit'}}" title='current wallet balance')
-                // a.item.toggle_walletbar(title='credit')
-                //     // i.wallet.icon
-                //     .ui.avatar.image
-                //         +i name='wallet'
-                //     strong ${{int currentUser.credit}}
-                //     // i.cart.icon
                 a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
                     strong #{currentUser.points}p
                 a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
