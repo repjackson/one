@@ -1,0 +1,238 @@
+template(name='user_layout')
+    // img.ui.fluid.image.checkin_banner(src="{{c.url 'cafe'}}")
+    +nav
+    // .ui.bottom.attached.pushable.segment
+    //     +topbar
+    //     +left_sidebar
+    //     +right_sidebar
+    //     +cartbar
+    //     +walletbar
+    #main_area.global_container.pusher.scrollin
+        with user_from_username_param
+            .ui.stackable.padded.grid
+                .row
+                    //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
+                    .four.wide.column.scrolling
+                        a.item(href="/user/#{user_from_username_param.username}")
+                            img.ui.circular.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                        // .spacer
+                        // a(href="/user/#{username}")
+                        .ui.center.aligned.header
+                            // strong #{name}
+                            // strong #{user.first_name} #{user.last_name}
+                            | @#{user.username}        
+                        a.ui.center.aligned.inline.header.mobile.hidden(href="/user/#{user_from_username_param.username}/credit" title='credit')
+                            |#{user.points}p
+                        .ui.two.column.middle.aligned.grid.mobile.only
+                            // .column
+                            //     img.ui.small.inline.image.mobile.only(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                            .column
+                                .ui.inline.header
+                                    strong #{user.name}
+                                    //- small @#{user.username}        
+                                a.ui.inline.header(href="/user/#{user_from_username_param.username}/credit" title='credit')
+                                    +i name='coins'
+                                    |#{user.points}p
+                        if is_current_user
+                            a.ui.circular.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                                i.cog.icon
+                                |edit profile
+                        else if is_admin
+                            a.ui.circular.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
+                                +i name='settings' cl='ui avatar image'
+                                |edit profile
+                        // unless is_current_user
+                        //     +friend_button
+                        if is_current_user
+                            .ui.button.logout
+                                i.sign.out.alternate.icon
+                                |log out
+                        if admin
+                            .ui.header
+                                i.shield.icon
+                                |admin
+                        +array_view key='roles' label='roles' direct=true icon='shield'
+                        a.ui.button.logout_other_clients(href="#" title='logout other clients')
+                            i.globe.icon
+                            |log out other clients
+                    .twelve.wide.column.scrolling
+                        div.global_container
+                            .spacer
+                            +yield
+    
+
+
+template(name='user_dashboard')
+    .ui.two.stackable.cards
+        .ui.card
+            .content
+                +user_credit
+        .ui.card
+            .content
+                +user_orders
+        +user_subscriptions   
+        +user_addresses
+        +user_friends
+        +user_bookmarks
+        +user_ingredients
+        +user_deliveries
+        +user_pantry
+template(name='user_ingredients')
+    .ui.card
+        .content
+            a.header(href="/user/#{username}/ingredients")
+                // +i name='ingredients' cl='ui avatar image'
+                i.large.food.icon
+                |ingredients
+            .ui.small.header 
+                |liked ingredients
+            each liked_ingredients
+                .ui.header #{when}
+            each disliked_ingredients
+                |disliked ingredients
+                .ui.header #{when}
+                
+                
+template(name='user_bookmarks')        
+    .ui.card
+        .content
+            a.header(href="/user/#{username}/bookmarks")
+                +i name='bookmark' cl='ui avatar image'
+                // i.large.heart.icon
+                |bookmarks
+            each user_bookmark_docs
+                .ui.header #{when}
+              
+              
+              
+template(name='user_friends')
+    .ui.card
+        .content
+            .ui.header 
+                i.large.handshake.icon
+                // +i name='friends'
+                |friends
+            // .ui.input
+            //     i.plus.icon
+            //     input.search_friend(type='text' placeholder='add by username...')
+            +multi_user_edit key='friend_ids' label='friends' direct=true
+            each friend_search_results
+                .ui.header #{username}
+            each user_friends
+                .item #{username}
+
+template(name='user_subscriptions')              
+    .ui.card
+        .content
+            // a.header(href="/user/#{username}/subscriptions")
+            .ui.header
+                // +i name='clock' cl='ui avatar image'
+                i.large.clock.icon
+                |subscriptions
+            each user_subs
+                .ui.header #{when}
+                    
+                    
+                    
+                    
+template(name='user_addresses')
+    .ui.card
+        .content
+            .ui.inline.header 
+                // +i name='marker'
+                i.large.marker.icon
+                |#{user_address_docs.count} addresses
+            // .ui.icon.button.add_address
+            i.large.plus.link.circular.icon.add_address
+            .ui.hidden.divider
+            .ui.cards
+                each user_address_docs
+                    .ui.card
+                        .content
+                            if is_editing_address
+                                +text_edit key='street_address' label='street address' direct=true
+                                +text_edit key='city' label='city' direct=true
+                                +number_edit key='zip_code' label='zip code' direct=true
+                                i.ui.big.link.green.checkmark.icon.save_address
+                                i.ui.link.red.remove.icon.remove_address
+                            else 
+                                .ui.header 
+                                    |#{street_address}
+                                .ui.header #{city}, #{zip_code}
+                                i.ui.large.link.edit.icon.edit_address
+                                            
+        
+template(name='user_deliveries')
+    .ui.card
+        .content
+            .ui.header 
+                +i name='bicycle'
+                |deliveries
+            .ui.button.mark_available
+                |available to deliver
+            .ui.button.mark_unavailable
+                |mark unavailable to deliver
+            each user_deliveries
+                .item #{when}
+            // +map
+            
+template(name='user_pantry')
+    .ui.card
+        .content
+            .ui.header 
+                +i name='kitchen'
+                |pantry
+            .ui.button.add_pantry_item
+                |add item
+            each pantry_items
+                a.item(href='') #{title} 
+            .ui.header 
+                |recommended recipes
+            .ui.header 
+                |missing items
+        
+        
+template(name='user_credit')
+    .ui.stackable.one.column.padded.grid
+        if is_current_user
+            .column
+                .ui.inline.header
+                    // i.money.icon
+                    +i name='money'
+                    |{{user_from_username_param.points}}
+                    |points
+                .ui.big.compact.button.send_points
+                    +i name='donate'
+                    |send points
+                a.ui.big.button(href="/transfers")
+                    +i name='exchange'
+                    // i.exchange.icon
+                    |transfers
+                // .ui.inline.header 
+                //     // i.shield.icon
+                //     +i name='shield'
+                //     |admin
+                .ui.big.icon.button.add_credit(title='add credit')
+                    |+1
+                // // +number_edit key='credit' label='edit credit' min='0' step='1' max='1000' direct=true
+                // .ui.big.icon.button.remove_credit(title='remove credit')
+                //     |-1
+                +topup_button amount=10
+                +topup_button amount=20
+                +topup_button amount=100
+                // |includes 2% credit card processing fee
+                // .ui.action.input
+                //     input.deposit_amount(type='number' min='1' placeholder='deposit')
+                //     .ui.icon.button.add_credits   
+                //         i.right.chevron.icon
+                        
+                .ui.large.bulleted.list.smallscroll
+                    each topups
+                        .item 
+                            .content
+                                .header 
+                                    |$#{amount}
+                                .description 
+                                    |#{when} {{long_date _timestamp}}
+                                    //- if is_dev
+                                    +remove_button        
