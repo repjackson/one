@@ -81,8 +81,12 @@ Template.html_edit.events
 
         parent = Template.parentData()
         doc = Docs.findOne parent._id
+        user = Meteor.users.findOne parent._id
         if doc
             Docs.update parent._id,
+                $set:"#{@key}":html
+        else 
+            Meteor.users.update parent._id,
                 $set:"#{@key}":html
 
 
@@ -285,11 +289,13 @@ Template.array_edit.events
         if e.which is 13
             element_val = t.$('.new_element').val().trim()
             if element_val.length>0
-                if true
-                    parent = Template.parentData()
-                else
-                    parent = Template.parentData(5)
+                parent = Template.parentData()
+                # if true
+                # else
+                #     parent = Template.parentData(5)
                 doc = Docs.findOne parent._id
+                console.log element_val.split("\n")
+
                 if doc
                     Docs.update parent._id,
                         $addToSet:"#{@key}":element_val

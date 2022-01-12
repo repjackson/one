@@ -1,83 +1,274 @@
-template(name='user_layout')
+template(name='profile')
     // img.ui.fluid.image.checkin_banner(src="{{c.url 'cafe'}}")
-    +nav
+    // +nav
     // .ui.bottom.attached.pushable.segment
     //     +topbar
     //     +left_sidebar
     //     +right_sidebar
     //     +cartbar
     //     +walletbar
-    #main_area.global_container.pusher.scrollin
-        with user_from_username_param
-            .ui.stackable.padded.grid
-                .row
-                    //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
-                    .four.wide.column.scrolling
-                        a.ui.fluid.button.fly_left(href='/users')
-                            i.chevron.left.icon
-                            |users
-                        a.item(href="/user/#{user_from_username_param.username}")
-                            img.ui.circular.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
-                        // .spacer
-                        // a(href="/user/#{username}")
-                        .ui.center.aligned.header
-                            // strong #{name}
-                            // strong #{user.first_name} #{user.last_name}
-                            | @#{user.username}        
-                        a.ui.center.aligned.inline.header.mobile.hidden(href="/user/#{user_from_username_param.username}/credit" title='credit')
-                            |#{user.points}p
-                        .ui.two.column.middle.aligned.grid.mobile.only
-                            // .column
-                            //     img.ui.small.inline.image.mobile.only(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
-                            .column
-                                .ui.inline.header
-                                    strong #{user.name}
-                                    //- small @#{user.username}        
-                                a.ui.inline.header(href="/user/#{user_from_username_param.username}/credit" title='credit')
-                                    +i name='coins'
-                                    |#{user.points}p
-                        if is_current_user
-                            a.ui.circular.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
-                                i.cog.icon
-                                |edit profile
-                        else if is_admin
-                            a.ui.circular.button(href="/user/#{user_from_username_param.username}/edit" title='profile settings')
-                                +i name='settings' cl='ui avatar image'
-                                |edit profile
-                        // unless is_current_user
-                        //     +friend_button
-                        if is_current_user
-                            .ui.button.logout
-                                i.sign.out.alternate.icon
-                                |log out
-                        if admin
-                            .ui.header
-                                i.shield.icon
-                                |admin
-                        +array_view key='roles' label='roles' direct=true icon='shield'
-                        a.ui.button.logout_other_clients(href="#" title='logout other clients')
-                            i.globe.icon
-                            |log out other clients
-                        if link 
-                            a.ui.button(href=link target='_window')
-                                |app link
-                    .twelve.wide.column.scrolling
-                        div.global_container
-                            .spacer
-                            +yield
-    
+    // #main_area.global_container.pusher.scrollin
+    with current_user
+        .ui.stackable.padded.grid
+            .row
+                //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
+                .four.wide.column.scrolling
+                    a.ui.fluid.button.fly_left(href='/users')
+                        i.chevron.left.icon
+                        |users
+                    a.item(href="/user/#{current_user.username}")
+                        img.ui.circular.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                    // .spacer
+                    // a(href="/user/#{username}")
+                    .ui.center.aligned.header
+                        // strong #{name}
+                        // strong #{user.first_name} #{user.last_name}
+                        | @#{user.username}        
+                    a.ui.center.aligned.inline.header.mobile.hidden(href="/user/#{current_user.username}/credit" title='credit')
+                        |#{user.points}p
+                    .ui.two.column.middle.aligned.grid.mobile.only
+                        // .column
+                        //     img.ui.small.inline.image.mobile.only(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                        .column
+                            .ui.inline.header
+                                strong #{user.name}
+                                //- small @#{user.username}        
+                            a.ui.inline.header(href="/user/#{current_user.username}/credit" title='credit')
+                                +i name='coins'
+                                |#{user.points}p
+                    if is_current_user
+                        a.ui.circular.button(href="/user/#{current_user.username}/edit" title='profile settings')
+                            i.cog.icon
+                            |edit profile
+                    else if is_admin
+                        a.ui.circular.button(href="/user/#{current_user.username}/edit" title='profile settings')
+                            +i name='settings' cl='ui avatar image'
+                            |edit profile
+                    // unless is_current_user
+                    //     +friend_button
+                    if is_current_user
+                        .ui.button.logout
+                            i.sign.out.alternate.icon
+                            |log out
+                    if admin
+                        .ui.header
+                            i.shield.icon
+                            |admin
+                    +array_view key='roles' label='roles' direct=true icon='shield'
+                    a.ui.button.logout_other_clients(href="#" title='logout other clients')
+                        i.globe.icon
+                        |log out other clients
+                    if link 
+                        a.ui.button(href=link target='_window')
+                            |app link
+                .twelve.wide.column.scrollin
+                    div.global_container
+                        .spacer
+                        .ui.two.stackable.cards
+                            .ui.card
+                                .content
+                                    +user_credit
+                            .ui.card
+                                .content
+                                    +user_orders
+                        // +user_subscriptions   
+                        +user_friends
+                        +user_received
+                        +user_sent
+                        +user_genekeys
+                        +user_info
+           
+           
+           
+template(name='user_received')  
+    .ui.inline.header 
+        i.chevron.down.icon
+        |points received
+    .ui.basic.label #{total_credit_amount}p total received
+    // |received
+    .ui.basic.label(title='received count') #{credit_count} total gifts 
+    .ui.basic.label(title='rank') ##{global_credit_count_rank} count rank
+        
+    i.tags.icon(title='credit tags')
+    each credit_tags
+        .ui.basic.circular.label #{title}
+            small #{count}
+        
+    .ui.stackable.cards.scrolling
+        each user_received_docs
+            a.ui.card(href="/m/debit/#{_id}/view")
+                .content
+                    .header
+                        strong #{amount}pt 
+                        // |from 
+                        if author.profile_image_id
+                            img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                        |#{_author.shortname}
+                    small #{when}
+                    div
+                    |#{description}
+                    div
+                    each tags
+                        .ui.basic.label #{this}
 
+template(name='user_received_small')
+    .ui.inline.header 
+        i.minus.icon
+        |#{total_credit_amount}p
+        |received
+        .ui.basic.label #{credit_count} credits
+            | ##{global_credit_count_rank}
+    div
+    .ui.link.list.scrolling
+        each user_credits
+            .item
+                if author.profile_image_id
+                    img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                .content
+                    .header
+                        strong #{amount}pt 
+                        |from 
+                        a(href="/user/#{author.username}")
+                            |#{author.username}
+                    .description
+                        a(href="/debit/#{_id}/view")
+                            |#{when}
+                .content
+                    .description
+                        |#{description}
+                        each tags
+                            .ui.basic.label #{this}
+                if is_admin 
+                    +remove_button
+                .spacer
+                            
+                            
+                            
+template(name='user_sent')  
+    .ui.inline.header 
+        i.send.icon
+        |sent
+    .ui.basic.label #{total_debit_amount}p total sent
+    .ui.basic.label(title='debit count') #{debit_count} gifts sent
+    .ui.basic.label(title='rank') ##{global_debit_count_rank} gift sent rank
+        
+    i.tags.icon(title='credit tags')
+    each debit_tags
+        .ui.basic.circular.label #{title}
+            small #{count}
+        
+    .ui.stackable.cards.scrolling
+        each sent_items
+            .ui.card
+                .content
+                    .header
+                        strong #{amount}pt
+                        | to 
+                        if recipient.profile_image_id
+                            img.ui.avatar.image(src="{{c.url recipient.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                        |#{recipient.shortname}
+                    small #{when}
+                    div
+                    |#{description}
+                    div
+                    each tags
+                        .ui.mini.basic.label #{this}
+                            
+                            
+                            
+                            
+template(name='user_about')
+    .ui.header 
+        i.info.icon
+        |user info
+    with current_user
+        // a.ui.compact.button(href="{{c.url genekeys_profile }}" target="_window")
+        //     +icon name='dna-helix' cl='ui mini image'
+            
+        //     |view gene keys profile
+        .ui.four.column.stackable.grid
+            .column
+                .ui.small.header What do you hope to receive?
+                .smallscroll
+                    |#{profile_hope_receive}
+            .column
+                .ui.small.header What excites you about being apart of this community?
+                .smallscroll
+                    |#{profile_excites_blurb}
+                .spacer
+            .column
+                .ui.small.header What do you want this community to know about you?
+                .smallscroll
+                    |#{profile_community_blurb}
+            .column
+                .ui.small.header What would you like to contribute (think: superpowers, talents, gifts, resources)?
+                .smallscroll
+                    |#{profile_contribute_blurb}
+        if tags 
+            i.large.tags.icon
+            each tags
+                .ui.basic.large.label
+                    |#{this}
+                // +user_info_tag
+        div
+        // .ui.header 
+        //     i.line.chart.icon
+        //     |levels
+        // each levels
+        //     .ui.basic.label #{this}
+        div
+        .ui.header 
+            |city:
+            |#{city}               
+        div
+        .ui.header 
+            |state:
+            |#{state}               
+        div
+        if is_admin
+            .ui.header 
+                i.shield.icon
+                |roles
+            each roles
+                .ui.label #{this}
+            
 
-template(name='user_dashboard')
-    .ui.two.stackable.cards
-        .ui.card
-            .content
-                +user_credit
-        .ui.card
-            .content
-                +user_orders
-        +user_subscriptions   
-        +user_friends
+template(name='user_info_tag')
+    .ui.basic.tertiary.button 
+        if term 
+            if term.image 
+                img.ui.tiny.image(src=term.image)
+        |#{this}
+                            
+            
+            
+            
+            
+template(name='user_genekeys')
+    .ui.header 
+        +icolor name='dna-helix'
+        |user genekeys
+    with current_user
+        if genekeys_link
+            a.ui.basic.button(href=genekeys_link target="_window")
+                |view gene keys link
+        .ui.stackable.three.column.grid
+            .column
+                +image_view key='gene1' label='gene keys 1' icon='dna' direct=true
+            .column
+                +image_view key='gene2' label='gene keys 2' icon='dna' direct=true
+            .column
+                +image_view key='gene3' label='gene keys 3' icon='dna' direct=true
+        |!{genekeys_report}
+
+// template(name='user_info_tag')
+//     .ui.basic.tertiary.button 
+//         if term 
+//             if term.image 
+//                 img.ui.tiny.image(src=term.image)
+//         |#{this}
+            
+
 
               
 template(name='user_friends')
@@ -119,7 +310,7 @@ template(name='user_credit')
                 .ui.inline.header
                     // i.money.icon
                     +i name='money'
-                    |{{user_from_username_param.points}}
+                    |{{current_user.points}}
                     |points
                 .ui.big.compact.button.send_points
                     +i name='donate'

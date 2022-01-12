@@ -1,37 +1,37 @@
 if Meteor.isClient
     Router.route '/user/:username', (->
-        @layout 'user_layout'
-        @render 'user_dashboard'
-        ), name:'user_dashboard'
+        @layout 'layout'
+        @render 'profile'
+        ), name:'profile'
     Router.route '/user/:username/cart', (->
-        @layout 'user_layout'
+        @layout 'layout'
         @render 'cart'
         ), name:'user_cart'
     Router.route '/user/:username/credit', (->
-        @layout 'user_layout'
+        @layout 'layout'
         @render 'user_credit'
         ), name:'user_credit'
     Router.route '/user/:username/orders', (->
-        @layout 'user_layout'
+        @layout 'layout'
         @render 'user_orders'
         ), name:'user_orders'
     Router.route '/user/:username/friends', (->
-        @layout 'user_layout'
+        @layout 'layout'
         @render 'user_friends'
         ), name:'user_friends'
     Router.route '/user/:username/subscriptions', (->
-        @layout 'user_layout'
+        @layout 'layout'
         @render 'user_subs'
         ), name:'user_subscriptions'
     Router.route '/user/:username/posts', (->
-        @layout 'user_layout'
+        @layout 'layout'
         @render 'user_posts'
         ), name:'user_posts'
 
 
 
 
-    Template.user_layout.onCreated ->
+    Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
         # @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username, ->
 if Meteor.isServer 
@@ -41,7 +41,7 @@ if Meteor.isServer
 
 
 if Meteor.isClient 
-    Template.user_layout.onRendered ->
+    Template.profile.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
         , 2000
@@ -51,14 +51,14 @@ if Meteor.isClient
     #     user_section_template: ->
     #         "user_#{Router.current().params.group}"
 
-    Template.user_layout.helpers
-        user_from_username_param: ->
+    Template.profile.helpers
+        current_user: ->
             Meteor.users.findOne username:Router.current().params.username
 
         user: ->
             Meteor.users.findOne username:Router.current().params.username
 
-    Template.user_layout.events
+    Template.profile.events
         'click .logout_other_clients': ->
             Meteor.logoutOtherClients()
 
@@ -245,11 +245,6 @@ if Meteor.isClient
 
 
 
-    Template.user_dashboard.onCreated ->
-        # @autorun => Meteor.subscribe 'user_current_reservations', Router.current().params.username
-    Template.user_dashboard.helpers
-
-    Template.user_dashboard.events
             
             
 if Meteor.isServer
@@ -258,3 +253,159 @@ if Meteor.isServer
             model:'topup'
             _author_id:Meteor.userId()  
             amount:$exists:true
+            
+            
+            
+if Meteor.isClient
+    Router.route '/user/:username/genekeys', (->
+        @layout 'profile_layout'
+        @render 'user_genekeys'
+        ), name:'user_genekeys'
+    
+    Template.user_genekeys.onCreated ->
+        @autorun => Meteor.subscribe 'docs', picked_tags.array(), 'thought'
+
+
+    Template.user_genekeys.onCreated ->
+        @autorun => Meteor.subscribe 'user_genekeys', Router.current().params.username
+        @autorun => Meteor.subscribe 'model_docs', 'message'
+
+    Template.user_genekeys.events
+        'keyup .new_public_message': (e,t)->
+            if e.which is 13
+                val = $('.new_public_message').val()
+                console.log val
+                target_user = Meteor.users.findOne(username:Router.current().params.username)
+                Docs.insert
+                    model:'message'
+                    body: val
+                    is_private:false
+                    target_user_id: target_user._id
+                val = $('.new_public_message').val('')
+
+        'click .submit_public_message': (e,t)->
+            val = $('.new_public_message').val()
+            console.log val
+            target_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.insert
+                model:'message'
+                is_private:false
+                body: val
+                target_user_id: target_user._id
+            val = $('.new_public_message').val('')
+
+
+        'keyup .new_private_message': (e,t)->
+            if e.which is 13
+                val = $('.new_private_message').val()
+                console.log val
+                target_user = Meteor.users.findOne(username:Router.current().params.username)
+                Docs.insert
+                    model:'message'
+                    body: val
+                    is_private:true
+                    target_user_id: target_user._id
+                val = $('.new_private_message').val('')
+
+        'click .submit_private_message': (e,t)->
+            val = $('.new_private_message').val()
+            console.log val
+            target_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.insert
+                model:'message'
+                body: val
+                is_private:true
+                target_user_id: target_user._id
+            val = $('.new_private_message').val('')
+
+
+
+    Template.user_genekeys.helpers
+        user_public_genekeys: ->
+            target_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find
+                model:'message'
+                target_user_id: target_user._id
+                is_private:false
+
+        user_private_genekeys: ->
+            target_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find
+                model:'message'
+                target_user_id: target_user._id
+                is_private:true
+                _author_id:Meteor.userId()
+
+
+
+if Meteor.isServer
+    Meteor.publish 'user_public_genekeys', (username)->
+        target_user = Meteor.users.findOne(username:Router.current().params.username)
+        Docs.find
+            model:'message'
+            target_user_id: target_user._id
+            is_private:false
+
+    Meteor.publish 'user_private_genekeys', (username)->
+        target_user = Meteor.users.findOne(username:Router.current().params.username)
+        Docs.find
+            model:'message'
+            target_user_id: target_user._id
+            is_private:true
+            _author_id:Meteor.userId()
+
+
+
+
+if Meteor.isClient
+    Router.route '/user/:username/credits', (->
+        @layout 'profile_layout'
+        @render 'user_received'
+        ), name:'user_received'
+
+
+    Template.user_received.onCreated ->
+        @autorun => Meteor.subscribe 'user_received', Router.current().params.username
+        # @autorun => Meteor.subscribe 'model_docs', 'debit'
+
+    Template.user_received.events
+        # 'keyup .new_credit': (e,t)->
+        #     if e.which is 13
+        #         val = $('.new_credit').val()
+        #         console.log val
+        #         target_user = Meteor.users.findOne(username:Router.current().params.username)
+        #         Docs.insert
+        #             model:'credit'
+        #             body: val
+        #             recipient_id: target_user._id
+
+
+
+    Template.user_received_small.helpers
+        user_received: ->
+            target_user = Meteor.users.findOne({username:Router.current().params.username})
+            Docs.find {
+                model:'debit'
+                recipient_id: target_user._id
+            },
+                sort:_timestamp:-1
+
+    Template.user_received.helpers
+        user_received_docs: ->
+            target_user = Meteor.users.findOne({username:Router.current().params.username})
+            Docs.find {
+                model:'debit'
+                recipient_id: target_user._id
+            },
+                sort:_timestamp:-1
+
+
+
+
+if Meteor.isServer
+    Meteor.publish 'user_received', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find
+            model:'debit'
+            recipient_id:user._id
+            
