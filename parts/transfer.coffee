@@ -13,6 +13,7 @@ if Meteor.isClient
     
     Template.transfers.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'transfer', 20, ->
+        @autorun => Meteor.subscribe 'all_users', ->
             
             
     Template.transfers.events
@@ -49,16 +50,16 @@ if Meteor.isClient
 #         unpicked_users: ->
 #             current_transfer = Docs.findOne Router.current().params.doc_id
 #             Meteor.users.find 
-#                 _id:$ne:current_transfer.target_user_id
+#                 _id:$ne:current_transfer.recipient
 #         picked_user: ->
 #             current_transfer = Docs.findOne Router.current().params.doc_id
 #             Meteor.users.findOne 
-#                 _id:current_transfer.target_user_id
+#                 _id:current_transfer.recipient
                 
 #     Template.user_picker.events
 #         'click .pick_user': ->
 #             Docs.update Router.current().params.doc_id,
-#                 $set:target_user_id:@_id
+#                 $set:recipient:@_id
 #         'keyup .search_user': ->
 #             val = $('.search_user').val()
 #             Session.set('username_query',val)

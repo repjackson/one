@@ -104,7 +104,7 @@ template(name='user_received')
         
     .ui.stackable.cards.scrolling
         each user_received_docs
-            a.ui.card(href="/m/debit/#{_id}/view")
+            a.ui.card(href="/m/debit/#{_id}")
                 .content
                     .header
                         strong #{amount}pt 
@@ -139,7 +139,7 @@ template(name='user_received_small')
                         a(href="/user/#{author.username}")
                             |#{author.username}
                     .description
-                        a(href="/debit/#{_id}/view")
+                        a(href="/debit/#{_id}")
                             |#{when}
                 .content
                     .description
@@ -381,7 +381,7 @@ template(name='user_events')
         if session_is 'view_maybe'
             each user_maybe_events
                 .ui.segment
-                    a.ui.inline.header(href="/event/#{_id}/view") #{title} 
+                    a.ui.inline.header(href="/event/#{_id}") #{title} 
                     .ui.small.inline.header #{date} #{start_time}
                     +author_info
                     +creation_info
@@ -392,7 +392,7 @@ template(name='user_events')
         if session_is 'view_maybe'
             each user_maybe_events
                 .ui.segment
-                    a.ui.inline.header(href="/event/#{_id}/view") #{title} 
+                    a.ui.inline.header(href="/event/#{_id}") #{title} 
                     .ui.small.inline.header #{date} #{start_time}
                     +author_info
                     +creation_info
@@ -403,7 +403,7 @@ template(name='user_events')
         if session_is 'view_maybe'
             each user_maybe_events
                 .ui.segment
-                    a.ui.inline.header(href="/event/#{_id}/view") #{title} 
+                    a.ui.inline.header(href="/event/#{_id}") #{title} 
                     .ui.small.inline.header #{date} #{start_time}
                     +author_info
                     +creation_info
@@ -414,7 +414,7 @@ template(name='user_events')
         if session_is 'view_maybe'
             each user_maybe_events
                 .ui.segment
-                    a.ui.inline.header(href="/event/#{_id}/view") #{title} 
+                    a.ui.inline.header(href="/event/#{_id}") #{title} 
                     .ui.small.inline.header #{date} #{start_time}
                     +author_info
                     +creation_info
@@ -426,7 +426,7 @@ template(name='user_badges')
         |user badges
     .ui.small.centered.five.stackable.cards
         each user_badges
-            a.ui.card(href="/badge/#{_id}/view")
+            a.ui.card(href="/badge/#{_id}")
                 +icolorlg name=icon cl='ui fluid image'
                 .content
                     .ui.header #{location}: #{title}
@@ -462,7 +462,8 @@ template(name='user_dashboard')
                     .ui.small.inline.header #{_id}
         .four.column.row
             .column
-                a.ui.inline.header(href="/user/#{username}/credits")
+                // a.ui.inline.header(href="/user/#{username}/credits")
+                .ui.inline.header
                     i.chevron.down.large.icon
                     |#{total_credit_amount}p
                     // |received
@@ -476,7 +477,8 @@ template(name='user_dashboard')
                     each user_credits
                         +user_credit_segment
             .column
-                a.ui.inline.spaced.header(href="/user/#{username}/debits")
+                // a.ui.inline.spaced.header(href="/user/#{username}/debits")
+                .ui.inline.spaced.header
                     i.chevron.up.icon
                     |#{total_debit_amount}p
                     // |sent
@@ -492,7 +494,7 @@ template(name='user_dashboard')
                     each user_debits
                         +user_debit_segment
             .column
-                a.ui.inline.spaced.header(href="/user/#{username}/requests")
+                .ui.inline.spaced.header
                     i.concierge.bell.icon
                     |requests
                 .ui.small.header (#{total_fulfilled_amount}p total fulfilled)
@@ -503,24 +505,24 @@ template(name='user_dashboard')
                             if image_id
                                 img.ui.image(src="{{c.url image_id height=100 width=200}}" class=currentUser.invert_class)
                             .content.zoom.pointer
-                                a.header(href="/request/#{_id}/view")
+                                a.header(href="/request/#{_id}")
                                     |#{point_bounty}pts: #{title}
                                 // |!{description}
                                 |status: #{status}
                                 if complete 
                                     |completed by #{completer.name}
             .column
-                a.ui.inline.spaced.header(href="/user/#{username}/events")
+                .ui.inline.spaced.header
                     i.calendar.icon
                     |events
                 .medscroll
                     each user_event_tickets
                         .ui.card
                             if ticket_event.image_id
-                                a(href="/event/#{event_id}/view")
+                                a(href="/event/#{event_id}")
                                     img.ui.fluid.zoom.image(src="{{c.url ticket_event.image_id height=200 width=200 crop='fit'}}" class=currentUser.invert_class)
                             .content.zoom.pointer
-                                a.header(href="/event/#{event_id}/view")
+                                a.header(href="/event/#{event_id}")
                                     |#{ticket_event.title}
                                 |#{fac.shortname}
                                 |#{description}
@@ -569,7 +571,7 @@ template(name='user_requests')
     .scrolling
         each requests
             .ui.segment
-                a.ui.header(href="/m/request/#{_id}/view") #{bounty}pts: #{title}
+                a.ui.header(href="/m/request/#{_id}") #{bounty}pts: #{title}
                 | !{description}
                 div
                 if is_dev
@@ -588,13 +590,13 @@ template(name='user_tribes')
     .ui.header leader of
     each user_leader_tribes
         .ui.segment
-            a.ui.header(href="/m/tribe/#{_id}/view") #{title}
+            a.ui.header(href="/m/tribe/#{_id}") #{title}
             if is_current_user
                 +enter_tribe
     .ui.header member of
     each user_member_tribes
         .ui.segment
-            a.ui.header(href="/m/tribe/#{_id}/view") #{title}
+            a.ui.header(href="/m/tribe/#{_id}") #{title}
             if is_current_user
                 +enter_tribe
             

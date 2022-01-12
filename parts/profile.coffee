@@ -280,7 +280,7 @@ if Meteor.isClient
                     model:'message'
                     body: val
                     is_private:false
-                    target_user_id: target_user._id
+                    recipient: target_user._id
                 val = $('.new_public_message').val('')
 
         'click .submit_public_message': (e,t)->
@@ -291,7 +291,7 @@ if Meteor.isClient
                 model:'message'
                 is_private:false
                 body: val
-                target_user_id: target_user._id
+                recipient: target_user._id
             val = $('.new_public_message').val('')
 
 
@@ -304,7 +304,7 @@ if Meteor.isClient
                     model:'message'
                     body: val
                     is_private:true
-                    target_user_id: target_user._id
+                    recipient: target_user._id
                 val = $('.new_private_message').val('')
 
         'click .submit_private_message': (e,t)->
@@ -315,7 +315,7 @@ if Meteor.isClient
                 model:'message'
                 body: val
                 is_private:true
-                target_user_id: target_user._id
+                recipient: target_user._id
             val = $('.new_private_message').val('')
 
 
@@ -325,14 +325,14 @@ if Meteor.isClient
             target_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find
                 model:'message'
-                target_user_id: target_user._id
+                recipient: target_user._id
                 is_private:false
 
         user_private_genekeys: ->
             target_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find
                 model:'message'
-                target_user_id: target_user._id
+                recipient: target_user._id
                 is_private:true
                 _author_id:Meteor.userId()
 
@@ -343,14 +343,14 @@ if Meteor.isServer
         target_user = Meteor.users.findOne(username:Router.current().params.username)
         Docs.find
             model:'message'
-            target_user_id: target_user._id
+            recipient: target_user._id
             is_private:false
 
     Meteor.publish 'user_private_genekeys', (username)->
         target_user = Meteor.users.findOne(username:Router.current().params.username)
         Docs.find
             model:'message'
-            target_user_id: target_user._id
+            recipient: target_user._id
             is_private:true
             _author_id:Meteor.userId()
 
@@ -431,7 +431,7 @@ if Meteor.isClient
                 Docs.insert
                     model:'badge'
                     body: val
-                    target_user_id: target_user._id
+                    recipient: target_user._id
                 val = $('.new_badge').val('')
 
         'click .submit_badge': (e,t)->
@@ -441,7 +441,7 @@ if Meteor.isClient
             Docs.insert
                 model:'badge'
                 body: val
-                target_user_id: target_user._id
+                recipient: target_user._id
             val = $('.new_badge').val('')
 
 
@@ -451,7 +451,7 @@ if Meteor.isClient
             target_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find
                 model:'badge'
-                # target_user_id: target_user._id
+                # recipient: target_user._id
 
         slots: ->
             Docs.find
@@ -593,7 +593,7 @@ if Meteor.isClient
                 Docs.insert
                     model:'request'
                     body: val
-                    target_user_id: target_user._id
+                    recipient: target_user._id
 
 
 
@@ -603,7 +603,7 @@ if Meteor.isClient
             Docs.find {
                 model:'request'
                 _author_id: current_user._id
-                # target_user_id: target_user._id
+                # recipient: target_user._id
             },
                 sort:_timestamp:-1
 
@@ -637,7 +637,7 @@ if Meteor.isClient
                 Docs.insert
                     model:'order'
                     body: val
-                    target_user_id: target_user._id
+                    recipient: target_user._id
 
     Template.enter_tribe.events
         'click .enter': ->
@@ -649,7 +649,7 @@ if Meteor.isClient
             Docs.find {
                 model:'order'
                 _author_id: current_user._id
-                # target_user_id: target_user._id
+                # recipient: target_user._id
             },
                 sort:_timestamp:-1
 
@@ -714,7 +714,7 @@ if Meteor.isClient
                     model:'message'
                     body: val
                     is_private:false
-                    target_user_id: target_user._id
+                    recipient: target_user._id
                 val = $('.new_public_message').val('')
 
         'click .submit_public_message': (e,t)->
@@ -725,7 +725,7 @@ if Meteor.isClient
                 model:'message'
                 is_private:false
                 body: val
-                target_user_id: target_user._id
+                recipient: target_user._id
             val = $('.new_public_message').val('')
 
 
@@ -738,7 +738,7 @@ if Meteor.isClient
                     model:'message'
                     body: val
                     is_private:true
-                    target_user_id: target_user._id
+                    recipient: target_user._id
                 val = $('.new_private_message').val('')
 
         'click .submit_private_message': (e,t)->
@@ -749,7 +749,7 @@ if Meteor.isClient
                 model:'message'
                 body: val
                 is_private:true
-                target_user_id: target_user._id
+                recipient: target_user._id
             val = $('.new_private_message').val('')
 
 
@@ -759,14 +759,14 @@ if Meteor.isClient
             target_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find
                 model:'message'
-                target_user_id: target_user._id
+                recipient: target_user._id
                 is_private:false
 
         user_private_messages: ->
             target_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find
                 model:'message'
-                target_user_id: target_user._id
+                recipient: target_user._id
                 is_private:true
                 _author_id:Meteor.userId()
 
@@ -777,14 +777,14 @@ if Meteor.isServer
         target_user = Meteor.users.findOne(username:Router.current().params.username)
         Docs.find
             model:'message'
-            target_user_id: target_user._id
+            recipient: target_user._id
             is_private:false
 
     Meteor.publish 'user_private_messages', (username)->
         target_user = Meteor.users.findOne(username:Router.current().params.username)
         Docs.find
             model:'message'
-            target_user_id: target_user._id
+            recipient: target_user._id
             is_private:true
             _author_id:Meteor.userId()
 

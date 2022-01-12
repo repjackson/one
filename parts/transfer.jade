@@ -23,7 +23,8 @@ template(name='transfers')
                             each location_tags 
                                 .ui.label #{this}
                             |#{when} by #{_author_username} to
-                            with target_user_id
+                            with recipient
+                                .ui.header #{username}
                                 +user_info
                 
 // template(name='transfer_edit')

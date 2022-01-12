@@ -26,7 +26,7 @@ if Meteor.isClient
             Docs.find {
                 model:'message'
                 _author_id: Meteor.userId()
-                # target_user_id: target_user._id
+                # recipient: target_user._id
             },
                 sort:_timestamp:-1
 
@@ -35,7 +35,7 @@ if Meteor.isClient
             Docs.find {
                 model:'message'
                 recipient_id: Meteor.userId()
-                # target_user_id: target_user._id
+                # recipient: target_user._id
             },
                 sort:_timestamp:-1
 
