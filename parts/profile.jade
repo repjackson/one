@@ -13,7 +13,7 @@ template(name='profile')
             .row
                 //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .four.wide.column.scrolling
-                    a.ui.fluid.button.fly_left(href='/users')
+                    a.ui.fluid.large.button.fly_left(href='/users')
                         i.chevron.left.icon
                         |users
                     a.item(href="/user/#{current_user.username}")
@@ -62,23 +62,17 @@ template(name='profile')
                         a.ui.button(href=link target='_window')
                             |app link
                 .twelve.wide.column.scrollin
-                    div.global_container
-                        .spacer
-                        .ui.two.stackable.cards
-                            .ui.card
-                                .content
-                                    +user_credit
-                            .ui.card
-                                .content
-                                    +user_orders
-                        // +user_subscriptions   
-                        +user_friends
-                        +user_received
-                        +user_sent
-                        +user_genekeys
-                        +user_info
-           
-           
+                    // .spacer
+                    +user_dashboard
+                    +user_credit
+                    +user_friends
+                    +user_received
+                    +user_sent
+                    +user_genekeys
+                    +user_info
+                    +user_events
+                    +user_badges
+       
            
 template(name='user_received')  
     .ui.inline.header 
@@ -183,7 +177,7 @@ template(name='user_about')
         |user info
     with current_user
         // a.ui.compact.button(href="{{c.url genekeys_profile }}" target="_window")
-        //     +icon name='dna-helix' cl='ui mini image'
+        //     +i name='dna-helix' cl='ui mini image'
             
         //     |view gene keys profile
         .ui.four.column.stackable.grid
@@ -347,3 +341,207 @@ template(name='user_credit')
                                     |#{when} {{long_date _timestamp}}
                                     //- if is_dev
                                     +remove_button        
+                                    
+                                    
+                                    
+                                    
+                                    
+template(name='user_events')  
+    .ui.header 
+        +i name='calendar'
+        |user events
+    each user_events
+        .ui.segment
+            .ui.small.header #{date} #{start_time}
+            div
+            +user_list_toggle key='read_by_ids' label='mark read' icon='eye'
+            if can_edit
+                +remove_button
+            //- div
+            +author_info
+            +creation_info
+    .ui.segment
+        .ui.header.pointer.toggle_maybe
+            i.question.orange.icon
+            |maybe
+        if session_is 'view_maybe'
+            each user_maybe_events
+                .ui.segment
+                    a.ui.inline.header(href="/event/#{_id}/view") #{title} 
+                    .ui.small.inline.header #{date} #{start_time}
+                    +author_info
+                    +creation_info
+    .ui.segment
+        .ui.header.pointer
+            i.checkmark.icon
+            |went
+        if session_is 'view_maybe'
+            each user_maybe_events
+                .ui.segment
+                    a.ui.inline.header(href="/event/#{_id}/view") #{title} 
+                    .ui.small.inline.header #{date} #{start_time}
+                    +author_info
+                    +creation_info
+    .ui.segment
+        .ui.header.pointer
+            i.green.checkmark.icon
+            |going
+        if session_is 'view_maybe'
+            each user_maybe_events
+                .ui.segment
+                    a.ui.inline.header(href="/event/#{_id}/view") #{title} 
+                    .ui.small.inline.header #{date} #{start_time}
+                    +author_info
+                    +creation_info
+    .ui.segment
+        .ui.header.pointer
+            i.chess.king.icon
+            |hosted
+        if session_is 'view_maybe'
+            each user_maybe_events
+                .ui.segment
+                    a.ui.inline.header(href="/event/#{_id}/view") #{title} 
+                    .ui.small.inline.header #{date} #{start_time}
+                    +author_info
+                    +creation_info
+                    
+                    
+template(name='user_badges')
+    .ui.center.aligned.header 
+        +i name='prize'
+        |user badges
+    .ui.small.centered.five.stackable.cards
+        each user_badges
+            a.ui.card(href="/badge/#{_id}/view")
+                +icolorlg name=icon cl='ui fluid image'
+                .content
+                    .ui.header #{location}: #{title}
+                    
+                    
+template(name='user_dashboard')
+    // +user_about
+    // .ui.hidden.divider
+    .ui.stackable.grid
+        .row
+            .sixteen.wide.column
+                .ui.inline.header() #{points}pts
+                .ui.big.basic.circular.label() {{to_percent one_ratio}}% one ratio
+                .ui.large.basic.circular.label() #{flow_volume} volume
+                //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
+                //-     i.refresh.icon
+                if is_current_user
+                    +boolean_edit key='online' label='online' direct=true
+                    +text_edit key='current_status' label='status' icon='clock' direct=true
+                else 
+                    if online 
+                        .ui.green.large.label 
+                            i.large.checkmark.icon
+                            |online
+                    else
+                        .ui.disabled.large.label 
+                            |offline
+                    if current_status
+                        .ui.small.header(title='status' )
+                            i.grey.clock.icon
+                            |!{current_status}
+                if is_dev
+                    .ui.small.inline.header #{_id}
+        .four.column.row
+            .column
+                a.ui.inline.header(href="/user/#{username}/credits")
+                    i.chevron.down.large.icon
+                    |#{total_credit_amount}p
+                    // |received
+                    small(title='received count') (#{credit_count}x) 
+                    small(title='rank') ##{global_credit_count_rank}
+                i.tags.icon(title='credit tags')
+                each credit_tags
+                    .ui.small.basic.circular.label #{title}
+                        // small #{count}
+                .medscroll.ui.segments
+                    each user_credits
+                        +user_credit_segment
+            .column
+                a.ui.inline.spaced.header(href="/user/#{username}/debits")
+                    i.chevron.up.icon
+                    |#{total_debit_amount}p
+                    // |sent
+                    small(title='debit count') (#{debit_count}x)
+                    small(title='rank') ##{global_debit_count_rank}
+                i.tags.icon(title='credit tags')
+                each debit_tags
+                    .ui.small.basic.circular.label #{title} 
+                        // small #{count}
+    
+                div
+                .medscroll.ui.segments
+                    each user_debits
+                        +user_debit_segment
+            .column
+                a.ui.inline.spaced.header(href="/user/#{username}/requests")
+                    i.concierge.bell.icon
+                    |requests
+                .ui.small.header (#{total_fulfilled_amount}p total fulfilled)
+                .ui.small.header (#{fulfilled_count}p total fulfilled count)
+                .medscroll
+                    each user_requests
+                        .ui.card
+                            if image_id
+                                img.ui.image(src="{{c.url image_id height=100 width=200}}" class=currentUser.invert_class)
+                            .content.zoom.pointer
+                                a.header(href="/request/#{_id}/view")
+                                    |#{point_bounty}pts: #{title}
+                                // |!{description}
+                                |status: #{status}
+                                if complete 
+                                    |completed by #{completer.name}
+            .column
+                a.ui.inline.spaced.header(href="/user/#{username}/events")
+                    i.calendar.icon
+                    |events
+                .medscroll
+                    each user_event_tickets
+                        .ui.card
+                            if ticket_event.image_id
+                                a(href="/event/#{event_id}/view")
+                                    img.ui.fluid.zoom.image(src="{{c.url ticket_event.image_id height=200 width=200 crop='fit'}}" class=currentUser.invert_class)
+                            .content.zoom.pointer
+                                a.header(href="/event/#{event_id}/view")
+                                    |#{ticket_event.title}
+                                |#{fac.shortname}
+                                |#{description}
+                                |{{med_date date}}
+                                |{{long_time time}}
+
+
+
+template(name='user_credit_segment')
+    .ui.segment.user_credit_segment.pointer.zoom
+        .header
+            strong #{amount}pt 
+            // |from 
+            if author.profile_image_id
+                img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            |#{_author.shortname}
+        small #{when}
+        div
+        |#{description}
+        div
+        each tags
+            .ui.mini.basic.label #{this}
+
+
+template(name='user_debit_segment')
+    .ui.segment.user_debit_segment.pointer.zoom
+        .header
+            strong #{amount}pt
+            | to 
+            if recipient.profile_image_id
+                img.ui.avatar.image(src="{{c.url recipient.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            |#{recipient.shortname}
+        small #{when}
+        div
+        |#{description}
+        div
+        each tags
+            .ui.mini.basic.label #{this}

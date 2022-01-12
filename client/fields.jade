@@ -526,12 +526,12 @@ template(name='array_edit')
             |#{label}
         else if key
             |#{key}
+    div
     .ui.icon.large.input
         i.icon
             +i name=icon
-    
-        textarea.new_element(type='text' placeholder="#{field_value.length} #{label}" autocomplete="off")
-        //- +clear_value                
+        input.new_element(type='text' placeholder="#{field_value.length} #{label}" autocomplete="off")
+        //- +clear_value 
     if field_value
         each field_value
             if in_dev
