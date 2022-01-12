@@ -572,3 +572,220 @@ if Meteor.isServer
         
         
         
+        
+if Meteor.isClient
+    Router.route '/user/:username/requests', (->
+        @layout 'profile_layout'
+        @render 'user_requests'
+        ), name:'user_requests'
+
+    Template.user_requests.onCreated ->
+        @autorun -> Meteor.subscribe 'user_model_docs', 'request', Router.current().params.username
+        # @autorun => Meteor.subscribe 'user_requests', Router.current().params.username
+        @autorun => Meteor.subscribe 'model_docs', 'request'
+
+    Template.user_requests.events
+        'keyup .new_request': (e,t)->
+            if e.which is 13
+                val = $('.new_request').val()
+                console.log val
+                target_user = Meteor.users.findOne(username:Router.current().params.username)
+                Docs.insert
+                    model:'request'
+                    body: val
+                    target_user_id: target_user._id
+
+
+
+    Template.user_requests.helpers
+        requests: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find {
+                model:'request'
+                _author_id: current_user._id
+                # target_user_id: target_user._id
+            },
+                sort:_timestamp:-1
+
+
+
+if Meteor.isServer
+    Meteor.publish 'user_requests', (username)->
+        Docs.find
+            model:'request'
+            
+            
+            
+if Meteor.isClient
+    Router.route '/user/:username/tribes', (->
+        @layout 'profile_layout'
+        @render 'user_tribes'
+        ), name:'user_tribes'
+
+    Template.user_tribes.onCreated ->
+        @autorun -> Meteor.subscribe 'user_member_tribes', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_leader_tribes', Router.current().params.username
+        # @autorun => Meteor.subscribe 'user_tribes', Router.current().params.username
+        # @autorun => Meteor.subscribe 'model_docs', 'order'
+
+    Template.user_tribes.events
+        'keyup .new_order': (e,t)->
+            if e.which is 13
+                val = $('.new_order').val()
+                console.log val
+                target_user = Meteor.users.findOne(username:Router.current().params.username)
+                Docs.insert
+                    model:'order'
+                    body: val
+                    target_user_id: target_user._id
+
+    Template.enter_tribe.events
+        'click .enter': ->
+            Meteor.call 'enter_tribe', @_id, ->
+
+    Template.user_tribes.helpers
+        tribes: ->
+            current_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find {
+                model:'order'
+                _author_id: current_user._id
+                # target_user_id: target_user._id
+            },
+                sort:_timestamp:-1
+
+        user_member_tribes: ->
+            user = Meteor.users.findOne username:@username
+            Docs.find
+                model:'tribe'
+                tribe_member_ids:$in:[user._id]
+            
+        user_leader_tribes: ->
+            user = Meteor.users.findOne username:@username
+            Docs.find
+                model:'tribe'
+                tribe_leader_ids:$in:[user._id]
+
+
+
+
+if Meteor.isServer
+    Meteor.methods 
+        enter_tribe: (tribe_id)->
+            Meteor.users.update Meteor.userId(),
+                $set:
+                    current_tribe_id:tribe_id
+    
+    Meteor.publish 'user_member_tribes', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find
+            model:'tribe'
+            tribe_member_ids:$in:[user._id]
+            
+    Meteor.publish 'user_leader_tribes', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find
+            model:'tribe'
+            tribe_leader_ids:$in:[user._id]
+            
+            
+            
+            
+if Meteor.isClient
+    Router.route '/user/:username/messages', (->
+        @layout 'profile_layout'
+        @render 'user_messages'
+        ), name:'user_messages'
+    
+    Template.user_messages.onCreated ->
+        @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'thought'
+
+
+    Template.user_messages.onCreated ->
+        @autorun => Meteor.subscribe 'user_messages', Router.current().params.username
+        @autorun => Meteor.subscribe 'model_docs', 'message'
+
+    Template.user_messages.events
+        'keyup .new_public_message': (e,t)->
+            if e.which is 13
+                val = $('.new_public_message').val()
+                console.log val
+                target_user = Meteor.users.findOne(username:Router.current().params.username)
+                Docs.insert
+                    model:'message'
+                    body: val
+                    is_private:false
+                    target_user_id: target_user._id
+                val = $('.new_public_message').val('')
+
+        'click .submit_public_message': (e,t)->
+            val = $('.new_public_message').val()
+            console.log val
+            target_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.insert
+                model:'message'
+                is_private:false
+                body: val
+                target_user_id: target_user._id
+            val = $('.new_public_message').val('')
+
+
+        'keyup .new_private_message': (e,t)->
+            if e.which is 13
+                val = $('.new_private_message').val()
+                console.log val
+                target_user = Meteor.users.findOne(username:Router.current().params.username)
+                Docs.insert
+                    model:'message'
+                    body: val
+                    is_private:true
+                    target_user_id: target_user._id
+                val = $('.new_private_message').val('')
+
+        'click .submit_private_message': (e,t)->
+            val = $('.new_private_message').val()
+            console.log val
+            target_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.insert
+                model:'message'
+                body: val
+                is_private:true
+                target_user_id: target_user._id
+            val = $('.new_private_message').val('')
+
+
+
+    Template.user_messages.helpers
+        user_public_messages: ->
+            target_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find
+                model:'message'
+                target_user_id: target_user._id
+                is_private:false
+
+        user_private_messages: ->
+            target_user = Meteor.users.findOne(username:Router.current().params.username)
+            Docs.find
+                model:'message'
+                target_user_id: target_user._id
+                is_private:true
+                _author_id:Meteor.userId()
+
+
+
+if Meteor.isServer
+    Meteor.publish 'user_public_messages', (username)->
+        target_user = Meteor.users.findOne(username:Router.current().params.username)
+        Docs.find
+            model:'message'
+            target_user_id: target_user._id
+            is_private:false
+
+    Meteor.publish 'user_private_messages', (username)->
+        target_user = Meteor.users.findOne(username:Router.current().params.username)
+        Docs.find
+            model:'message'
+            target_user_id: target_user._id
+            is_private:true
+            _author_id:Meteor.userId()
+
+
