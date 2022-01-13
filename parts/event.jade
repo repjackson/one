@@ -86,7 +86,7 @@ template(name='event_edit')
     with current_doc
         .ui.stackable.padded.grid
             .centered.row 
-                .sixteeen.wide.column
+                .five.wide.column
                     a.ui.icon.green.big.button.fly_right(href="/event/#{_id}/view" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
@@ -109,10 +109,12 @@ template(name='event_edit')
                     // +time_edit key='time' label='time' direct=true
                     // +number_edit key='hour_duration' label='hours' direct=true
                     // +range_edit label='time range' direct=true
-                    +single_user_edit key='facilitator_id' label='facilitator' icon='chess king' direct=true
-                    +single_user_edit key='support_id' label='support' icon='chess queen' direct=true
+                    // +single_user_edit key='facilitator_id' label='facilitator' icon='chess king' direct=true
+                    // +single_user_edit key='support_id' label='support' icon='chess queen' direct=true
+                    +single_user_edit key='host_id' label='host' icon='shield' direct=true
                     div 
                     +array_edit key='tags' label='tags' icon='red tags' direct=true
+                .ten.wide.column
                     .ui.header
                         i.users.icon
                         |audience
@@ -154,6 +156,7 @@ template(name='event_view')
                         a(href="/events")
                             i.calendar.big.circular.link.icon
                     .ui.large.inline.header #{title}
+                    div
                     if can_edit
                         if published 
                             i.big.eye.green.icon(title='published')
@@ -166,9 +169,6 @@ template(name='event_view')
                     if time 
                         .ui.inline.grey.header {{time}}
                     if can_edit
-                        a.edit_event(href="/event/#{_id}/edit" title='edit')
-                            i.large.blue.link.pencil.circular.icon
-                    if is_admin
                         a.edit_event(href="/event/#{_id}/edit" title='edit')
                             i.large.blue.link.pencil.circular.icon
             .three.column.row 

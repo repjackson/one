@@ -1,13 +1,4 @@
 template(name='profile')
-    // img.ui.fluid.image.checkin_banner(src="{{c.url 'cafe'}}")
-    // +nav
-    // .ui.bottom.attached.pushable.segment
-    //     +topbar
-    //     +left_sidebar
-    //     +right_sidebar
-    //     +cartbar
-    //     +walletbar
-    // #main_area.global_container.pusher.scrollin
     with current_user
         .ui.stackable.padded.grid
             .row
@@ -16,18 +7,16 @@ template(name='profile')
                     a.ui.fluid.large.basic.circular.button.fly_left(href='/users')
                         i.chevron.left.icon
                         +i name='groups'
-                        |users
+                        // |users
                     a.item(href="/user/#{current_user.username}")
-                        img.ui.circular.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                        img.ui.circular.centered.image(src="{{c.url image_id height=400 width=400 gravity='face' crop='fill'}}")
                     // .spacer
                     // a(href="/user/#{username}")
                     .ui.center.aligned.header
                         // strong #{name}
                         // strong #{user.first_name} #{user.last_name}
                         | @#{user.username}        
-                    a.ui.center.aligned.inline.header.mobile.hidden(href="/user/#{current_user.username}/credit" title='credit')
-                        |#{user.points}p
-                    .ui.two.column.middle.aligned.grid.mobile.only
+                    .ui.two.column.middle.aligned.grid
                         // .column
                         //     img.ui.small.inline.image.mobile.only(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
                         .column
