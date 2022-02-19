@@ -303,5 +303,5 @@ Router.route '*', -> @render 'transfers'
 
 # Router.route '/login', -> @render 'login'
 
-Router.route '/', -> @render 'transfers'
+Router.route '/', -> @render 'events'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
