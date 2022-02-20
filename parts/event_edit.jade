@@ -31,6 +31,13 @@ template(name='event_edit')
                     +single_user_edit key='host_id' label='host' icon='shield' direct=true
                     div 
                     +array_edit key='tags' label='tags' icon='red tags' direct=true
+                    +boolean_edit key='has_tickets' label='has tickets' direct=true
+                    if has_tickets
+                        +boolean_edit key='external_ticket_management' label='externally handled' direct=true
+                        if external_ticket_management
+                            +link_edit key='link' label='link'
+                            // +link_edit key='link' label='link'
+                            
                 .ten.wide.column
                     .ui.header
                         i.users.icon

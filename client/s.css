@@ -137,3 +137,20 @@ body {
 	border-color : green;
 }
 
+.scrolling{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	max-height:95vh;
+	/*max-height:85vh;*/
+	padding-top: 1em;
+	padding-left: 1em;
+}
+
+.smallscroll{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	max-height:250px;
+	/*max-height:85vh;*/
+	padding-top: 1em;
+	/*padding-left: 1em;*/
+}

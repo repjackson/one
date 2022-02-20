@@ -261,6 +261,9 @@ Template.image_edit.events
             if doc
                 Docs.update parent._id,
                     $unset:"#{@key}":1
+            else 
+                Meteor.users.update parent._id,
+                    $unset:"#{@key}":1
             $('body').toast(
                 showIcon: 'checkmark'
                 message: "saved"

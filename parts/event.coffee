@@ -83,10 +83,15 @@ if Meteor.isClient
         picked_tags: -> picked_tags.array()
     Template.events.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'event', ->
-        Session.setDefault('current_query')
+        Session.setDefault('current_query',null)
+        Session.setDefault('view_mode','grid')
     Template.events.events
         'click .toggle_past': ->
             Session.set('viewing_past', !Session.get('viewing_past'))
+        'click .view_grid': ->
+            Session.set('view_mode', 'grid')
+        'click .view_list': ->
+            Session.set('view_mode', 'list')
         'click .select_room': ->
             if Session.equals('viewing_room_id', @_id)
                 Session.set('viewing_room_id', null)
