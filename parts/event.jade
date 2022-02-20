@@ -102,11 +102,10 @@ template(name='event_card')
 template(name='event_item')
     .ui.item
         if image_id
-            img.ui.tiny.image(src="{{c.url image_id gravity='center' crop='fill'}}" class=currentUser.invert_class)
+            img.ui.tiny.inline.image(src="{{c.url image_id gravity='center' crop='fill'}}" class=currentUser.invert_class)
         .content
-            a.ui.header.fly_right(href="/event/#{_id}") #{title} 
-            div
-            .ui.small.header {{medium_date date}} 
+            a.ui.inline.header.fly_right(href="/event/#{_id}") #{title} 
+            .ui.small.inline.header {{medium_date date}} 
                 if time 
                     |{{time}}
             // .ui.inline.small.header {{long_date start_datetime}}
@@ -115,7 +114,6 @@ template(name='event_item')
             if location
                 i.marker.icon 
                 |#{location}
-            div 
             // small led by
             img.ui.avatar.image(src="{{c.url fac.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             strong #{fac.name}
@@ -126,12 +124,10 @@ template(name='event_item')
             each going
                 img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             i.question.orange.link.icon.mark_maybe(title='mark yourself maybe')
-            div
             | #{maybe_user_ids.length}
             each maybe_going
                 img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             | #{not_user_ids.length}
-            div
             i.ban.red.link.icon.mark_not(title='mark yourself not')
             each not_going
                 img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
