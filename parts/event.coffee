@@ -85,6 +85,13 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'event', ->
         Session.setDefault('current_query',null)
         Session.setDefault('view_mode','grid')
+    Template.session_icon_button.helpers
+        session_icon_button_class: ->
+            if Session.equals(@key,@value) then 'active' else 'basic compact'
+    Template.session_icon_button.events
+        'click .set_session_value': ->
+            console.log 'hi'
+            Session.set(@key,@value)
     Template.events.events
         'click .toggle_past': ->
             Session.set('viewing_past', !Session.get('viewing_past'))

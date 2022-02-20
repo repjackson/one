@@ -20,11 +20,18 @@ template(name='events')
                 .ui.icon.input
                     i.search.icon
                     input.search_event(type='text' placeholder='search...' autofocus='')
+                +session_icon_button key='view_mode' value='grid' icon='grid'
+                +session_icon_button key='view_mode' value='list' icon='list'
                 .ui.button.view_grid
                     +i name='grid'
                 .ui.button.view_list
                     +i name='list'
-                // .spacer
+                .ui.button.view_going
+                    +i name='checkmark'
+                .ui.button.view_maybe
+                    +i name='question'
+                .ui.button.view_not_going
+                    +i name='cancel'
                 if session_is 'view_mode' 'grid'
                     .ui.stackable.four.cards.scrolling
                         each event_docs
@@ -33,6 +40,10 @@ template(name='events')
                     .ui.selection.divided.list.scrolling
                         each event_docs 
                             +event_item
+
+template(name='session_icon_button')
+    .ui.icon.circular.button.set_session_value(class=session_icon_button_class)
+        +i name=icon
 
 template(name='event_card')
     .ui.zoomer.card
