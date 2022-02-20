@@ -5,12 +5,11 @@ template(name='users')
                 +i name='groups'
                 |users
             if currentUser.admin
-                .ui.button.add_user
-                    |add user
+                .ui.icon.button.add_user
+                    i.plus.large.icon
             +user_cloud
-        .sixteen.wide.column
-            // +session_set key='view_users' value='grid' icon='th' 
-            // +session_set key='view_users' value='list' icon='list'
+            +session_set key='view_users' value='grid' icon='grid' 
+            +session_set key='view_users' value='list' icon='list'
             // +session_set key='sort_users_direction' value='-1' icon='chevron down'
             // +session_set key='sort_users_direction' value='1' icon='chevron up'
             // +session_set key='sort_users_key' value='points' icon='coins'

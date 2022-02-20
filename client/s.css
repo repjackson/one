@@ -13,6 +13,11 @@ body {
 }
 
 
+
+.scrolling::-webkit-scrollbar {
+  width: 2px;
+}
+
 .hscroll{
 	overflow-y:hidden;
 	overflow-x:scroll;

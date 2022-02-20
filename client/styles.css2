@@ -15,9 +15,6 @@ body {
 /* .ui.image:not(.avatar2), .label, .button, img:not(.avatar2) {
     filter: invert(1) !important;
 } */
-::-webkit-scrollbar {
-  width: 2px;
-}
 
 .huge {
     font-size: 1000%;
