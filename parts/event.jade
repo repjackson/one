@@ -9,12 +9,17 @@ template(name='events')
                 if currentUser
                     .ui.circular.basic.icon.button.add_event(title='add event')
                         i.plus.big.green.icon
-                .ui.large.basic.circular.button.toggle_past
+                .ui.large.basic.button.toggle_past
                     if viewing_past
                         i.checkmark.large.green.icon
                     else
                         i.circle.outline.large.icon
                     |past
+                each picked_tags 
+                    .ui.label #{this}
+                .ui.icon.input
+                    i.search.icon
+                    input.search_event(type='text' placeholder='search...' autofocus='')
                 .spacer
                 .ui.stackable.five.cards
                     each event_docs

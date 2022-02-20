@@ -461,16 +461,16 @@ if Meteor.isServer
 if Meteor.isClient
     Router.route '/user/:username/tribes', (->
         @layout 'profile_layout'
-        @render 'user_tribes'
-        ), name:'user_tribes'
+        @render 'user_groups'
+        ), name:'user_groups'
 
-    Template.user_tribes.onCreated ->
+    Template.user_groups.onCreated ->
         @autorun -> Meteor.subscribe 'user_member_tribes', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_leader_tribes', Router.current().params.username
-        # @autorun => Meteor.subscribe 'user_tribes', Router.current().params.username
+        # @autorun => Meteor.subscribe 'user_groups', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'order'
 
-    Template.user_tribes.events
+    Template.user_groups.events
         'keyup .new_order': (e,t)->
             if e.which is 13
                 val = $('.new_order').val()
@@ -485,7 +485,7 @@ if Meteor.isClient
         'click .enter': ->
             Meteor.call 'enter_tribe', @_id, ->
 
-    Template.user_tribes.helpers
+    Template.user_groups.helpers
         tribes: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {

@@ -80,10 +80,10 @@ if Meteor.isClient
                 ticket:true
                 event_id:@_id
                 ticket_price: @point_price
-        
+        picked_tags: -> picked_tags.array()
     Template.events.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'event', ->
-        
+        Session.setDefault('current_query')
     Template.events.events
         'click .toggle_past': ->
             Session.set('viewing_past', !Session.get('viewing_past'))
@@ -99,7 +99,25 @@ if Meteor.isClient
                     published:false
                     # purchased:false
             Router.go "/event/#{new_id}/edit"
+        'keyup .search_event': _.throttle((e,t)->
+            query = $('.search_event').val()
+            Session.set('current_query', query)
             
+            console.log Session.get('current_query')
+            if e.which is 13
+                search = $('.search_event').val().trim().toLowerCase()
+                if search.length > 0
+                    picked_tags.push search
+                    console.log 'search', search
+                    # Meteor.call 'log_term', search, ->
+                    $('.search_event').val('')
+                    Session.set('current_query', null)
+                    # # $( "p" ).blur();
+                    # Meteor.setTimeout ->
+                    #     Session.set('dummy', !Session.get('dummy'))
+                    # , 10000
+        , 500)
+
             
     Template.events.helpers
         rooms: ->
@@ -111,20 +129,20 @@ if Meteor.isClient
         viewing_past: -> Session.get('viewing_past')
         event_docs: ->
             # console.log moment().format()
-            if Session.get('viewing_past')
-                Docs.find {
-                    model:'event'
-                    # published:true
-                    # date:$lt:moment().subtract(1,'days').format("YYYY-MM-DD")
-                }, 
-                    sort:start_datetime:-1
+            match = {}
+            match.model = 'event'
+            # published:true
+            # date:$lt:moment().subtract(1,'days').format("YYYY-MM-DD")
+            # if Session.get('viewing_past')
+            # date:$gt:moment().subtract(1,'days').format("YYYY-MM-DD")
+            if Session.get('current_query')
+                match.title = {$regex:"#{Session.get('current_query')}", $options: 'i'}
+                
+                Docs.find match,
+                sort:start_datetime:-1
             else
-                Docs.find {
-                    model:'event'
-                    # published:true
-                    # date:$gt:moment().subtract(1,'days').format("YYYY-MM-DD")
-                }, 
-                    sort:date:1
+                Docs.find match,
+                sort:date:1
     
     
         can_add_event: ->

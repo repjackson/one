@@ -79,20 +79,13 @@ template(name='profile')
                             +user_credit
                         .eight.wide.column
                             +user_friends
-                        .eight.wide.column
-                            +user_received
-                        .eight.wide.column
                             +user_sent
-                        .eight.wide.column
-                            +user_genekeys
                         .eight.wide.column
                             +user_info
                         .eight.wide.column
                             +user_events
                         .eight.wide.column
-                            +user_badges
-                        .eight.wide.column
-                            +user_tribes
+                            +user_groups
                                
            
 template(name='user_received')  
@@ -313,10 +306,6 @@ template(name='user_credit')
                 .ui.big.compact.button.send_points
                     +i name='donate'
                     |send points
-                a.ui.big.button(href="/transfers")
-                    +i name='exchange'
-                    // i.exchange.icon
-                    |transfers
                 // .ui.inline.header 
                 //     // i.shield.icon
                 //     +i name='shield'
@@ -553,25 +542,25 @@ template(name='user_requests')
                 +creation_info
                 
                 
-template(name='user_tribes')
-    .ui.inline.header
-        +icolor name='campfire'
-        |user tribes
-    if is_current_user
-        a.ui.circular.basic.icon.button(href="/user/#{current_user.username}/edit/tribes")
-            i.pencil.icon
-    .ui.header leader of
-    each user_leader_tribes
-        .ui.segment
-            a.ui.header(href="/m/tribe/#{_id}") #{title}
-            if is_current_user
-                +enter_tribe
-    .ui.header member of
-    each user_member_tribes
-        .ui.segment
-            a.ui.header(href="/m/tribe/#{_id}") #{title}
-            if is_current_user
-                +enter_tribe
+// template(name='user_groups')
+//     .ui.inline.header
+//         +icolor name='campfire'
+//         |user tribes
+//     if is_current_user
+//         a.ui.circular.basic.icon.button(href="/user/#{current_user.username}/edit/tribes")
+//             i.pencil.icon
+//     .ui.header leader of
+//     each user_leader_tribes
+//         .ui.segment
+//             a.ui.header(href="/m/tribe/#{_id}") #{title}
+//             if is_current_user
+//                 +enter_tribe
+//     .ui.header member of
+//     each user_member_tribes
+//         .ui.segment
+//             a.ui.header(href="/m/tribe/#{_id}") #{title}
+//             if is_current_user
+//                 +enter_tribe
             
             
             
