@@ -1,0 +1,46 @@
+template(name='event_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .centered.row 
+                .five.wide.column
+                    a.ui.icon.green.big.button.fly_left(href="/event/#{_id}" title='save')
+                        i.checkmark.big.icon
+                    .ui.inline.header 
+                        +icolor name='tear-off-calendar'
+                        |edit event
+                    +boolean_edit key='published' label='published' direct=true
+                    .ui.icon.basic.circular.button.delete_item(title='delete')
+                        i.remove.red.icon
+                    +text_edit key='title' label='title' direct=true
+                    .ui.header 
+                        small author
+                        |#{_author.name}
+                    // +slug_edit key='slug' label='slug' icon='slug' direct=true
+                    // if reservation_exists
+                    //     .ui.header date: #{date}
+                    //     .ui.header time: #{time}
+                    // else
+                    +datetime_edit key='start_datetime' label='start datetime' direct=true
+                    +datetime_edit key='end_datetime' label='end datetime' direct=true
+                    +text_edit key='location' label='location' icon='marker' direct=true
+                    // +time_edit key='time' label='time' direct=true
+                    // +number_edit key='hour_duration' label='hours' direct=true
+                    // +range_edit label='time range' direct=true
+                    +single_user_edit key='facilitator_id' label='facilitator' icon='chess king' direct=true
+                    +single_user_edit key='support_id' label='support' icon='chess queen' direct=true
+                    +single_user_edit key='host_id' label='host' icon='shield' direct=true
+                    div 
+                    +array_edit key='tags' label='tags' icon='red tags' direct=true
+                .ten.wide.column
+                    .ui.header
+                        i.users.icon
+                        |audience
+                    +number_edit key='max_attendees' label='max attendees' min='0' max='100' direct=true
+                    // div
+                    +boolean_edit key='free' label='free' direct=true
+                    unless free
+                        +number_edit key='price_points' label='point price' min='0' max='100' direct=true
+                    +number_edit key='price_usd' label='dollar price' min='0' max='100' direct=true
+                    +html_edit key='description' label='description' direct=true
+                    +image_edit key='image_id' label='image' direct=true
+                    +link_edit key='link' label='link'

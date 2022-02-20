@@ -68,24 +68,24 @@ if Meteor.isClient
             
             
             
-    Template.topup_button.events
-        'click .topup': ->
+    # Template.topup_button.events
+    #     'click .topup': ->
             
-            $('body').toast(
-                showIcon: 'food'
-                message: "100 points added"
-                showProgress: 'bottom'
-                class: 'success'
-                # displayTime: 'auto',
-                position: "bottom right"
-            )
-            Docs.insert 
-                model:'topup'
-                amount:100
-            Meteor.call 'calc_user_credit', Meteor.userId(), ->
-            # Meteor.users.update Meteor.userId(),
-            #     $inc:
-            #         points:@amount
+    #         $('body').toast(
+    #             showIcon: 'food'
+    #             message: "100 points added"
+    #             showProgress: 'bottom'
+    #             class: 'success'
+    #             # displayTime: 'auto',
+    #             position: "bottom right"
+    #         )
+    #         Docs.insert 
+    #             model:'topup'
+    #             amount:100
+    #         Meteor.call 'calc_user_credit', Meteor.userId(), ->
+    #         # Meteor.users.update Meteor.userId(),
+    #         #     $inc:
+    #         #         points:@amount
             
             
 if Meteor.isServer
@@ -255,106 +255,6 @@ if Meteor.isServer
             amount:$exists:true
             
             
-            
-if Meteor.isClient
-    Router.route '/user/:username/genekeys', (->
-        @layout 'profile_layout'
-        @render 'user_genekeys'
-        ), name:'user_genekeys'
-    
-    Template.user_genekeys.onCreated ->
-        @autorun => Meteor.subscribe 'docs', picked_tags.array(), 'thought'
-
-
-    Template.user_genekeys.onCreated ->
-        @autorun => Meteor.subscribe 'user_genekeys', Router.current().params.username
-        @autorun => Meteor.subscribe 'model_docs', 'message'
-
-    Template.user_genekeys.events
-        'keyup .new_public_message': (e,t)->
-            if e.which is 13
-                val = $('.new_public_message').val()
-                console.log val
-                target_user = Meteor.users.findOne(username:Router.current().params.username)
-                Docs.insert
-                    model:'message'
-                    body: val
-                    is_private:false
-                    recipient: target_user._id
-                val = $('.new_public_message').val('')
-
-        'click .submit_public_message': (e,t)->
-            val = $('.new_public_message').val()
-            console.log val
-            target_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.insert
-                model:'message'
-                is_private:false
-                body: val
-                recipient: target_user._id
-            val = $('.new_public_message').val('')
-
-
-        'keyup .new_private_message': (e,t)->
-            if e.which is 13
-                val = $('.new_private_message').val()
-                console.log val
-                target_user = Meteor.users.findOne(username:Router.current().params.username)
-                Docs.insert
-                    model:'message'
-                    body: val
-                    is_private:true
-                    recipient: target_user._id
-                val = $('.new_private_message').val('')
-
-        'click .submit_private_message': (e,t)->
-            val = $('.new_private_message').val()
-            console.log val
-            target_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.insert
-                model:'message'
-                body: val
-                is_private:true
-                recipient: target_user._id
-            val = $('.new_private_message').val('')
-
-
-
-    Template.user_genekeys.helpers
-        user_public_genekeys: ->
-            target_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find
-                model:'message'
-                recipient: target_user._id
-                is_private:false
-
-        user_private_genekeys: ->
-            target_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find
-                model:'message'
-                recipient: target_user._id
-                is_private:true
-                _author_id:Meteor.userId()
-
-
-
-if Meteor.isServer
-    Meteor.publish 'user_public_genekeys', (username)->
-        target_user = Meteor.users.findOne(username:Router.current().params.username)
-        Docs.find
-            model:'message'
-            recipient: target_user._id
-            is_private:false
-
-    Meteor.publish 'user_private_genekeys', (username)->
-        target_user = Meteor.users.findOne(username:Router.current().params.username)
-        Docs.find
-            model:'message'
-            recipient: target_user._id
-            is_private:true
-            _author_id:Meteor.userId()
-
-
 
 
 if Meteor.isClient
@@ -365,7 +265,7 @@ if Meteor.isClient
 
 
     Template.user_received.onCreated ->
-        @autorun => Meteor.subscribe 'user_received', Router.current().params.username
+        @autorun => Meteor.subscribe 'user_received', Router.current().params.username, ->
         # @autorun => Meteor.subscribe 'model_docs', 'debit'
 
     Template.user_received.events
@@ -412,61 +312,6 @@ if Meteor.isServer
             
             
 if Meteor.isClient
-    Router.route '/user/:username/badges', (->
-        @layout 'profile_layout'
-        @render 'user_badges'
-        ), name:'user_badges'
-    
-
-    Template.user_badges.onCreated ->
-        @autorun => Meteor.subscribe 'user_badges', Router.current().params.username
-        @autorun => Meteor.subscribe 'model_docs', 'badge'
-
-    Template.user_badges.events
-        'keyup .new_badge': (e,t)->
-            if e.which is 13
-                val = $('.new_badge').val()
-                console.log val
-                target_user = Meteor.users.findOne(username:Router.current().params.username)
-                Docs.insert
-                    model:'badge'
-                    body: val
-                    recipient: target_user._id
-                val = $('.new_badge').val('')
-
-        'click .submit_badge': (e,t)->
-            val = $('.new_badge').val()
-            console.log val
-            target_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.insert
-                model:'badge'
-                body: val
-                recipient: target_user._id
-            val = $('.new_badge').val('')
-
-
-
-    Template.user_badges.helpers
-        user_badges: ->
-            target_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find
-                model:'badge'
-                # recipient: target_user._id
-
-        slots: ->
-            Docs.find
-                model:'slot'
-                _author_id: Router.current().params.user_id
-
-
-if Meteor.isServer
-    Meteor.publish 'user_badges', (username)->
-        Docs.find
-            model:'badge'
-            
-            
-            
-if Meteor.isClient
     Router.route '/user/:username/dashboard', (->
         @layout 'profile_layout'
         @render 'user_dashboard'
@@ -474,9 +319,6 @@ if Meteor.isClient
         
         
     Template.user_dashboard.onCreated ->
-        @autorun -> Meteor.subscribe 'user_credits', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_debits', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_requests', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_completed_requests', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username
         @autorun -> Meteor.subscribe 'model_docs', 'event'

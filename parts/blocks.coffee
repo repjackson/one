@@ -105,10 +105,10 @@ if Meteor.isClient
             Docs.update @_id,
                 $pull:follower_ids:Meteor.userId()
 
-    Template.set_limit.events
-        'click .set_limit': ->
-            console.log @
-            Session.set('limit', @amount)
+    # Template.set_limit.events
+    #     'click .set_limit': ->
+    #         console.log @
+    #         Session.set('limit', @amount)
 
     Template.set_sort_key.helpers
         sort_button_class: ->

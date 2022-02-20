@@ -7,10 +7,10 @@ template(name='nav')
         // else 
         // a.icon.item.toggle_leftbar
         //     i.large.bars.icon
-        a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" )
-            +i name='yin-yang'
-            // i.large.home.icon
-            span.mobile.hidden one
+        // a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" )
+        //     +i name='yin-yang'
+        //     // i.large.home.icon
+        //     span.mobile.hidden one
         // .search.item.zoomer.mobile.hidden(title='search')
         //     .ui.icon.transparent.input
         //         if current_product_search
@@ -18,14 +18,14 @@ template(name='nav')
         //         else
         //             i.search.large.icon
         //         input.search_products(type='text' autocomplete="off" value=current_product_search)
-        // a.icon.item(href="/users")
-        //     // i.large.inbox.icon
-        //     +i name='groups'
-        //     .mobile.hidden users 
         a.icon.item(href="/events")
             // i.large.inbox.icon
             +i name='calendar'
             span.mobile.hidden events
+        a.icon.item(href="/users")
+            // i.large.inbox.icon
+            +i name='groups'
+            .mobile.hidden users 
         a.icon.item(href="/groups")
             // i.large.inbox.icon
             +i name='campfire'

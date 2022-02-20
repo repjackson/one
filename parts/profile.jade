@@ -259,23 +259,6 @@ template(name='user_info_tag')
             
             
             
-template(name='user_genekeys')
-    .ui.header 
-        +icolor name='dna-helix'
-        |user genekeys
-    with current_user
-        if genekeys_link
-            a.ui.basic.button(href=genekeys_link target="_window")
-                |view gene keys link
-        .ui.stackable.three.column.grid
-            .column
-                +image_view key='gene1' label='gene keys 1' icon='dna' direct=true
-            .column
-                +image_view key='gene2' label='gene keys 2' icon='dna' direct=true
-            .column
-                +image_view key='gene3' label='gene keys 3' icon='dna' direct=true
-        |!{genekeys_report}
-
 // template(name='user_info_tag')
 //     .ui.basic.tertiary.button 
 //         if term 
@@ -343,9 +326,9 @@ template(name='user_credit')
                 // // +number_edit key='credit' label='edit credit' min='0' step='1' max='1000' direct=true
                 // .ui.big.icon.button.remove_credit(title='remove credit')
                 //     |-1
-                +topup_button amount=10
-                +topup_button amount=20
-                +topup_button amount=100
+                // +topup_button amount=10
+                // +topup_button amount=20
+                // +topup_button amount=100
                 // |includes 2% credit card processing fee
                 // .ui.action.input
                 //     input.deposit_amount(type='number' min='1' placeholder='deposit')

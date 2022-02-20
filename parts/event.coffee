@@ -1,5 +1,5 @@
 if Meteor.isClient
-    Router.route '/event/:doc_id/view', (->
+    Router.route '/event/:doc_id', (->
         @layout 'layout'
         @render 'event_view'
         ), name:'event_view'
