@@ -26,11 +26,11 @@ template(name='events')
                         +event_card
 
 template(name='event_card')
-    .ui.card
+    .ui.zoomer.card
         if image_id
-            a.image.zoom.pointer.mobile.hidden(href="/event/#{_id}")
+            a.image.zoom.pointer.mobile.hidden.fly_right(href="/event/#{_id}")
                 img.ui.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            a.image.zoom.pointer.mobile.only(href="/event/#{_id}")
+            a.image.zoom.pointer.mobile.only.fly_right(href="/event/#{_id}")
                 img.ui.image(src="{{c.url image_id height=200 width=500 gravity='center' crop='fill'}}" class=currentUser.invert_class)
         .content
             a.ui.header.fly_right(href="/event/#{_id}") #{title} 
@@ -74,8 +74,9 @@ template(name='event_card')
                         |#{body}
             if is_dev
                 +print_this
-
-
+            +voting
+            +favorite_icon_toggle
+        
 
 
 

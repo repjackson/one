@@ -300,15 +300,6 @@ if Meteor.isClient
                 sort:_timestamp:-1
 
 
-
-
-if Meteor.isServer
-    Meteor.publish 'user_received', (username)->
-        user = Meteor.users.findOne username:username
-        Docs.find
-            model:'debit'
-            recipient_id:user._id
-            
             
             
 if Meteor.isClient

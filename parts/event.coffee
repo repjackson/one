@@ -139,7 +139,8 @@ if Meteor.isClient
                 match.title = {$regex:"#{Session.get('current_query')}", $options: 'i'}
                 
                 Docs.find match,
-                sort:start_datetime:-1
+                sort:date:1
+                # sort:start_datetime:-1
             else
                 Docs.find match,
                 sort:date:1
