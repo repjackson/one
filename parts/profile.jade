@@ -76,14 +76,9 @@ template(name='profile')
                         .sixteen.wide.column
                             +user_dashboard
                         .eight.wide.column
-                            +user_credit
+                            +user_events
                         .eight.wide.column
                             +user_friends
-                            +user_sent
-                        .eight.wide.column
-                            +user_info
-                        .eight.wide.column
-                            +user_events
                         .eight.wide.column
                             +user_groups
                                
@@ -119,127 +114,6 @@ template(name='user_received')
                     each tags
                         .ui.basic.label #{this}
 
-template(name='user_received_small')
-    .ui.inline.header 
-        i.minus.icon
-        |#{total_credit_amount}p
-        |received
-        .ui.basic.label #{credit_count} credits
-            | ##{global_credit_count_rank}
-    div
-    .ui.link.list.scrolling
-        each user_credits
-            .item
-                if author.profile_image_id
-                    img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
-                .content
-                    .header
-                        strong #{amount}pt 
-                        |from 
-                        a(href="/user/#{author.username}")
-                            |#{author.username}
-                    .description
-                        a(href="/debit/#{_id}")
-                            |#{when}
-                .content
-                    .description
-                        |#{description}
-                        each tags
-                            .ui.basic.label #{this}
-                if is_admin 
-                    +remove_button
-                .spacer
-                            
-                            
-                            
-template(name='user_sent')  
-    .ui.inline.header 
-        i.send.icon
-        |sent
-    .ui.basic.label #{total_debit_amount}p total sent
-    .ui.basic.label(title='debit count') #{debit_count} gifts sent
-    .ui.basic.label(title='rank') ##{global_debit_count_rank} gift sent rank
-        
-    i.tags.icon(title='credit tags')
-    each debit_tags
-        .ui.basic.circular.label #{title}
-            small #{count}
-        
-    .ui.stackable.cards.scrolling
-        each sent_items
-            .ui.card
-                .content
-                    .header
-                        strong #{amount}pt
-                        | to 
-                        if recipient.profile_image_id
-                            img.ui.avatar.image(src="{{c.url recipient.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
-                        |#{recipient.shortname}
-                    small #{when}
-                    div
-                    |#{description}
-                    div
-                    each tags
-                        .ui.mini.basic.label #{this}
-                            
-                            
-                            
-                            
-template(name='user_about')
-    .ui.header 
-        i.info.icon
-        |user info
-    with current_user
-        // a.ui.compact.button(href="{{c.url genekeys_profile }}" target="_window")
-        //     +i name='dna-helix' cl='ui mini image'
-            
-        //     |view gene keys profile
-        .ui.four.column.stackable.grid
-            .column
-                .ui.small.header What do you hope to receive?
-                .smallscroll
-                    |#{profile_hope_receive}
-            .column
-                .ui.small.header What excites you about being apart of this community?
-                .smallscroll
-                    |#{profile_excites_blurb}
-                .spacer
-            .column
-                .ui.small.header What do you want this community to know about you?
-                .smallscroll
-                    |#{profile_community_blurb}
-            .column
-                .ui.small.header What would you like to contribute (think: superpowers, talents, gifts, resources)?
-                .smallscroll
-                    |#{profile_contribute_blurb}
-        if tags 
-            i.large.tags.icon
-            each tags
-                .ui.basic.large.label
-                    |#{this}
-                // +user_info_tag
-        div
-        // .ui.header 
-        //     i.line.chart.icon
-        //     |levels
-        // each levels
-        //     .ui.basic.label #{this}
-        div
-        .ui.header 
-            |city:
-            |#{city}               
-        div
-        .ui.header 
-            |state:
-            |#{state}               
-        div
-        if is_admin
-            .ui.header 
-                i.shield.icon
-                |roles
-            each roles
-                .ui.label #{this}
-            
 
 template(name='user_info_tag')
     .ui.basic.tertiary.button 
@@ -278,66 +152,10 @@ template(name='user_friends')
             each user_friends
                 .item #{username}
 
-template(name='user_subscriptions')              
-    .ui.card
-        .content
-            // a.header(href="/user/#{username}/subscriptions")
-            .ui.header
-                // +i name='clock' cl='ui avatar image'
-                i.large.clock.icon
-                |subscriptions
-            each user_subs
-                .ui.header #{when}
-                    
-                    
                     
                     
         
         
-template(name='user_credit')
-    .ui.stackable.one.column.padded.grid
-        if is_current_user
-            .column
-                .ui.inline.header
-                    // i.money.icon
-                    +i name='money'
-                    |{{current_user.points}}
-                    |points
-                .ui.big.compact.button.send_points
-                    +i name='donate'
-                    |send points
-                // .ui.inline.header 
-                //     // i.shield.icon
-                //     +i name='shield'
-                //     |admin
-                .ui.big.icon.button.add_credit(title='add credit')
-                    |+1
-                // // +number_edit key='credit' label='edit credit' min='0' step='1' max='1000' direct=true
-                // .ui.big.icon.button.remove_credit(title='remove credit')
-                //     |-1
-                // +topup_button amount=10
-                // +topup_button amount=20
-                // +topup_button amount=100
-                // |includes 2% credit card processing fee
-                // .ui.action.input
-                //     input.deposit_amount(type='number' min='1' placeholder='deposit')
-                //     .ui.icon.button.add_credits   
-                //         i.right.chevron.icon
-                        
-                .ui.large.bulleted.list.smallscroll
-                    each topups
-                        .item 
-                            .content
-                                .header 
-                                    |$#{amount}
-                                .description 
-                                    |#{when} {{long_date _timestamp}}
-                                    //- if is_dev
-                                    +remove_button        
-                                    
-                                    
-                                    
-                                    
                                     
 template(name='user_events')  
     .ui.header 
@@ -399,17 +217,6 @@ template(name='user_events')
                     +creation_info
                     
                     
-template(name='user_badges')
-    .ui.center.aligned.header 
-        +i name='prize'
-        |user badges
-    .ui.small.centered.five.stackable.cards
-        each user_badges
-            a.ui.card(href="/badge/#{_id}")
-                +icolorlg name=icon cl='ui fluid image'
-                .content
-                    .ui.header #{location}: #{title}
-                    
                     
 template(name='user_dashboard')
     // +user_about
@@ -423,21 +230,6 @@ template(name='user_dashboard')
                 //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
                 //-     i.refresh.icon
         .four.column.row
-            .column
-                // a.ui.inline.header(href="/user/#{username}/credits")
-                .ui.inline.header
-                    i.chevron.down.large.icon
-                    |#{total_credit_amount}p
-                    // |received
-                    small(title='received count') (#{credit_count}x) 
-                    small(title='rank') ##{global_credit_count_rank}
-                i.tags.icon(title='credit tags')
-                each credit_tags
-                    .ui.small.basic.circular.label #{title}
-                        // small #{count}
-                .medscroll.ui.segments
-                    each user_credits
-                        +user_credit_segment
             .column
                 .ui.inline.spaced.header
                     i.calendar.icon
@@ -458,80 +250,31 @@ template(name='user_dashboard')
 
 
 
-template(name='user_credit_segment')
-    .ui.segment.user_credit_segment.pointer.zoom
-        .header
-            strong #{amount}pt 
-            // |from 
-            if author.profile_image_id
-                img.ui.avatar.image(src="{{c.url author.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            |#{_author.shortname}
-        small #{when}
-        div
-        |#{description}
-        div
-        each tags
-            .ui.mini.basic.label #{this}
-
-
-template(name='user_debit_segment')
-    .ui.segment.user_debit_segment.pointer.zoom
-        .header
-            strong #{amount}pt
-            | to 
-            if recipient.profile_image_id
-                img.ui.avatar.image(src="{{c.url recipient.profile_image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            |#{recipient.shortname}
-        small #{when}
-        div
-        |#{description}
-        div
-        each tags
-            .ui.mini.basic.label #{this}
-            
-            
-            
-template(name='user_requests')  
-    .ui.center.aligned.header 
-        i.concierge.bell.icon
-        |#{current_user.name} requests
-    .scrolling
-        each requests
-            .ui.segment
-                a.ui.header(href="/m/request/#{_id}") #{bounty}pts: #{title}
-                | !{description}
-                div
-                if is_dev
-                    +remove_button
-                    +print_this
-                +creation_info
-                
-                
 // template(name='user_groups')
 //     .ui.inline.header
 //         +icolor name='campfire'
-//         |user tribes
+//         |user groups
 //     if is_current_user
-//         a.ui.circular.basic.icon.button(href="/user/#{current_user.username}/edit/tribes")
+//         a.ui.circular.basic.icon.button(href="/user/#{current_user.username}/edit/groups")
 //             i.pencil.icon
 //     .ui.header leader of
-//     each user_leader_tribes
+//     each user_leader_groups
 //         .ui.segment
-//             a.ui.header(href="/m/tribe/#{_id}") #{title}
+//             a.ui.header(href="/m/group/#{_id}") #{title}
 //             if is_current_user
-//                 +enter_tribe
+//                 +enter_group
 //     .ui.header member of
-//     each user_member_tribes
+//     each user_member_groups
 //         .ui.segment
-//             a.ui.header(href="/m/tribe/#{_id}") #{title}
+//             a.ui.header(href="/m/group/#{_id}") #{title}
 //             if is_current_user
-//                 +enter_tribe
+//                 +enter_group
             
             
             
-template(name='enter_tribe')
+template(name='enter_group')
     .ui.button.enter
-        |enter tribe
+        |enter group
         
         
         

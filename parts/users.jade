@@ -4,10 +4,10 @@ template(name='users')
             .ui.inline.header
                 +i name='groups'
                 |users
-            +user_cloud
             if currentUser.admin
                 .ui.button.add_user
                     |add user
+            +user_cloud
         .sixteen.wide.column
             // +session_set key='view_users' value='grid' icon='th' 
             // +session_set key='view_users' value='list' icon='list'
@@ -42,7 +42,7 @@ template(name='user_cloud')
     each all_levels
         .ui.compact.basic.button.select_level(class=cloud_tag_class) 
             strong #{this.name}
-    div
+    // div
     i.tags.large.icon
     if picked_user_tags
         #clear_tags.ui.primary.icon.compact.button

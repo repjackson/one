@@ -206,12 +206,6 @@ template(name='left_sidebar')
         //     a.item.toggle_leftbar(href='/' class="{{isActivePath '/'}}" title='food')
         //         // +i name='home'
         //         img.ui.avatar.image(src="https://www.lefrenchcafeboulder.com/images/logo.svg")
-        a.item.toggle_leftbar(href='/shop' class="{{isActivePath '/shop'}}" title='shop')
-            +i name='shop'
-            | #{product_count} products
-        a.item.toggle_leftbar(href='/ingredients' class="{{isActivePath '/ingredients'}}" title='shop')
-            +i name='ingredients'
-            | #{ingredient_count} ingredients
         a.item.toggle_leftbar(href='/events' class="{{isActivePath '/events'}}" title='events')
             +i name='calendar'
             |events
@@ -219,27 +213,8 @@ template(name='left_sidebar')
             +i name='invoice'
             // i.large.money.icon
             | orders
-        a.item.toggle_leftbar(href='/requests' class="{{isActivePath '/requests'}}" title='requests')
-            +i name='request-service'
-            // i.large.money.icon
-            | requests
-        a.item.toggle_leftbar(href='/transfers' class="{{isActivePath '/transfers'}}")
-            +i name='donate'
-            | point transfers
-        a.item.toggle_leftbar(href='/recipes' class="{{isActivePath '/recipes'}}")
-            +i name='cookbook'
-            |#{recipe_count} recipes
-        a.item.toggle_leftbar.zoomer(href='/trips' class="{{isActivePath '/trips'}}")
-            +i name='bicycle'
-            |#{recipe_count} trips
         //         // i.newspaper.icon
         //         strong.mobile.hidden get involved
-        a.item.toggle_leftbar.zoomer(href='/contact' class="{{isActivePath '/contact'}}" title='news')
-            +i name='phone'
-            | contact
-        a.item.toggle_leftbar.zoomer(href='/posts' class="{{isActivePath '/posts'}}" title='posts')
-            +i name='blog'
-            | #{post_count} posts
         if is_in_admin
             a.icon.item.toggle_admin.toggle_leftbar.no_blink
                 |toggle admin

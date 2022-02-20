@@ -118,191 +118,6 @@ if Meteor.isServer
                 
                 
 if Meteor.isClient
-    Template.user_credit.onCreated ->
-        @autorun => Meteor.subscribe 'user_by_username', Router.current().params.username
-        # @autorun => Meteor.subscribe 'model_docs', 'deposit'
-        # @autorun => Meteor.subscribe 'model_docs', 'reservation'
-        # @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
-        @autorun => Meteor.subscribe 'my_topups'
-        # if Meteor.isDevelopment
-        #     pub_key = Meteor.settings.public.stripe_test_publishable
-        # else if Meteor.isProduction
-        #     pub_key = Meteor.settings.public.stripe_live_publishable
-        # Template.instance().checkout = StripeCheckout.configure(
-        #     key: pub_key
-        #     image: 'http://res.cloudinary.com/facet/image/upload/c_fill,g_face,h_300,w_300/k2zt563boyiahhjb0run'
-        #     locale: 'auto'
-        #     # zipCode: true
-        #     token: (token) ->
-        #         # product = Docs.findOne Router.current().params.doc_id
-        #         user = Meteor.users.findOne username:Router.current().params.username
-        #         deposit_amount = parseInt $('.deposit_amount').val()*100
-        #         stripe_charge = deposit_amount*100*1.02+20
-        #         # calculated_amount = deposit_amount*100
-        #         # console.log calculated_amount
-        #         charge =
-        #             amount: deposit_amount*1.02+20
-        #             currency: 'usd'
-        #             source: token.id
-        #             description: token.description
-        #             # receipt_email: token.email
-        #         Meteor.call 'STRIPE_single_charge', charge, user, (error, response) =>
-        #             if error then alert error.reason, 'danger'
-        #             else
-        #                 alert 'payment received', 'success'
-        #                 Docs.insert
-        #                     model:'deposit'
-        #                     deposit_amount:deposit_amount/100
-        #                     stripe_charge:stripe_charge
-        #                     amount_with_bonus:deposit_amount*1.05/100
-        #                     bonus:deposit_amount*.05/100
-        #                 Meteor.users.update user._id,
-        #                     $inc: credit: deposit_amount*1.05/100
-    	# )
-
-
-    Template.user_credit.events
-        'click .add_credits': ->
-            amount = parseInt $('.deposit_amount').val()
-            amount_times_100 = parseInt amount*100
-            calculated_amount = amount_times_100*1.02+20
-            # Template.instance().checkout.open
-            #     name: 'credit deposit'
-            #     # email:Meteor.user().emails[0].address
-            #     description: 'gold run'
-            #     amount: calculated_amount
-            Docs.insert
-                model:'deposit'
-                amount: amount
-            Meteor.users.update Meteor.userId(),
-                $inc: credit: amount_times_100
-
-
-        'click .initial_withdrawal': ->
-            withdrawal_amount = parseInt $('.withdrawal_amount').val()
-            if confirm "initiate withdrawal for #{withdrawal_amount}?"
-                Docs.insert
-                    model:'withdrawal'
-                    amount: withdrawal_amount
-                    status: 'started'
-                    complete: false
-                Meteor.users.update Meteor.userId(),
-                    $inc: credit: -withdrawal_amount
-
-        'click .cancel_withdrawal': ->
-            if confirm "cancel withdrawal for #{@amount}?"
-                Docs.remove @_id
-                Meteor.users.update Meteor.userId(),
-                    $inc: credit: @amount
-
-        'click .send_points': ->
-            new_id = 
-                Docs.insert 
-                    model:'transfer'
-                    amount:10
-            Router.go "/transfer/#{new_id}/edit"
-
-
-    Template.user_credit.helpers
-        payments: ->
-            Docs.find {
-                model:'payment'
-                _author_username: Router.current().params.username
-            }, sort:_timestamp:-1
-        deposits: ->
-            Docs.find {
-                model:'deposit'
-                _author_username: Router.current().params.username
-            }, sort:_timestamp:-1
-        topups: ->
-            Docs.find {
-                model:'topup'
-                _author_username: Router.current().params.username
-            }, sort:_timestamp:-1
-
-
-
-
-    Template.user_credit.events
-        'click .add_credit': ->
-            user = Meteor.users.findOne(username:Router.current().params.username)
-            Meteor.users.update Meteor.userId(),
-                $inc:points:10
-                # $set:points:1
-        'click .remove_points': ->
-            user = Meteor.users.findOne(username:Router.current().params.username)
-            Meteor.users.update Meteor.userId(),
-                $inc:points:-1
-        'click .add_credits': ->
-            deposit_amount = parseInt $('.deposit_amount').val()*100
-            calculated_amount = deposit_amount*1.02+20
-            
-            # Template.instance().checkout.open
-            #     name: 'credit deposit'
-            #     # email:Meteor.user().emails[0].address
-            #     description: 'gold run'
-            #     amount: calculated_amount
-
-
-
-            
-            
-if Meteor.isServer
-    Meteor.publish 'my_topups', ->
-        Docs.find 
-            model:'topup'
-            _author_id:Meteor.userId()  
-            amount:$exists:true
-            
-            
-
-
-if Meteor.isClient
-    Router.route '/user/:username/credits', (->
-        @layout 'profile_layout'
-        @render 'user_received'
-        ), name:'user_received'
-
-
-    Template.user_received.onCreated ->
-        @autorun => Meteor.subscribe 'user_received', Router.current().params.username, ->
-        # @autorun => Meteor.subscribe 'model_docs', 'debit'
-
-    Template.user_received.events
-        # 'keyup .new_credit': (e,t)->
-        #     if e.which is 13
-        #         val = $('.new_credit').val()
-        #         console.log val
-        #         target_user = Meteor.users.findOne(username:Router.current().params.username)
-        #         Docs.insert
-        #             model:'credit'
-        #             body: val
-        #             recipient_id: target_user._id
-
-
-
-    Template.user_received_small.helpers
-        user_received: ->
-            target_user = Meteor.users.findOne({username:Router.current().params.username})
-            Docs.find {
-                model:'debit'
-                recipient_id: target_user._id
-            },
-                sort:_timestamp:-1
-
-    Template.user_received.helpers
-        user_received_docs: ->
-            target_user = Meteor.users.findOne({username:Router.current().params.username})
-            Docs.find {
-                model:'debit'
-                recipient_id: target_user._id
-            },
-                sort:_timestamp:-1
-
-
-            
-            
-if Meteor.isClient
     Router.route '/user/:username/dashboard', (->
         @layout 'profile_layout'
         @render 'user_dashboard'
@@ -324,41 +139,6 @@ if Meteor.isClient
             
             
     Template.user_dashboard.helpers
-        user_debits: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find {
-                model:'debit'
-                _author_id: current_user._id
-            }, 
-                limit: 10
-                sort: _timestamp:-1
-        user_credits: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find {
-                model:'debit'
-                recipient_id: current_user._id
-            }, 
-                sort: _timestamp:-1
-                limit: 10
-
-        user_requests: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find {
-                model:'request'
-                _author_id: current_user._id
-            }, 
-                sort: _timestamp:-1
-                limit: 10
-
-        user_completed_requests: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find {
-                model:'request'
-                completed_by_user_id: current_user._id
-            }, 
-                sort: _timestamp:-1
-                limit: 10
-
         user_event_tickets: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {
@@ -370,27 +150,6 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'user_debits', (username)->
-        user = Meteor.users.findOne username:username
-        Docs.find({
-            model:'debit'
-            _author_id:user._id
-        },{
-            limit:20
-            sort: _timestamp:-1
-        })
-        
-        
-    # Meteor.publish 'user_requests', (username)->
-    #     user = Meteor.users.findOne username:username
-    #     Docs.find({
-    #         model:'request'
-    #         completed_by_user_id:user._id
-    #     },{
-    #         limit:20
-    #         sort: _timestamp:-1
-    #     })
-        
     Meteor.publish 'user_event_tickets', (username)->
         user = Meteor.users.findOne username:username
         Docs.find({
@@ -407,57 +166,14 @@ if Meteor.isServer
         
         
 if Meteor.isClient
-    Router.route '/user/:username/requests', (->
-        @layout 'profile_layout'
-        @render 'user_requests'
-        ), name:'user_requests'
-
-    Template.user_requests.onCreated ->
-        @autorun -> Meteor.subscribe 'user_model_docs', 'request', Router.current().params.username
-        # @autorun => Meteor.subscribe 'user_requests', Router.current().params.username
-        @autorun => Meteor.subscribe 'model_docs', 'request'
-
-    Template.user_requests.events
-        'keyup .new_request': (e,t)->
-            if e.which is 13
-                val = $('.new_request').val()
-                console.log val
-                target_user = Meteor.users.findOne(username:Router.current().params.username)
-                Docs.insert
-                    model:'request'
-                    body: val
-                    recipient: target_user._id
-
-
-
-    Template.user_requests.helpers
-        requests: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find {
-                model:'request'
-                _author_id: current_user._id
-                # recipient: target_user._id
-            },
-                sort:_timestamp:-1
-
-
-
-if Meteor.isServer
-    Meteor.publish 'user_requests', (username)->
-        Docs.find
-            model:'request'
-            
-            
-            
-if Meteor.isClient
-    Router.route '/user/:username/tribes', (->
+    Router.route '/user/:username/groups', (->
         @layout 'profile_layout'
         @render 'user_groups'
         ), name:'user_groups'
 
     Template.user_groups.onCreated ->
-        @autorun -> Meteor.subscribe 'user_member_tribes', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_leader_tribes', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_member_groups', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_leader_groups', Router.current().params.username
         # @autorun => Meteor.subscribe 'user_groups', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'order'
 
@@ -472,12 +188,9 @@ if Meteor.isClient
                     body: val
                     recipient: target_user._id
 
-    Template.enter_tribe.events
-        'click .enter': ->
-            Meteor.call 'enter_tribe', @_id, ->
 
     Template.user_groups.helpers
-        tribes: ->
+        groups: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {
                 model:'order'
@@ -486,39 +199,39 @@ if Meteor.isClient
             },
                 sort:_timestamp:-1
 
-        user_member_tribes: ->
+        user_member_groups: ->
             user = Meteor.users.findOne username:@username
             Docs.find
-                model:'tribe'
-                tribe_member_ids:$in:[user._id]
+                model:'group'
+                group_member_ids:$in:[user._id]
             
-        user_leader_tribes: ->
+        user_leader_groups: ->
             user = Meteor.users.findOne username:@username
             Docs.find
-                model:'tribe'
-                tribe_leader_ids:$in:[user._id]
+                model:'group'
+                group_leader_ids:$in:[user._id]
 
 
 
 
 if Meteor.isServer
     Meteor.methods 
-        enter_tribe: (tribe_id)->
+        enter_group: (group_id)->
             Meteor.users.update Meteor.userId(),
                 $set:
-                    current_tribe_id:tribe_id
+                    current_group_id:group_id
     
-    Meteor.publish 'user_member_tribes', (username)->
+    Meteor.publish 'user_member_groups', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
-            model:'tribe'
-            tribe_member_ids:$in:[user._id]
+            model:'group'
+            group_member_ids:$in:[user._id]
             
-    Meteor.publish 'user_leader_tribes', (username)->
+    Meteor.publish 'user_leader_groups', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
-            model:'tribe'
-            tribe_leader_ids:$in:[user._id]
+            model:'group'
+            group_leader_ids:$in:[user._id]
             
             
             
