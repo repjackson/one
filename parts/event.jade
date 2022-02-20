@@ -22,16 +22,9 @@ template(name='events')
                     input.search_event(type='text' placeholder='search...' autofocus='')
                 +session_icon_button key='view_mode' value='grid' icon='grid'
                 +session_icon_button key='view_mode' value='list' icon='list'
-                // .ui.button.view_grid
-                //     +i name='grid'
-                // .ui.button.view_list
-                //     +i name='list'
-                .ui.button.view_going
-                    +i name='checkmark'
-                .ui.button.view_maybe
-                    +i name='question'
-                .ui.button.view_not_going
-                    +i name='cancel'
+                +session_icon_button key='view_attending' value='going' icon='checkmark'
+                +session_icon_button key='view_attending' value='maybe' icon='question'
+                +session_icon_button key='view_attending' value='not' icon='cancel'
                 if session_is 'view_mode' 'grid'
                     .ui.stackable.four.cards.scrolling
                         each event_docs

@@ -18,6 +18,10 @@ template(name='users')
             // +session_set key='view_limit' value=10
             // +session_set key='view_limit' value=20
             // +session_set key='view_limit' value=50
+            .ui.icon.input
+                i.search.icon
+                input.search_event(type='text' placeholder='search...' autofocus='')
+
             .scrolling
                 if session_is 'view_users' 'grid'
                     .ui.stackable.centered.cards

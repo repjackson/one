@@ -116,6 +116,24 @@ if Meteor.isClient
                 Docs.insert
                     model:'group'
             Router.go("/group/#{new_id}/edit")
+        'keyup .search_event': _.throttle((e,t)->
+            query = $('.search_event').val()
+            Session.set('current_query', query)
+            
+            console.log Session.get('current_query')
+            if e.which is 13
+                search = $('.search_event').val().trim().toLowerCase()
+                if search.length > 0
+                    picked_tags.push search
+                    console.log 'search', search
+                    # Meteor.call 'log_term', search, ->
+                    $('.search_event').val('')
+                    Session.set('current_query', null)
+                    # # $( "p" ).blur();
+                    # Meteor.setTimeout ->
+                    #     Session.set('dummy', !Session.get('dummy'))
+                    # , 10000
+        , 500)
 
 
         'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))

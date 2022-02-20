@@ -5,7 +5,7 @@ template(name='groups')
                 +i name='groups'
                 |groups
             if currentUser
-                a.ui.icon.basic.circular.button.add_group(title='cook')
+                a.ui.icon.circular.button.add_group(title='cook')
                     i.plus.green.large.icon
             // .ui.left.icon.search.small.input
             //     i.search.icon.refresh_tags
@@ -18,7 +18,7 @@ template(name='groups')
                     //- i.remove.icon
                     | #{this}
             each tags
-                button.ui.circular.compact.small.basic.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+                button.ui.circular.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
                     //- small #{count}
             span.sorting_row
                 .ui.icon.input
@@ -60,13 +60,13 @@ template(name='group_card')
                 |!{description}
             //+ismall name='tags' cl='ui inline image'
             each tags
-                .ui.basic.label #{this}
+                .ui.label #{this}
             a.zoomer(href="/group/#{_id}")
                 i.chevron.right.large.circular.icon
             // if is_admin
             //     .ui.small.header slug: #{slug}
             if can_edit
-                a.ui.circular.basic.icon.button(href="/group/#{_id}/edit")
+                a.ui.circular.icon.button(href="/group/#{_id}/edit")
                     i.pencil.blue.icon
             +print_this
                     
@@ -77,7 +77,7 @@ template(name='group_card')
 //         .ui.stackable.padded.grid
 //             .row
 //                 .four.wide.column 
-//                     a.ui.fluid.basic.button(href="/groups")
+//                     a.ui.fluid.button(href="/groups")
 //                         i.left.chevron.icon
 //                         +i name='wrench' cl='ui inline avatar image'
 //                         |groups
@@ -165,30 +165,30 @@ template(name='group_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .six.wide.center.aligned.column
+                .six.wide.column
                     .ui.header 
                         if icon
                             +i name=icon
                         |#{title}
-                    a.ui.circular.basic.button(href="/groups")
+                    a.ui.circular.button(href="/groups")
                         i.left.chevron.icon
                         i.big.user.circle.icon
                         // +i name='groups' cl='ui mini inline image'
                         |groups
                     if can_edit
-                        a.ui.circular.basic.icon.button(href="/group/#{_id}/edit")
+                        a.ui.circular.icon.button(href="/group/#{_id}/edit")
                             i.setting.large.icon
                     +image_view key='image_id' icon='image' label='image'
                     +array_view key='tags' icon='tags'
                     .spacer
                     if link
-                        a.ui.basic.circular.button(href=link target='_window')
+                        a.ui.circular.button(href=link target='_window')
                             i.external.icon
                             |view site
                         .spacer
                     div
                     .spacer
-                    a.ui.compact.basic.circular.button(href=address_link target='_window')
+                    a.ui.compact.circular.button(href=address_link target='_window')
                         i.marker.icon
                         |#{address}
                     +viewing
@@ -203,7 +203,7 @@ template(name='group_view')
                         |leader: 
                     with leader 
                         +user_info
-                    // a.ui.basic.button(href="/user/#{leader}")
+                    // a.ui.button(href="/user/#{leader}")
                     //     |#{leader}
                     .ui.header 
                         +i name='groups'
