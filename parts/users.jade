@@ -19,19 +19,20 @@ template(name='users')
             // +session_set key='view_limit' value=10
             // +session_set key='view_limit' value=20
             // +session_set key='view_limit' value=50
-            .ui.icon.large.input
+            .ui.icon.large.fluid.input
                 if username_query
                     i.remove.link.red.circular.icon.zoomer.clear_query
                 else
                     i.search.icon.link.submit_query
                 input.search_user(type='text' placeholder='search...' autofocus='' value=username_query)
-            .ui.header sort by
-            .ui.header
-                +i name='tag'
-                |tags
-            .ui.header groups
-                +i name='campfire'
-                |groups
+            +i name='sort'
+            +session_set key='sort_by' value='points' label='points' icon='hashtag'
+            +session_set key='sort_by' value='views' label='views' icon='eye'
+            +session_set key='sort_by' value='nearest' label='nearest' icon='marker'
+            +session_set key='sort_by' value='name' label='name' icon='user'
+            // .ui.header
+            +i name='tag'
+            +i name='campfire'
         .twelve.wide.column.scrolling
             if session_is 'view_mode' 'grid'
                 .ui.stackable.centered.four.cards
@@ -44,7 +45,7 @@ template(name='users')
             //             div
 
 template(name='user_cloud')
-    i.shield.blue.large.icon
+    // i.shield.blue.large.icon
     if picked_user_levels
         #clear_levels.ui.primary.icon.compact.button
             i.remove.icon
@@ -55,7 +56,7 @@ template(name='user_cloud')
         .ui.compact.basic.button.select_level(class=cloud_tag_class) 
             strong #{this.name}
     // div
-    i.tags.large.icon
+    // i.tags.large.icon
     if picked_user_tags
         #clear_tags.ui.primary.icon.compact.button
             i.remove.icon
@@ -100,8 +101,8 @@ template(name='user_card')
                 each credit_tags
                     .ui.small.basic.label #{title}
             if tags 
-                each tags 
-                    .ui.label #{this}
+                each five_tags 
+                    .ui.basic.label #{this}
             if online
                 .ui.green.label online
             if current_status

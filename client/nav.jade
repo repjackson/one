@@ -18,15 +18,15 @@ template(name='nav')
         //         else
         //             i.search.large.icon
         //         input.search_products(type='text' autocomplete="off" value=current_product_search)
-        a.icon.item(href="/events" class="{{isActiveRoute 'events'}}" title='events')
+        a.icon.item.fly_right(href="/events" class="{{isActiveRoute 'events'}}" title='events')
             // i.large.inbox.icon
             +i name='calendar'
             // span.mobile.hidden events
-        a.icon.item(href="/users" class="{{isActiveRoute 'users'}}" title='users')
+        a.icon.item.fly_right(href="/users" class="{{isActiveRoute 'users'}}" title='users')
             // i.large.inbox.icon
             +i name='groups'
             // .mobile.hidden users 
-        a.icon.item(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
+        a.icon.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
             // i.large.inbox.icon
             +i name='campfire'
             // span.mobile.hidden groups

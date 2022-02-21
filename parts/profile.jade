@@ -7,7 +7,7 @@ template(name='profile')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column.scrolling
-                    a.ui.fluid.large.circular.button.fly_left(href='/users')
+                    a.ui.fluid.large.circular.basic.button.fly_left(href='/users' title='back to users')
                         i.chevron.left.icon
                         +i name='groups'
                         // |users
@@ -212,7 +212,7 @@ template(name='user_dashboard')
                             .content.zoom.pointer
                                 a.header(href="/event/#{event_id}")
                                     |#{ticket_event.title}
-                                |#{fac.shortname}
+                                // |#{fac.shortname}
                                 |#{description}
                                 |{{med_date date}}
                                 |{{long_time time}}

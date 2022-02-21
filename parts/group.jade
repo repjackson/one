@@ -141,18 +141,18 @@ template(name='group_reservations')
 template(name='group_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .row
-                .four.wide.column
+            .three.column.row
+                .column
                     .ui.header 
                         |edit group
                     a.ui.big.icon.fluid.green.button(href="/group/#{_id}" title='save')
                         i.checkmark.large.icon
                     +remove_button
                     +image_edit key='image_id' label='image' direct=true
-                .eight.wide.column 
+                .column 
                     +text_edit key='title' direct=true
                     +html_edit key='description' label='content' icon='content' direct=true
-                .four.wide.column
+                .column
                     +single_user_edit key='leader' label='leader' icon='crown' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
