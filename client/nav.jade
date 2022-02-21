@@ -18,20 +18,20 @@ template(name='nav')
         //         else
         //             i.search.large.icon
         //         input.search_products(type='text' autocomplete="off" value=current_product_search)
-        a.icon.item(href="/events")
+        a.icon.item(href="/events" class="{{isActiveRoute 'events'}}" title='events')
             // i.large.inbox.icon
             +i name='calendar'
             // span.mobile.hidden events
-        a.icon.item(href="/users")
+        a.icon.item(href="/users" class="{{isActiveRoute 'users'}}" title='users')
             // i.large.inbox.icon
             +i name='groups'
             // .mobile.hidden users 
-        a.icon.item(href="/groups")
+        a.icon.item(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
             // i.large.inbox.icon
             +i name='campfire'
             // span.mobile.hidden groups
-        .item 
-            |#{current_date}
+        // .item 
+        //     |#{current_date}
         // a.icon.item(href="/inbox")
         //     // i.large.inbox.icon
         //     +i name='inbox'

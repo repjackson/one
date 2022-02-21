@@ -28,23 +28,23 @@ template(name='profile')
                                     +i name='coins'
                                     |#{points}p
                             if boops
-                                .ui.header 
+                                .ui.header(title='boops')
+                                    +i name='tap-gesture'
                                     |#{boops}
-                                    |boops
                     if is_current_user
-                        a.ui.circular.button(href="/user/#{current_user.username}/edit" title='profile settings')
+                        a.ui.circular.icon.compact.large.button(href="/user/#{current_user.username}/edit" title='profile settings')
                             i.cog.icon
-                            |edit profile
+                            // |edit profile
                     else if is_admin
-                        a.ui.circular.button(href="/user/#{current_user.username}/edit" title='profile settings')
+                        a.ui.circular.icon.compact.large.button(href="/user/#{current_user.username}/edit" title='profile settings')
                             +i name='settings' cl='ui avatar image'
-                            |edit profile
+                            // |edit profile
                     // unless is_current_user
                     //     +friend_button
                     if is_current_user
-                        .ui.button.logout
+                        .ui.large.compact.button.logout
                             i.sign.out.alternate.icon
-                            |log out
+                            // |log out
                     if admin
                         .ui.header
                             i.shield.icon

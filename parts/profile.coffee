@@ -59,7 +59,7 @@ if Meteor.isClient
             Meteor.logout()
             
         'click .boop': (e,t)->
-            $(e.currentTarget).closest('.image').transition('pulse', 1000)
+            $(e.currentTarget).closest('.image').transition('bounce', 500)
             user = Meteor.users.findOne username:Router.current().params.username
             Meteor.users.update user._id,
                 $inc:boops:1
