@@ -46,17 +46,21 @@ template(name='profile')
                     //     +friend_button
                     if is_current_user
                         .ui.large.compact.button.logout
-                            i.sign.out.alternate.icon
+                            // i.sign.out.alternate.icon
+                            // i.sign.out.alternate.icon
+                            +i name='exit'
                             // |log out
                     if currentUser.admin
                         .ui.header
-                            i.shield.icon
-                            |admin
+                            +i name='shield'
+                            // i.shield.icon
+                            // |admin
                     +array_view key='roles' label='roles' direct=true icon='shield'
                     +array_view key='tags' label='tags' direct=true icon='tags'
                     if is_current_user
                         a.ui.button.logout_other_clients(href="#" title='logout other clients')
-                            i.globe.icon
+                            // i.globe.icon
+                            +i name='globe'
                             |log out other clients
                     if link 
                         a.ui.button(href=link target='_window')
@@ -119,13 +123,14 @@ template(name='user_friends')
     .ui.card
         .content
             .ui.header 
-                i.large.handshake.icon
-                // +i name='friends'
+                // i.large.handshake.icon
+                +i name='friends'
                 |friends
             // .ui.input
             //     i.plus.icon
             //     input.search_friend(type='text' placeholder='add by username...')
-            +multi_user_edit key='friend_ids' label='friends' direct=true
+            if is_current_user
+                +multi_user_edit key='friend_ids' label='friends' direct=true
             each friend_search_results
                 .ui.header #{username}
             each user_friends

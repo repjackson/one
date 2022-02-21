@@ -68,11 +68,11 @@ template(name='nav')
         unless currentUser
             a.item(href="/register" title='register')
                 +i name='plus'
-                span.mobile.hidden register            
+                // span.mobile.hidden register            
             a.item(href='/login' title='login') 
                 // i.sign.in.large.icon
                 +i name='internal'
-                span.mobile.hidden login
+                // span.mobile.hidden login
     // .ui.small.attached.borderless.inverted.menu.hscroll
     //     each model_docs
     //         a.item.zoomer.reset(href='/m/#{slug}' class="{{isActivePath '/delta'}}")

@@ -50,7 +50,7 @@ template(name='events')
                         each event_docs
                             +event_card
                 if session_is 'view_mode' 'list'
-                    .ui.selection.divided.list.scrolling
+                    .ui.selection.divided.animated.list.scrolling
                         each event_docs 
                             +event_item
 

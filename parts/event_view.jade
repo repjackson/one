@@ -3,10 +3,9 @@ template(name='event_view')
         .ui.stackable.padded.grid
             .middle.aligned.row 
                 .sixteen.wide.column
-                    if currentUser
-                        a.ui.circular.big.icon.button.fly_left(href="/events")
-                            i.chevron.left.large.icon
-                            +i name='calendar'
+                    a.ui.circular.big.icon.button.fly_left(href="/events")
+                        i.chevron.left.large.icon
+                        +i name='calendar'
                     .ui.large.inline.header #{title}
                     // div
                     if can_edit
