@@ -3,7 +3,7 @@ template(name='users')
         .four.wide.column
             .ui.inline.header
                 +i name='groups'
-                |#{user_docs.count}
+                |#{user_docs.length}
                 |users
             if currentUser.admin
                 .ui.icon.button.add_user
@@ -20,7 +20,10 @@ template(name='users')
             // +session_set key='view_limit' value=20
             // +session_set key='view_limit' value=50
             .ui.icon.large.input
-                i.search.icon
+                if username_query
+                    i.remove.link.red.circular.icon.zoomer.clear_query
+                else
+                    i.search.icon.link.submit_query
                 input.search_user(type='text' placeholder='search...' autofocus='' value=username_query)
             .ui.header sort by
             .ui.header

@@ -36,7 +36,8 @@ if Meteor.isClient
             else
                 Session.set 'username_query',username_query
 
-
+        'click .clear_query': ->
+            Session.set('username_query',null)
 
 
 if Meteor.isServer
