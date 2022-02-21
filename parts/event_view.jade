@@ -23,8 +23,8 @@ template(name='event_view')
                     if can_edit
                         a.edit_event.fly_left(href="/event/#{_id}/edit" title='edit')
                             i.large.blue.link.pencil.circular.icon
-            .row 
-                .six.wide.column
+            .three.column.row 
+                .column
                     if location 
                         i.large.marker.icon(title='location')
                         |#{location}
@@ -57,6 +57,7 @@ template(name='event_view')
                         a.ui.header(href="/user/#{support.username}") 
                             img.ui.avatar.image(src="{{c.url support.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{support.name}
+                .column
                     if is_admin
                         .ui.header
                             |#{max_attendees} max attendees
@@ -75,7 +76,7 @@ template(name='event_view')
                         +voting_full
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +rsvp
-                .ten.wide.column.scrolling
+                .column
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
                     // .scrolling

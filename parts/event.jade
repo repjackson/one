@@ -81,6 +81,10 @@ template(name='event_card')
             // small led by
             img.ui.avatar.image(src="{{c.url fac.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             strong #{fac.name}
+            if views 
+                span(title='views)
+                    |#{views} 
+                    i.eye.grey.icon
         .content
             |#{event_tickets.count}
             a(href="/event/#{_id}" title='ticket purchase required')
