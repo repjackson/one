@@ -1,8 +1,8 @@
 template(name='event_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .centered.row 
-                .five.wide.column
+            .three.column.row 
+                .column
                     a.ui.icon.green.big.button.fly_left(href="/event/#{_id}" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
@@ -12,6 +12,7 @@ template(name='event_edit')
                     .ui.icon.basic.circular.button.delete_item(title='delete')
                         i.remove.red.icon
                     +text_edit key='title' label='title' direct=true
+                    +image_edit key='image_id' label='image' direct=true
                     .ui.header 
                         small author
                         |#{_author.name}
@@ -20,15 +21,29 @@ template(name='event_edit')
                     //     .ui.header date: #{date}
                     //     .ui.header time: #{time}
                     // else
-                    +datetime_edit key='start_datetime' label='start datetime' direct=true
-                    +datetime_edit key='end_datetime' label='end datetime' direct=true
                     +text_edit key='location' label='location' icon='marker' direct=true
                     // +time_edit key='time' label='time' direct=true
-                    // +number_edit key='hour_duration' label='hours' direct=true
+                    +number_edit key='hour_duration' label='hours' direct=true
                     // +range_edit label='time range' direct=true
-                    +single_user_edit key='facilitator_id' label='facilitator' icon='chess king' direct=true
-                    +single_user_edit key='support_id' label='support' icon='chess queen' direct=true
+                    // +single_user_edit key='facilitator_id' label='facilitator' icon='chess king' direct=true
+                .column
+                    +boolean_edit key='is_repeating' label='is repeating' icon='refresh' direct=true
+                    if is_repeating
+                        .ui.header repeating day
+                        +key_value_edit key='repeating_day' value='monday'
+                        +key_value_edit key='repeating_day' value='tuesday'
+                        +key_value_edit key='repeating_day' value='wednesday'
+                        +key_value_edit key='repeating_day' value='thursday'
+                        +key_value_edit key='repeating_day' value='friday'
+                        +key_value_edit key='repeating_day' value='saturday'
+                        +key_value_edit key='repeating_day' value='sunday'
+                        +time_edit key='start_time' label='start time' direct=true
+                        +time_edit key='end_time' label='end time' direct=true
+                    else 
+                        +datetime_edit key='start_datetime' label='start datetime' direct=true
+                        +datetime_edit key='end_datetime' label='end datetime' direct=true
                     +single_user_edit key='host_id' label='host' icon='shield' direct=true
+                    +single_user_edit key='support_id' label='support' icon='chess queen' direct=true
                     div 
                     +array_edit key='tags' label='tags' icon='red tags' direct=true
                     +boolean_edit key='has_tickets' label='has tickets' direct=true
@@ -37,17 +52,19 @@ template(name='event_edit')
                         if external_ticket_management
                             +link_edit key='link' label='link'
                             // +link_edit key='link' label='link'
-                            
-                .ten.wide.column
-                    .ui.header
-                        i.users.icon
-                        |audience
-                    +number_edit key='max_attendees' label='max attendees' min='0' max='100' direct=true
-                    // div
-                    +boolean_edit key='free' label='free' direct=true
-                    unless free
-                        +number_edit key='price_points' label='point price' min='0' max='100' direct=true
-                    +number_edit key='price_usd' label='dollar price' min='0' max='100' direct=true
+                        else
+                            +boolean_edit key='free' label='free' direct=true
+                            unless free
+                                +number_edit key='price_points' label='point price' min='0' max='100' direct=true
+                            +number_edit key='price_usd' label='dollar price' min='0' max='100' direct=true
+                .column
+                    +boolean_edit key='manage_attendance' label='manage attendance' icon='settings' direct=true
+                    if manage_attendance
+                        .ui.header
+                            i.users.icon
+                            |audience
+                        +number_edit key='max_attendees' label='max attendees' min='0' max='100' direct=true
+                        +boolean_edit key='friends_only' label='friends only' icon='campfire' direct=true
+                        // div
                     +html_edit key='description' label='description' direct=true
-                    +image_edit key='image_id' label='image' direct=true
                     +link_edit key='link' label='link'
