@@ -1,6 +1,6 @@
 template(name='users')
     .ui.padded.stackable.grid
-        .sixteen.wide.column
+        .four.wide.column
             .ui.inline.header
                 +i name='groups'
                 |#{user_docs.count}
@@ -9,8 +9,8 @@ template(name='users')
                 .ui.icon.button.add_user
                     i.plus.large.icon
             +user_cloud
-            +session_icon_button key='view_users' value='grid' icon='grid' 
-            +session_icon_button key='view_users' value='list' icon='list'
+            +session_icon_button key='view_mode' value='grid' icon='grid' 
+            +session_icon_button key='view_mode' value='list' icon='list'
             // +session_set key='sort_users_direction' value='-1' icon='chevron down'
             // +session_set key='sort_users_direction' value='1' icon='chevron up'
             // +session_set key='sort_users_key' value='points' icon='coins'
@@ -21,18 +21,18 @@ template(name='users')
             // +session_set key='view_limit' value=50
             .ui.icon.input
                 i.search.icon
-                input.search_event(type='text' placeholder='search...' autofocus='')
+                input.search_user(type='text' placeholder='search...' autofocus='' value=username_query)
 
-            .scrolling
-                if session_is 'view_mode' 'grid'
-                    .ui.stackable.centered.cards
-                        each user_docs
-                            +user_card
-                else if session_is 'view_mode' 'list'
-                    .ui.divided.selection.list
-                        each user_docs
-                            +user_item
-                //             div
+        .twelve.wide.column.scrolling
+            if session_is 'view_mode' 'grid'
+                .ui.stackable.centered.cards
+                    each user_docs
+                        +user_card
+            else if session_is 'view_mode' 'list'
+                .ui.divided.selection.animated.list
+                    each user_docs
+                        +user_item
+            //             div
 
 template(name='user_cloud')
     i.shield.blue.large.icon
@@ -109,17 +109,11 @@ template(name='user_card')
             //     i.teal.concierge.bell.pointer.request.big.icon
             //     i.blue.chat.pointer.message.big.disabled.icon
 template(name='user_item')
-    a.item.zoomer.fly_left(href="/user/#{username}")
-        unless avatar_image_id
-            img.ui.small.image(class=currentUser.invert_class src="{{c.url image_id }}")    
-        // if avatar_image_id
-        //     .ui.fade.reveal.image
-        //         .visible.content
-        //             img(class=currentUser.invert_class src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}") 
-        //         .hidden.content
-        //             img(class=currentUser.invert_class src="{{c.url avatar_image_id height=500 width=500 gravity='face' crop='fill'}}") 
-
+    a.item.fly_left(href="/user/#{username}")
         .content
+            img.ui.tiny.inline.rounded.image(class=currentUser.invert_class src="{{c.url image_id }}")    
+            // unless avatar_image_id
+
             a.ui.inline.header.pointer.blink(href="/user/#{username}" style="color:#{theme_color};")
                 |#{name}
                 //- |#{username}

@@ -191,13 +191,6 @@ template(name='user_dashboard')
     // +user_about
     // .ui.hidden.divider
     .ui.stackable.grid
-        .row
-            .sixteen.wide.column
-                .ui.inline.header() #{points}pts
-                .ui.big.circular.label() {{to_percent one_ratio}}% one ratio
-                .ui.large.circular.label() #{flow_volume} volume
-                //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
-                //-     i.refresh.icon
         .four.column.row
             .column
                 .medscroll
@@ -213,6 +206,14 @@ template(name='user_dashboard')
                                 |#{description}
                                 |{{med_date date}}
                                 |{{long_time time}}
+        .row
+            .sixteen.wide.column
+                .ui.inline.header() #{points}pts
+                .ui.big.circular.label() {{to_percent one_ratio}}% one ratio
+                .ui.large.circular.label() #{flow_volume} volume
+                //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
+                //-     i.refresh.icon
+                |!{description}
 
 
 
