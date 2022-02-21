@@ -8,24 +8,29 @@ template(name='profile')
                         i.chevron.left.icon
                         +i name='groups'
                         // |users
-                    a.item(href="/user/#{current_user.username}")
-                        img.ui.circular.centered.image(src="{{c.url image_id height=400 width=400 gravity='face' crop='fill'}}")
+                    // a.item(href="/user/#{current_user.username}")
+                    img.ui.circular.centered.image.pointer.boop(src="{{c.url image_id height=400 width=400 gravity='face' crop='fill'}}")
                     // .spacer
                     // a(href="/user/#{username}")
                     .ui.center.aligned.header
                         // strong #{name}
-                        // strong #{user.first_name} #{user.last_name}
-                        | @#{user.username}        
+                        strong #{first_name} #{last_name}
+                        | @#{username}        
                     .ui.two.column.middle.aligned.grid
                         // .column
                         //     img.ui.small.inline.image.mobile.only(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
                         .column
                             .ui.inline.header
-                                strong #{user.name}
-                                //- small @#{user.username}        
-                            a.ui.inline.header(href="/user/#{current_user.username}/credit" title='credit')
-                                +i name='coins'
-                                |#{user.points}p
+                                strong #{name}
+                                //- small @#{user.username}  
+                            if points
+                                a.ui.inline.header(href="/user/#{username}/credit" title='credit')
+                                    +i name='coins'
+                                    |#{points}p
+                            if boops
+                                .ui.header 
+                                    |#{boops}
+                                    |boops
                     if is_current_user
                         a.ui.circular.button(href="/user/#{current_user.username}/edit" title='profile settings')
                             i.cog.icon
@@ -70,7 +75,7 @@ template(name='profile')
                     if is_dev
                         .ui.small.inline.header #{_id}
                             
-                .twelve.wide.column.scrollin
+                .twelve.wide.column.scrolling
                     .ui.stackable.grid
                         // .spacer
                         .sixteen.wide.column
