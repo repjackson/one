@@ -1,7 +1,7 @@
 template(name='events')
     .ui.stackable.padded.grid 
         .row
-            .sixteen.wide.column
+            .four.wide.column
                 .ui.inline.header
                     // i.calendar.icon
                     +i name='calendar'
@@ -39,6 +39,7 @@ template(name='events')
                 .ui.icon.input
                     i.search.icon
                     input.search_event(type='text' placeholder='search...' autofocus='')
+            .twelve.wide.column
                 +session_icon_button key='view_mode' value='grid' icon='grid'
                 +session_icon_button key='view_mode' value='list' icon='list'
                 +session_icon_button key='view_attending' value='going' icon='checkmark'
@@ -82,7 +83,7 @@ template(name='event_card')
             img.ui.avatar.image(src="{{c.url fac.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             strong #{fac.name}
             if views 
-                span(title='views)
+                span(title='views')
                     |#{views} 
                     i.eye.grey.icon
         .content
@@ -117,9 +118,9 @@ template(name='event_card')
 
 template(name='event_item')
     .ui.item
-        if image_id
-            img.ui.tiny.inline.image(src="{{c.url image_id gravity='center' crop='fill'}}" class=currentUser.invert_class)
         .content
+            if image_id
+                img.ui.tiny.inline.image(src="{{c.url image_id gravity='center' crop='fill'}}" class=currentUser.invert_class)
             a.ui.inline.header.fly_right(href="/event/#{_id}") #{title} 
             .ui.small.inline.header {{medium_date date}} 
                 if time 

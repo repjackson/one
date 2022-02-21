@@ -3,6 +3,7 @@ template(name='users')
         .sixteen.wide.column
             .ui.inline.header
                 +i name='groups'
+                |#{user_docs.count}
                 |users
             if currentUser.admin
                 .ui.icon.button.add_user
@@ -23,11 +24,11 @@ template(name='users')
                 input.search_event(type='text' placeholder='search...' autofocus='')
 
             .scrolling
-                if session_is 'view_users' 'grid'
+                if session_is 'view_mode' 'grid'
                     .ui.stackable.centered.cards
                         each user_docs
                             +user_card
-                else if session_is 'view_users' 'list'
+                else if session_is 'view_mode' 'list'
                     .ui.divided.selection.list
                         each user_docs
                             +user_item

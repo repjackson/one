@@ -3,6 +3,7 @@ if Meteor.isClient
 
     Template.users.onCreated ->
         # @autorun -> Meteor.subscribe('users')
+        Session.setDefault('view_mode','grid')
         @autorun => Meteor.subscribe 'user_search', Session.get('username_query')
     Template.users.helpers
         user_docs: ->
