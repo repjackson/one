@@ -31,7 +31,7 @@ template(name='users')
                 |groups
         .twelve.wide.column.scrolling
             if session_is 'view_mode' 'grid'
-                .ui.stackable.centered.cards
+                .ui.stackable.centered.four.cards
                     each user_docs
                         +user_card
             else if session_is 'view_mode' 'list'
