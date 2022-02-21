@@ -164,9 +164,10 @@ template(name='event_item')
 
 
 template(name='gcal_button')
-    a.ui.circular.basic.circular.large.button(href="http://www.google.com/calendar/event?action=TEMPLATE&text=#{title}&dates=#{start_datetime}/#{end_datetime}&details=#{description}&location=#{location}" target="_window")
-        i.calendar.icon
-        |add to gcal
+    a.ui.circular.circular.large.button(href="http://www.google.com/calendar/event?action=TEMPLATE&text=#{title}&dates=#{start_datetime}/#{end_datetime}&details=#{description}&location=#{location}" target="_window")
+        // i.calendar.icon
+        +i name='external'
+        |+ gcal
         
         
         
@@ -365,3 +366,163 @@ template(name='ticket_view')
                     //-     i.checkmark.icon
                     //-     |submit
 
+
+
+template(name='event_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .middle.aligned.row 
+                .sixteen.wide.column
+                    a.ui.circular.big.icon.button.fly_left(href="/events")
+                        i.chevron.left.large.icon
+                        +i name='calendar'
+                    .ui.large.inline.header #{title}
+                    // div
+                    if can_edit
+                        if published 
+                            i.big.eye.green.icon(title='published')
+                        else 
+                            i.big.eye.red.slash.icon(title='unpublished')
+                    // div
+                    // .ui.inline.header {{medium_date date}}
+                    .ui.inline.header {{long_date start_datetime}}
+                    // .ui.inline.grey.header {{from_now date}}
+                    if time 
+                        .ui.inline.grey.header {{time}}
+                    if can_edit
+                        a.edit_event.fly_left(href="/event/#{_id}/edit" title='edit')
+                            i.large.blue.link.pencil.circular.icon
+            .three.column.row 
+                .column
+                    if location 
+                        i.large.marker.icon(title='location')
+                        |#{location}
+                    a(href="{{c.url image_id }}")
+                        img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                    .spacer
+                    // a(href="/m/room/#{event_room._id}/view")
+                    //     img.ui.small.circular.inline.image.pointer.zoom(src="{{c.url event_room.image_id }}" class=currentUser.invert_class)
+                    //     .ui.inline.header.pointer.zoom
+                    //         |#{event_room.title}
+                    // if is_admin
+                    .ui.segment
+                        .ui.header 
+                            i.shield.icon
+                            | author
+                        a.ui.header(href="/user/#{_author.username}") 
+                            img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                            |#{_author.name}
+                    if host
+                        .ui.dividing.header 
+                            i.chess.king.grey.icon
+                            |host
+                        a.ui.header(href="/user/#{fac.username}") 
+                            img.ui.avatar.image(src="{{c.url fac.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                            |#{fac.name}
+                    if support
+                        .ui.dividing.header 
+                            i.chess.queen.grey.icon
+                            |support
+                        a.ui.header(href="/user/#{support.username}") 
+                            img.ui.avatar.image(src="{{c.url support.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                            |#{support.name}
+                .column
+                    if is_admin
+                        .ui.header
+                            |#{max_attendees} max attendees
+                    // .ui.small.grey.header 
+                    //     i.line.chart.icon
+                    //     |stats
+                    .ui.small.header #{views} views
+                    each viewers
+                        .ui.label #{username}
+                    with current_doc
+                        +gcal_button
+                    .ui.hidden.divider
+                    +array_view key='tags' label='tags' icon='tags red' direct=true
+                    div
+                    if currentUser
+                        +voting_full
+                    +array_view key='location_tags' label='location tags' icon='marker' direct=true
+                    +rsvp
+                .column
+                    // a.ui.header(href="/user/#{target.username}")
+                    //     |#{target.username}
+                    // .scrolling
+                    |!{description}
+                    // div 
+                    // .spacer
+                    // .spacer
+                    +comments
+
+
+template(name='event_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .three.column.row 
+                .column
+                    a.ui.icon.green.big.button.fly_left(href="/event/#{_id}" title='save')
+                        i.checkmark.big.icon
+                    .ui.inline.header 
+                        +icolor name='tear-off-calendar'
+                        |edit event
+                    +boolean_edit key='published' label='published' direct=true
+                    .ui.icon.basic.circular.button.delete_item(title='delete')
+                        i.remove.red.icon
+                    +text_edit key='title' label='title' direct=true
+                    +image_edit key='image_id' label='image' direct=true
+                    .ui.header 
+                        small author
+                        |#{_author.name}
+                    // +slug_edit key='slug' label='slug' icon='slug' direct=true
+                    // if reservation_exists
+                    //     .ui.header date: #{date}
+                    //     .ui.header time: #{time}
+                    // else
+                    +text_edit key='location' label='location' icon='marker' direct=true
+                    // +time_edit key='time' label='time' direct=true
+                    +number_edit key='hour_duration' label='hours' direct=true
+                    // +range_edit label='time range' direct=true
+                    // +single_user_edit key='facilitator_id' label='facilitator' icon='chess king' direct=true
+                .column
+                    +boolean_edit key='is_repeating' label='is repeating' icon='refresh' direct=true
+                    if is_repeating
+                        .ui.header repeating day
+                        +key_value_edit key='repeating_day' value='monday'
+                        +key_value_edit key='repeating_day' value='tuesday'
+                        +key_value_edit key='repeating_day' value='wednesday'
+                        +key_value_edit key='repeating_day' value='thursday'
+                        +key_value_edit key='repeating_day' value='friday'
+                        +key_value_edit key='repeating_day' value='saturday'
+                        +key_value_edit key='repeating_day' value='sunday'
+                        +time_edit key='start_time' label='start time' direct=true
+                        +time_edit key='end_time' label='end time' direct=true
+                    else 
+                        +datetime_edit key='start_datetime' label='start datetime' direct=true
+                        +datetime_edit key='end_datetime' label='end datetime' direct=true
+                    +single_user_edit key='host_id' label='host' icon='shield' direct=true
+                    +single_user_edit key='support_id' label='support' icon='chess queen' direct=true
+                    div 
+                    +array_edit key='tags' label='tags' icon='red tags' direct=true
+                    +boolean_edit key='has_tickets' label='has tickets' direct=true
+                    if has_tickets
+                        +boolean_edit key='external_ticket_management' label='externally handled' direct=true
+                        if external_ticket_management
+                            +link_edit key='link' label='link'
+                            // +link_edit key='link' label='link'
+                        else
+                            +boolean_edit key='free' label='free' direct=true
+                            unless free
+                                +number_edit key='price_points' label='point price' min='0' max='100' direct=true
+                            +number_edit key='price_usd' label='dollar price' min='0' max='100' direct=true
+                .column
+                    +boolean_edit key='manage_attendance' label='manage attendance' icon='settings' direct=true
+                    if manage_attendance
+                        .ui.header
+                            i.users.icon
+                            |audience
+                        +number_edit key='max_attendees' label='max attendees' min='0' max='100' direct=true
+                        +boolean_edit key='friends_only' label='friends only' icon='campfire' direct=true
+                        // div
+                    +html_edit key='description' label='description' direct=true
+                    +link_edit key='link' label='link'
