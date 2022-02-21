@@ -48,18 +48,20 @@ template(name='profile')
                         .ui.large.compact.button.logout
                             i.sign.out.alternate.icon
                             // |log out
-                    if admin
+                    if currentUser.admin
                         .ui.header
                             i.shield.icon
                             |admin
                     +array_view key='roles' label='roles' direct=true icon='shield'
                     +array_view key='tags' label='tags' direct=true icon='tags'
-                    a.ui.button.logout_other_clients(href="#" title='logout other clients')
-                        i.globe.icon
-                        |log out other clients
+                    if is_current_user
+                        a.ui.button.logout_other_clients(href="#" title='logout other clients')
+                            i.globe.icon
+                            |log out other clients
                     if link 
                         a.ui.button(href=link target='_window')
-                            |app link
+                            i.external.icon
+                            |link
                     if is_current_user
                         +boolean_edit key='online' label='online' direct=true
                         +text_edit key='current_status' label='status' icon='clock' direct=true

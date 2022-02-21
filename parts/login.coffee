@@ -37,7 +37,10 @@ if Meteor.isClient
                     })
                 else
                     # console.log res
-                    Router.go "/"
+                    $(e.currentTarget).closest('.grid').transition('fly left', 500)    
+                    Meteor.setTimeout ->
+                        Router.go "/"
+                    , 500
                     # Router.go "/user/#{username}"
 
         'keyup .password, keyup .username': (e,t)->
@@ -59,7 +62,10 @@ if Meteor.isClient
                             })
                         else
                             # Router.go "/user/#{username}"
-                            Router.go "/"
+                            $(e.currentTarget).closest('.grid').transition('fly left', 500)    
+                            Meteor.setTimeout ->
+                                Router.go "/"
+                            , 500
 
 
     Template.login.helpers
