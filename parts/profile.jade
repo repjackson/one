@@ -1,8 +1,8 @@
 template(name='profile')
     with current_user
+        img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
             .row
-                //- img.ui.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .four.wide.column.scrolling
                     a.ui.fluid.large.circular.button.fly_left(href='/users')
                         i.chevron.left.icon
@@ -192,6 +192,8 @@ template(name='user_dashboard')
     // .ui.hidden.divider
     .ui.stackable.grid
         .four.column.row
+            .column
+                +user_groups
             .column
                 .medscroll
                     each user_event_tickets

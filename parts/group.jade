@@ -234,8 +234,11 @@ template(name='group_view')
                     +comments
     
 template(name='user_groups')
+    .ui.header 
+        +i name='campfire' 
+        |groups
     .scrolling
-        if is_current_user
+        if currentUser.admin_mode
             .ui.circular.button.add_group
                 i.plus.icon
                 |group

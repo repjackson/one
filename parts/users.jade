@@ -19,10 +19,16 @@ template(name='users')
             // +session_set key='view_limit' value=10
             // +session_set key='view_limit' value=20
             // +session_set key='view_limit' value=50
-            .ui.icon.input
+            .ui.icon.large.input
                 i.search.icon
                 input.search_user(type='text' placeholder='search...' autofocus='' value=username_query)
-
+            .ui.header sort by
+            .ui.header
+                +i name='tag'
+                |tags
+            .ui.header groups
+                +i name='campfire'
+                |groups
         .twelve.wide.column.scrolling
             if session_is 'view_mode' 'grid'
                 .ui.stackable.centered.cards
