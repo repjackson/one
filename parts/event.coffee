@@ -33,20 +33,24 @@ if Meteor.isClient
         Docs.findOne 
             _id:event.room_id
 
+    # Template.registerHelper 'going', () ->
+    #     event = Docs.findOne @_id
+    #     event_tickets = 
+    #         Docs.find(
+    #             model:'transaction'
+    #             transaction_type:'ticket_purchase'
+    #             event_id: @_id
+    #             ).fetch()
+    #     going_user_ids = []
+    #     for ticket in event_tickets
+    #         going_user_ids.push ticket._author_id
+    #     Meteor.users.find 
+    #         _id:$in:going_user_ids
+            
     Template.registerHelper 'going', () ->
         event = Docs.findOne @_id
-        event_tickets = 
-            Docs.find(
-                model:'transaction'
-                transaction_type:'ticket_purchase'
-                event_id: @_id
-                ).fetch()
-        going_user_ids = []
-        for ticket in event_tickets
-            going_user_ids.push ticket._author_id
         Meteor.users.find 
-            _id:$in:going_user_ids
-            
+            _id:$in:event.going_user_ids
     Template.registerHelper 'maybe_going', () ->
         event = Docs.findOne @_id
         Meteor.users.find 
@@ -488,13 +492,12 @@ if Meteor.isClient
         'click .mark_not': ->
             event = Docs.findOne Router.current().params.doc_id
             Meteor.call 'mark_not', Router.current().params.doc_id, ->
+        'click .mark_going': -> Meteor.call 'mark_going', @_id, ->
 
     Template.event_card.events
-        'click .mark_maybe': ->
-            Meteor.call 'mark_maybe', @_id, ->
-    
-        'click .mark_not': ->
-            Meteor.call 'mark_not', @_id, ->
+        'click .mark_maybe': -> Meteor.call 'mark_maybe', @_id, ->
+        'click .mark_not': -> Meteor.call 'mark_not', @_id, ->
+        'click .mark_going': -> Meteor.call 'mark_going', @_id, ->
     Template.event_view.helpers
         tickets_left: ->
             ticket_count = 
@@ -518,7 +521,7 @@ if Meteor.isServer
     Meteor.methods
         'mark_not': (event_id)->
             event = Docs.findOne event_id
-            if Meteor.userId() in event.not_user_ids
+            if event.not_user_ids and Meteor.userId() in event.not_user_ids
                 Docs.update event_id,
                     $pull:
                         not_user_ids: Meteor.userId()
@@ -533,7 +536,7 @@ if Meteor.isServer
             
         'mark_maybe': (event_id)->
             event = Docs.findOne event_id
-            if Meteor.userId() in event.maybe_user_ids
+            if event.maybe_user_ids and Meteor.userId() in event.maybe_user_ids
                 Docs.update event_id,
                     $pull:
                         maybe_user_ids: Meteor.userId()
@@ -543,5 +546,18 @@ if Meteor.isServer
                         maybe_user_ids: Meteor.userId()
                     $pull:
                         going_user_ids: Meteor.userId()
+                        not_user_ids: Meteor.userId()
+        'mark_going': (event_id)->
+            event = Docs.findOne event_id
+            if event.going_user_ids and Meteor.userId() in event.going_user_ids
+                Docs.update event_id,
+                    $pull:
+                        going_user_ids: Meteor.userId()
+            else
+                Docs.update event_id,
+                    $addToSet:
+                        going_user_ids: Meteor.userId()
+                    $pull:
+                        maybe_user_ids: Meteor.userId()
                         not_user_ids: Meteor.userId()
                 

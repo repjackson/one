@@ -226,8 +226,6 @@ template(name='rsvp')
         if price_points
             .ui.green.button.buy_ticket
                 |buy ticket #{price_points}p
-    .spacer
-    .spacer
     if event_ticket_docs.count
         .ui.dividing.header
             // +icolor name='activity-history' cl='ui inline image'
@@ -276,13 +274,16 @@ template(name='attendance')
     if event_tickets.length
         .ui.inline.green.header 
             |#{ticket.length} going
-    // .ui.inline.small.grey.header ticket required
-    // .ui.icon.button.pick_going 
-    //     i.green.checkmark.big.icon
-    // each going 
-    //     a.ui.circular.circular.button(href="/user/#{username}")    
-    //         img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-    //         |#{username}
+    .ui.button.mark_going 
+        .ui.green.header
+            i.green.checkmark.big.icon
+            |#{going.count}
+            |going
+    each going 
+        a.ui.circular.circular.button(href="/user/#{username}")    
+            img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            |#{username}
+    div
     .ui.circular.button.mark_maybe
         .ui.orange.header
             // if currentUser
