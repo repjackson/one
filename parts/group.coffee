@@ -29,6 +29,12 @@ if Meteor.isClient
     Template.group_view.events
         'click .refresh_group_stats': ->
             Meteor.call 'calc_group_stats', Router.current().params.doc_id, ->
+        'click .add_group_event': ->
+            new_id = 
+                Docs.insert 
+                    model:'event'
+                    group_id:Router.current().params.doc_id
+            Router.go "/event/#{new_id}/edit"
         # 'click .join': ->
         #     Docs.update
         #         model:'group'

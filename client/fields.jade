@@ -208,7 +208,7 @@ template(name='ios')
 template(name='link_edit')
     div
     if icon
-        +i name=icon
+        +i name='link'
         // i.icon(class=icon)
     .ui.inline.header
         |#{title} #{label}
@@ -1002,7 +1002,7 @@ template(name='single_user_edit')
     if field_value
         // +user_card field_value
         // if is_dev
-        |#{field_value}
+        // |#{field_value}
         //- |#{this}
         with user_from_id field_value
             .ui.inline.header

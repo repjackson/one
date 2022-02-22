@@ -35,9 +35,13 @@ template(name='users')
             +i name='campfire'
         .twelve.wide.column.scrolling
             if session_is 'view_mode' 'grid'
-                .ui.stackable.centered.four.cards
-                    each user_docs
+                if one_result
+                    .ui.stackable.centered.two.cards
                         +user_card
+                else
+                    .ui.stackable.centered.four.cards
+                        each user_docs
+                            +user_card
             else if session_is 'view_mode' 'list'
                 .ui.divided.selection.animated.list
                     each user_docs

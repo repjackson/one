@@ -93,8 +93,6 @@ template(name='profile')
                             +user_events
                         .eight.wide.column
                             +user_friends
-                        .eight.wide.column
-                            +user_groups
                                
            
 
@@ -226,33 +224,41 @@ template(name='user_dashboard')
         .row
             .sixteen.wide.column
                 .ui.inline.header() #{points}pts
-                .ui.big.circular.label() {{to_percent one_ratio}}% one ratio
-                .ui.large.circular.label() #{flow_volume} volume
+                // .ui.big.circular.label() {{to_percent one_ratio}}% one ratio
+                // .ui.large.circular.label() #{flow_volume} volume
                 //- .ui.compact.icon.button.refresh_user_stats(title='refresh stats')
                 //-     i.refresh.icon
                 |!{description}
 
 
 
-// template(name='user_groups')
-//     .ui.inline.header
-//         +icolor name='campfire'
-//         |user groups
-//     if is_current_user
-//         a.ui.circular.icon.button(href="/user/#{current_user.username}/edit/groups")
-//             i.pencil.icon
-//     .ui.header leader of
-//     each user_leader_groups
-//         .ui.segment
-//             a.ui.header(href="/m/group/#{_id}") #{title}
-//             if is_current_user
-//                 +enter_group
-//     .ui.header member of
-//     each user_member_groups
-//         .ui.segment
-//             a.ui.header(href="/m/group/#{_id}") #{title}
-//             if is_current_user
-//                 +enter_group
+template(name='user_groups')
+    .ui.inline.header
+        +icolor name='campfire'
+        |groups
+    .scrolling
+        if currentUser.admin_mode
+            .ui.circular.button.add_group
+                i.plus.icon
+                |group
+        each groups
+            +profile_group_item
+        
+    if is_current_user
+        a.ui.circular.icon.button(href="/user/#{current_user.username}/edit/groups")
+            i.pencil.icon
+    .ui.header leader of
+    each user_leader_groups
+        .ui.segment
+            a.ui.header(href="/m/group/#{_id}") #{title}
+            if is_current_user
+                +enter_group
+    .ui.header member of
+    each user_member_groups
+        .ui.segment
+            a.ui.header(href="/m/group/#{_id}") #{title}
+            if is_current_user
+                +enter_group
             
             
             

@@ -6,6 +6,9 @@ if Meteor.isClient
         Session.setDefault('view_mode','grid')
         @autorun => Meteor.subscribe 'search_user', Session.get('username_query'), ->
     Template.users.helpers
+        one_result: ->
+            # console.log 'one'
+            Meteor.users.find().count() is 1
         username_query: -> Session.get('username_query')
         user_docs: ->
             username_query = Session.get('username_query')

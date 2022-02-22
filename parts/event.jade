@@ -7,27 +7,27 @@ template(name='events')
                     +i name='calendar'
                     |events
                 if currentUser
-                    .ui.circular.basic.icon.button.add_event(title='add event')
+                    .ui.circular.icon.button.add_event(title='add event')
                         i.plus.big.green.icon
-                .ui.large.basic.button.toggle_past
+                .ui.large.button.toggle_past
                     if viewing_past
                         i.undo.green.icon
                     else
                         i.circle.outline.icon
                     |past
-                .ui.large.basic.button.toggle_now(class=today_button_class)
+                .ui.large.button.toggle_now(class=today_button_class)
                     if viewing_today
                         +i name='calendar'
                     else
                         +ios name='calendar'
                     |now
-                .ui.large.basic.button.view_today(class=today_button_class)
+                .ui.large.button.view_today(class=today_button_class)
                     if viewing_today
                         +i name='calendar'
                     else
                         +ios name='calendar'
                     |today
-                .ui.large.basic.button.toggle_past(class=today_button_class)
+                .ui.large.button.toggle_past(class=today_button_class)
                     if viewing_today
                         +i name='calendar'
                     else
@@ -161,17 +161,12 @@ template(name='event_item')
         
 
 
-
-
 template(name='gcal_button')
     a.ui.circular.circular.large.button(href="http://www.google.com/calendar/event?action=TEMPLATE&text=#{title}&dates=#{start_datetime}/#{end_datetime}&details=#{description}&location=#{location}" target="_window")
         // i.calendar.icon
         +i name='external'
         |+ gcal
         
-        
-        
-
 template(name='reserve_button')
     if slot_res
         .ui.segment
@@ -190,10 +185,8 @@ template(name='reserve_button')
         
         
         
-
-
-
 template(name='rsvp')
+    div
     if has_tickets
         .ui.header 
             i.green.ticket.icon
@@ -230,13 +223,15 @@ template(name='rsvp')
                         i.undo.icon
                         |return
     unless my_ticket
-        .ui.green.button.buy_ticket
-            |buy ticket #{price_points}p
+        if price_points
+            .ui.green.button.buy_ticket
+                |buy ticket #{price_points}p
     .spacer
     .spacer
-    .ui.dividing.header
-        // +icolor name='activity-history' cl='ui inline image'
-        |#{event_ticket_docs.count} spots reserved
+    if event_ticket_docs.count
+        .ui.dividing.header
+            // +icolor name='activity-history' cl='ui inline image'
+            |#{event_ticket_docs.count} spots reserved
     .ui.comments
         each event_ticket_docs
             .comment
@@ -285,10 +280,10 @@ template(name='attendance')
     // .ui.icon.button.pick_going 
     //     i.green.checkmark.big.icon
     // each going 
-    //     a.ui.circular.basic.circular.button(href="/user/#{username}")    
+    //     a.ui.circular.circular.button(href="/user/#{username}")    
     //         img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
     //         |#{username}
-    .ui.basic.circular.button.mark_maybe
+    .ui.circular.button.mark_maybe
         .ui.orange.header
             // if currentUser
             //     +icolor name='clock' cl='mark_maybe pointer'
@@ -298,17 +293,18 @@ template(name='attendance')
     // .ui.icon.button.mark_maybe 
     //     i.yellow.minus.big.icon
     each maybe_going
-        a.ui.circular.basic.circular.button(href="/user/#{username}")    
+        .ui.header #{this}
+        a.ui.circular.circular.button(href="/user/#{username}")    
             img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             |#{username}
-    .ui.basic.circular.button.mark_not
+    .ui.circular.button.mark_not
         .ui.red.header
             i.ban.icon
             |#{not_going.count} not going
         // .ui.icon.button.pick_not
             // i.big.ban.icon
     each not_going
-        a.ui.circular.basic.circular.button(href="/user/#{username}")    
+        a.ui.circular.circular.button(href="/user/#{username}")    
             img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             |#{username}
 
@@ -385,7 +381,8 @@ template(name='event_view')
                             i.big.eye.red.slash.icon(title='unpublished')
                     // div
                     // .ui.inline.header {{medium_date date}}
-                    .ui.inline.header {{long_date start_datetime}}
+                    if start_datetime
+                        .ui.inline.header {{long_date start_datetime}}
                     // .ui.inline.grey.header {{from_now date}}
                     if time 
                         .ui.inline.grey.header {{time}}
@@ -427,7 +424,7 @@ template(name='event_view')
                             img.ui.avatar.image(src="{{c.url support.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{support.name}
                 .column
-                    if is_admin
+                    if max_attendees
                         .ui.header
                             |#{max_attendees} max attendees
                     // .ui.small.grey.header 
@@ -467,7 +464,7 @@ template(name='event_edit')
                         +icolor name='tear-off-calendar'
                         |edit event
                     +boolean_edit key='published' label='published' direct=true
-                    .ui.icon.basic.circular.button.delete_item(title='delete')
+                    .ui.icon.circular.button.delete_item(title='delete')
                         i.remove.red.icon
                     +text_edit key='title' label='title' direct=true
                     +image_edit key='image_id' label='image' direct=true
@@ -485,44 +482,48 @@ template(name='event_edit')
                     // +range_edit label='time range' direct=true
                     // +single_user_edit key='facilitator_id' label='facilitator' icon='chess king' direct=true
                 .column
-                    +boolean_edit key='is_repeating' label='is repeating' icon='refresh' direct=true
-                    if is_repeating
-                        .ui.header repeating day
-                        +key_value_edit key='repeating_day' value='monday'
-                        +key_value_edit key='repeating_day' value='tuesday'
-                        +key_value_edit key='repeating_day' value='wednesday'
-                        +key_value_edit key='repeating_day' value='thursday'
-                        +key_value_edit key='repeating_day' value='friday'
-                        +key_value_edit key='repeating_day' value='saturday'
-                        +key_value_edit key='repeating_day' value='sunday'
-                        +time_edit key='start_time' label='start time' direct=true
-                        +time_edit key='end_time' label='end time' direct=true
-                    else 
+                    .ui.segment
+                        +boolean_edit key='is_repeating' label='is repeating' icon='refresh' direct=true
+                        if is_repeating
+                            .ui.inline.header repeating day
+                            +key_value_edit key='repeating_day' value='monday'
+                            +key_value_edit key='repeating_day' value='tuesday'
+                            +key_value_edit key='repeating_day' value='wednesday'
+                            +key_value_edit key='repeating_day' value='thursday'
+                            +key_value_edit key='repeating_day' value='friday'
+                            +key_value_edit key='repeating_day' value='saturday'
+                            +key_value_edit key='repeating_day' value='sunday'
+                            div
+                            +time_edit key='start_time' label='start time' direct=true
+                            +time_edit key='end_time' label='end time' direct=true
+                    unless is_repeating 
                         +datetime_edit key='start_datetime' label='start datetime' direct=true
                         +datetime_edit key='end_datetime' label='end datetime' direct=true
                     +single_user_edit key='host_id' label='host' icon='shield' direct=true
                     +single_user_edit key='support_id' label='support' icon='chess queen' direct=true
                     div 
-                    +array_edit key='tags' label='tags' icon='red tags' direct=true
-                    +boolean_edit key='has_tickets' label='has tickets' direct=true
-                    if has_tickets
-                        +boolean_edit key='external_ticket_management' label='externally handled' direct=true
-                        if external_ticket_management
-                            +link_edit key='link' label='link'
-                            // +link_edit key='link' label='link'
-                        else
-                            +boolean_edit key='free' label='free' direct=true
-                            unless free
-                                +number_edit key='price_points' label='point price' min='0' max='100' direct=true
-                            +number_edit key='price_usd' label='dollar price' min='0' max='100' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    .ui.segment
+                        +boolean_edit key='has_tickets' label='has tickets' icon='ticket' direct=true
+                        if has_tickets
+                            +boolean_edit key='external_ticket_management' label='externally handled' direct=true
+                            if external_ticket_management
+                                +link_edit key='link' label='link'
+                                // +link_edit key='link' label='link'
+                            else
+                                +boolean_edit key='free' label='free' direct=true
+                                unless free
+                                    +number_edit key='price_points' label='point price' min='0' max='100' direct=true
+                                +number_edit key='price_usd' label='dollar price' min='0' max='100' direct=true
                 .column
-                    +boolean_edit key='manage_attendance' label='manage attendance' icon='settings' direct=true
-                    if manage_attendance
-                        .ui.header
-                            i.users.icon
-                            |audience
-                        +number_edit key='max_attendees' label='max attendees' min='0' max='100' direct=true
-                        +boolean_edit key='friends_only' label='friends only' icon='campfire' direct=true
-                        // div
+                    .ui.segment
+                        +boolean_edit key='manage_attendance' label='manage attendance' icon='settings' direct=true
+                        if manage_attendance
+                            .ui.header
+                                i.users.icon
+                                |audience
+                            +number_edit key='max_attendees' label='max attendees' min='0' max='100' direct=true
+                            +boolean_edit key='friends_only' label='friends only' icon='campfire' direct=true
+                            // div
                     +html_edit key='description' label='description' direct=true
                     +link_edit key='link' label='link'
