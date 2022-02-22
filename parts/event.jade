@@ -237,7 +237,7 @@ template(name='rsvp')
             .comment
                 a.avatar(href="/user/#{_author.username}") 
                     img(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                a.content(href="/m/ticket/#{_id}/view")
+                a.content(href="/ticket/#{_id}")
                     a.author(href="/user/#{_author.username}") 
                         |#{_author.name}
                     .metadata
@@ -293,10 +293,10 @@ template(name='attendance')
     // .ui.icon.button.mark_maybe 
     //     i.yellow.minus.big.icon
     each maybe_going
-        .ui.header #{this}
-        a.ui.circular.circular.button(href="/user/#{username}")    
+        a.ui.circular.button.fly_right(href="/user/#{username}")    
             img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             |#{username}
+    div
     .ui.circular.button.mark_not
         .ui.red.header
             i.ban.icon
@@ -392,8 +392,9 @@ template(name='event_view')
             .three.column.row 
                 .column
                     if location 
-                        i.large.marker.icon(title='location')
-                        |#{location}
+                        span(title='location')
+                            +i name='marker'
+                            |#{location}
                     a(href="{{c.url image_id }}")
                         img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     .spacer
@@ -402,6 +403,10 @@ template(name='event_view')
                     //     .ui.inline.header.pointer.zoom
                     //         |#{event_room.title}
                     // if is_admin
+                    if is_repeating
+                        .ui.header
+                            +i name='refresh'
+                            |repeating on #{repeating_day}
                     .ui.segment
                         .ui.header 
                             i.shield.icon
