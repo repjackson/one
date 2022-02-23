@@ -8,7 +8,27 @@ template(name='users')
             if currentUser.admin
                 .ui.icon.button.add_user
                     i.plus.large.icon
-            +user_cloud
+            // i.shield.blue.large.icon
+            // if picked_user_levels
+            //     #clear_levels.ui.primary.icon.compact.button
+            //         i.remove.icon
+            //     each picked_user_levels
+            //         .unselect_level.ui.primary.compact.button
+            //             strong #{this}
+            // each all_levels
+            //     .ui.compact.basic.button.select_level(class=cloud_tag_class) 
+            //         strong #{this.name}
+            // div
+            // i.tags.large.icon
+            if picked_user_tags
+                // #clear_tags.ui.primary.icon.compact.button
+                //     i.remove.icon
+                each picked_user_tags
+                    .unpick_user_tag.ui.primary.compact.button
+                        strong #{this}
+            each all_user_tags
+                .ui.compact.basic.button.pick_user_tag(class=cloud_tag_class) 
+                    strong #{this.name}
             +session_icon_button key='view_mode' value='grid' icon='grid' 
             +session_icon_button key='view_mode' value='list' icon='list'
             // +session_set key='sort_users_direction' value='-1' icon='chevron down'
@@ -49,27 +69,6 @@ template(name='users')
             //             div
 
 template(name='user_cloud')
-    // i.shield.blue.large.icon
-    if picked_user_levels
-        #clear_levels.ui.primary.icon.compact.button
-            i.remove.icon
-        each picked_user_levels
-            .unselect_level.ui.primary.compact.button
-                strong #{this}
-    each all_levels
-        .ui.compact.basic.button.select_level(class=cloud_tag_class) 
-            strong #{this.name}
-    // div
-    // i.tags.large.icon
-    if picked_user_tags
-        #clear_tags.ui.primary.icon.compact.button
-            i.remove.icon
-        each picked_user_tags
-            .unpick_tag.ui.primary.compact.button
-                strong #{this}
-    each all_tags
-        .ui.compact.basic.button.select_tag(class=cloud_tag_class) 
-            strong #{this.name}
 
 
 

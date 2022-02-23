@@ -182,10 +182,10 @@ if Meteor.isClient
                 match.title = {$regex:"#{Session.get('current_query')}", $options: 'i'}
                 
                 Docs.find match,
-                sort:"#{Session.get('sort_key')}":1
+                sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
             else
                 Docs.find match,
-                sort:"#{Session.get('sort_key')}":1
+                sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
     
     
         can_add_event: ->

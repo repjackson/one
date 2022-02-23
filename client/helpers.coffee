@@ -118,14 +118,14 @@ Template.registerHelper 'first_initial', (user) ->
     @first_name[..2]+'.'
     # moment(input).fromNow()
 # Template.registerHelper 'logging_out', () -> Session.get 'logging_out'
-# Template.registerHelper 'upvote_class', () ->
-#     if Meteor.userId()
-#         if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline'
-#     else ''
-# Template.registerHelper 'downvote_class', () ->
-#     if Meteor.userId()
-#         if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline'
-#     else ''
+Template.registerHelper 'upvote_class', () ->
+    if Meteor.userId()
+        if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'basic'
+    else ''
+Template.registerHelper 'downvote_class', () ->
+    if Meteor.userId()
+        if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'basic'
+    else ''
 
 Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
