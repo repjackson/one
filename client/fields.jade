@@ -513,13 +513,14 @@ template(name='datetime_view')
     strong &nbsp; #{field_value}
 
 template(name='array_edit')
-    .spacer
+    // .spacer
     .spacer
     // if icon
     //     i.grey.icon(class=i)
     //     // +i name=icon
     .ui.inline.header
         |#{field_value.length}
+        +i name=icon
         if title
             |#{title}
         else if label
