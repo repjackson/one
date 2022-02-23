@@ -88,6 +88,7 @@ if Meteor.isClient
         picked_tags: -> picked_tags.array()
     Template.events.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'event', ->
+        @autorun => Meteor.subscribe 'event_tags',picked_tags.array(), ->
         Session.setDefault('current_query',null)
         Session.setDefault('view_mode','grid')
     Template.session_icon_button.helpers
@@ -97,7 +98,11 @@ if Meteor.isClient
         'click .set_session_value': ->
             console.log 'hi'
             Session.set(@key,@value)
+            
+            
     Template.events.events
+        'click .pick_tag': -> picked_tags.push @name
+        'click .unpick_tag': -> picked_tags.remove @valueOf()
         'click .toggle_past': ->
             Session.set('viewing_past', !Session.get('viewing_past'))
         'click .select_room': ->
@@ -133,10 +138,12 @@ if Meteor.isClient
 
             
     Template.events.helpers
-        rooms: ->
-            Docs.find 
-                model:'room'
-                
+        event_tags: ->
+            Results.find 
+                model:'event_tag'
+        picked_event_tags: -> picked_tags.array()
+        
+        
         room_button_class: -> 
             if Session.equals('viewing_room_id', @_id) then 'blue' else 'basic'
         viewing_past: -> Session.get('viewing_past')
@@ -145,6 +152,9 @@ if Meteor.isClient
             match = {}
             match.model = 'event'
             # published:true
+            if picked_tags.array().length > 0
+                match.tags = $all: picked_tags
+            
             # date:$lt:moment().subtract(1,'days').format("YYYY-MM-DD")
             # if Session.get('viewing_past')
             # date:$gt:moment().subtract(1,'days').format("YYYY-MM-DD")
@@ -197,7 +207,39 @@ if Meteor.isServer
         console.log moment().subtract(1,'days').format("YYYY-MM-DD")
         Docs.find match, 
             sort:date:1
+            
+            
+    Meteor.publish 'event_tags', (picked_tags)->
+        # user = Meteor.users.findOne @userId
+        # current_herd = user.profile.current_herd
     
+        self = @
+        match = {model:'event'}
+    
+        # picked_tags.push current_herd
+        if picked_tags.length > 0
+            match.tags = $all: picked_tags
+    
+        cloud = Docs.aggregate [
+            { $match: match }
+            { $project: tags: 1 }
+            { $unwind: "$tags" }
+            { $group: _id: '$tags', count: $sum: 1 }
+            { $match: _id: $nin: picked_tags }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        cloud.forEach (tag, i) ->
+    
+            self.added 'results', Random.id(),
+                name: tag.name
+                count: tag.count
+                model:'event_tag'
+                index: i
+    
+        self.ready()
+
 
     # Meteor.publish 'doc_by_slug', (slug)->
     #     Docs.find

@@ -6,28 +6,35 @@ template(name='events')
                     // i.calendar.icon
                     +i name='calendar'
                     |events
+                div
+                i.large.tag.icon
+                each picked_event_tags 
+                    .ui.blue.button.unpick_tag
+                        |#{this}
+                each event_tags 
+                    .ui.compact.button.pick_tag #{name}
                 if currentUser
                     .ui.circular.icon.button.add_event(title='add event')
                         i.plus.big.green.icon
-                .ui.large.button.toggle_past
+                .ui.button.toggle_past
                     if viewing_past
                         i.undo.green.icon
                     else
                         i.circle.outline.icon
                     |past
-                .ui.large.button.toggle_now(class=today_button_class)
+                .ui.button.toggle_now(class=today_button_class)
                     if viewing_today
                         +i name='calendar'
                     else
                         +ios name='calendar'
                     |now
-                .ui.large.button.view_today(class=today_button_class)
+                .ui.button.view_today(class=today_button_class)
                     if viewing_today
                         +i name='calendar'
                     else
                         +ios name='calendar'
                     |today
-                .ui.large.button.toggle_past(class=today_button_class)
+                .ui.button.toggle_past(class=today_button_class)
                     if viewing_today
                         +i name='calendar'
                     else
