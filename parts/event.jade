@@ -101,7 +101,7 @@ template(name='event_card')
             if tags 
                 i.tag.icon
                 each tags 
-                    .ui.label 
+                    .ui.link.label.zoomer.pick_flat_tag
                         |#{this}
             if location
                 i.marker.icon 
@@ -109,7 +109,7 @@ template(name='event_card')
             div 
             // small led by
             img.ui.avatar.image(src="{{c.url fac.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            strong #{fac.name}
+            // strong #{fac.name}
             if views 
                 span(title='views')
                     |#{views} 
@@ -293,11 +293,6 @@ template(name='rsvp')
     //         .ui.green.big.ok.button ok
 
 
-
-
-
-
-
 template(name='attendance')
     if event_tickets.length
         .ui.inline.green.header 
@@ -336,8 +331,6 @@ template(name='attendance')
         a.ui.circular.circular.button(href="/user/#{username}")    
             img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             |#{username}
-
-
 
 
 template(name='ticket_view')
@@ -412,7 +405,8 @@ template(name='event_view')
                     // .ui.inline.header {{medium_date date}}
                     if start_datetime
                         .ui.inline.header {{long_date start_datetime}}
-                    // .ui.inline.grey.header {{from_now date}}
+                        .ui.inline.grey.header {{from_now start_datetime}}
+                    
                     if time 
                         .ui.inline.grey.header {{time}}
                     if can_edit
@@ -420,7 +414,14 @@ template(name='event_view')
                             i.large.blue.link.pencil.circular.icon
             .row 
                 .four.wide.column
-                    if location 
+                    if link 
+                        a.ui.big.black.basic.fluid.button(href=link target='_window' title=link)
+                            i.external.icon
+                            // |#{link}
+                            |link
+                            
+                    if location
+                        +location_map
                         span(title='location')
                             +i name='marker'
                             |#{location}
@@ -485,6 +486,11 @@ template(name='event_view')
                     // .spacer
                     // .spacer
                     +comments
+
+
+
+template(name='location_map')
+    iframe(width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src="https://maps.google.com/maps?&amp;q=#{location}&amp;output=embed")
 
 
 template(name='event_edit')

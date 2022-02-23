@@ -121,6 +121,7 @@ if Meteor.isClient
             
     Template.events.events
         'click .pick_tag': -> picked_tags.push @title
+        'click .pick_flat_tag': -> picked_tags.push @valueOf()
         'click .unpick_tag': -> picked_tags.remove @valueOf()
         'click .toggle_past': ->
             Session.set('viewing_past', !Session.get('viewing_past'))
@@ -181,11 +182,10 @@ if Meteor.isClient
                 match.title = {$regex:"#{Session.get('current_query')}", $options: 'i'}
                 
                 Docs.find match,
-                sort:date:1
-                # sort:start_datetime:-1
+                sort:"#{Session.get('sort_key')}":1
             else
                 Docs.find match,
-                sort:date:1
+                sort:"#{Session.get('sort_key')}":1
     
     
         can_add_event: ->
