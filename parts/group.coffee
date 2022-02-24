@@ -19,6 +19,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
         # @autorun => Meteor.subscribe 'children', 'group_update', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'members', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'group_leader', Router.current().params.doc_id, ->
         # @autorun => Meteor.subscribe 'group_dishes', Router.current().params.doc_id, ->
     Template.group_view.helpers
         # current_group: ->
@@ -62,6 +63,12 @@ if Meteor.isServer
         Docs.find
             model:'dish'
             _id: $in: group.dish_ids
+
+
+    Meteor.publish 'group_leader', (doc_id)->
+        group = Docs.findOne doc_id
+        Meteor.users.find
+            _id: group.leader_id
 
 
 

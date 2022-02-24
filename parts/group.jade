@@ -72,35 +72,6 @@ template(name='group_card')
                     
 
                 
-template(name='group_history')
-    +ismall name='rss'
-    .ui.inline.header
-        |activity
-    .ui.list
-        each group_events
-            .item #{text} #{when}
-            
-template(name='group_subscription')
-    //- +ismall name='renew-subscription'
-    //- .ui.inline.header
-    //-     |subscription settings
-    .ui.button.subscribe subscribe to updates
-    .ui.list
-        each subscribers
-            .item #{text} #{when}
-            
-template(name='group_reservations')
-    .ui.header
-        +ismall name='invoice'
-        |group reservations
-    .ui.button.new_reservation
-        |new reservation
-    each reservations
-        .ui.segment
-            .ui.header #{when}
-            .ui.header by #{_author_username}
-            +view_button
-            +edit_button
 
 
 template(name='group_edit')
@@ -118,7 +89,7 @@ template(name='group_edit')
                     +text_edit key='title' direct=true
                     +html_edit key='description' label='content' icon='content' direct=true
                 .column
-                    +single_user_edit key='leader' label='leader' icon='crown' direct=true
+                    +single_user_edit key='leader_id' label='leader' icon='crown' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     +text_edit key='contact_info' label='contact info' icon='info' direct=true
@@ -166,7 +137,7 @@ template(name='group_view')
                     .ui.inline.header 
                         +i name='crown' cl='ui avatar image'
                         |leader: 
-                    with leader 
+                    with group_leader 
                         +user_info
                     // a.ui.button(href="/user/#{leader}")
                     //     |#{leader}

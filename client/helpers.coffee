@@ -451,8 +451,8 @@ Template.registerHelper 'calculated_size', (metric) ->
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
 
 
-# Template.registerHelper 'building_leader', () ->
-#     Meteor.users.findOne @leader_id
+Template.registerHelper 'group_leader', () ->
+    Meteor.users.findOne @leader_id
 
 
 # Template.registerHelper 'building_users', () ->
