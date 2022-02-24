@@ -87,17 +87,18 @@ template(name='profile')
                 .twelve.wide.column.scrolling
                     .ui.stackable.grid
                         // .spacer
-                        .eight.wide.column
+                        .sixteen.wide.column
                             a.ui.inline.header.zoomer(href="/groups")
                                 +icolor name='campfire'
                                 |groups
-                            .scrolling
+                            .scrollin
                                 // if currentUser.admin_mode
                                 //     .ui.circular.button.add_group
                                 //         i.plus.icon
                                 //         |group
-                                each groups
-                                    +profile_group_item
+                                .ui.doubling.cards
+                                    each groups
+                                        +profile_group_item
                                 
                             // if is_current_user
                             //     a.ui.circular.icon.button(href="/user/#{current_user.username}/edit/groups")
@@ -211,6 +212,22 @@ template(name='profile')
                     
                                         
                                             
+                           
+template(name='profile_group_item')
+    a.ui.card(href="/group/#{_id}")
+        .image
+            +image_view key='image_id' direct=true cl='zoom ui tiny image'
+        .content
+            .ui.header #{title}
+            a.ui.small.header.inline.lowercase(href="/group/#{_id}/")
+                |#{price_per_serving}c / #{serving_unit}
+            .ui.small.inline.header #{when}
+            a.ui.button(href="/group/#{_id}/")
+                |view
+                i.right.chevron.icon
+            if is_admin
+                +remove_button
+                       
                                 
                                
            
