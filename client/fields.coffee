@@ -159,6 +159,25 @@ Template.datetime_edit.events
             # displayTime: 'auto',
             position: "bottom right"
         )
+Template.time_edit.events
+    'blur .edit_time': (e,t)->
+        val = t.$('.edit_time').val()
+        parent = Template.parentData()
+        doc = Docs.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":val
+        else
+            Meteor.users.update parent._id,
+                $set:"#{@key}":val
+        $('body').toast(
+            showIcon: 'clock'
+            message: "time field saved"
+            # showProgress: 'bottom'
+            class: 'success'
+            # displayTime: 'auto',
+            position: "bottom right"
+        )
 
 
 # Template.i.onCreated ->

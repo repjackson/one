@@ -163,6 +163,8 @@ if Meteor.isClient
                 model:'event_tag'
         picked_event_tags: -> picked_tags.array()
         
+        one_result: ->
+            Docs.find({model:'event'}).count() is 1
         
         room_button_class: -> 
             if Session.equals('viewing_room_id', @_id) then 'blue' else 'basic'
@@ -239,7 +241,7 @@ if Meteor.isServer
         if picked_tags.length > 0
             match.tags = $all: picked_tags
     
-        cloud = Docs.aggregate [
+        tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: tags: 1 }
             { $unwind: "$tags" }
@@ -249,12 +251,28 @@ if Meteor.isServer
             { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
-        cloud.forEach (tag, i) ->
-    
+        tag_cloud.forEach (tag, i) ->
             self.added 'results', Random.id(),
                 name: tag.name
                 count: tag.count
                 model:'event_tag'
+                index: i
+                
+        group_cloud = Docs.aggregate [
+            { $match: match }
+            { $project: group_title: 1 }
+            # { $unwind: "$group_title" }
+            { $group: _id: '$group_title', count: $sum: 1 }
+            { $match: _id: $nin: picked_tags }
+            { $sort: count: -1, _id: 1 }
+            { $limit: 20 }
+            { $project: _id: 0, name: '$_id', count: 1 }
+            ]
+        group_cloud.forEach (tag, i) ->
+            self.added 'results', Random.id(),
+                name: tag.name
+                count: tag.count
+                model:'group_tag'
                 index: i
     
         self.ready()
