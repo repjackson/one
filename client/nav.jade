@@ -30,10 +30,10 @@ template(name='nav')
             // i.large.inbox.icon
             +i name='campfire'
             span.mobile.hidden groups
-        // a.icon.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
-        //     // i.large.inbox.icon
-        //     +i name='blog'
-        //     // span.mobile.hidden groups
+        a.icon.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
+            // i.large.inbox.icon
+            +i name='blog'
+            span.mobile.hidden posts
         // .item 
         //     |#{current_date}
         // a.icon.item(href="/inbox")

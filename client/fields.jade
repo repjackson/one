@@ -207,9 +207,7 @@ template(name='ios')
 // //-     img.ui.image(src="https://img.icons8.com/office/30/000000/#{name}.png" class=cl)
 template(name='link_edit')
     div
-    if icon
-        +i name='link'
-        // i.icon(class=icon)
+    +i name='link'
     .ui.inline.header
         |#{title} #{label}
     .ui.fluid.input
@@ -488,9 +486,7 @@ template(name='datetime_edit')
     .ui.form
         .field
             label 
-                if icon
-                    i.grey.icon(class=icon)
-                    //- +i name=icon                
+                +i name='calendar'                
                 if label
                     |#{label}
                 else
@@ -974,16 +970,17 @@ template(name='multi_doc_view')
 
 template(name='single_user_edit')
     div
-    if icon
-        i.icon(class=icon)
-    .ui.inline.header 
+    .ui.header 
+        if icon
+            i.icon(class=icon)
         |#{label} #{title}
     // if field_value
     //     .pull_user.ui.icon.compact.button(title='remove user')
     //         i.remove.icon
             //- |clear #{field_value}
     unless field_value
-        .ui.input
+        .ui.fluid.icon.input
+            i.user.icon
             input.single_user_select_input(type='text' placeholder='lookup user..' autocomplete='off')
             each selections
                 .ui.large.label

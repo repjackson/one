@@ -9,18 +9,6 @@ template(name='events')
                 if currentUser
                     .ui.circular.icon.button.add_event(title='add event')
                         i.plus.big.green.icon
-                div
-                .ui.button.toggle_repeating(class=toggle_repeating_class)
-                    i.refresh.icon
-                    |repeating
-                div
-                i.large.tag.icon
-                each picked_event_tags 
-                    .ui.blue.button.unpick_tag
-                        |#{this}
-                each event_tags 
-                    .ui.compact.button.pick_tag #{title}
-                div
                 .ui.button.toggle_past
                     if viewing_past
                         i.undo.green.icon
@@ -48,6 +36,18 @@ template(name='events')
                 .ui.button.toggle_repeating(class=toggle_repeating_class)
                     i.refresh.icon
                     |repeating
+                div
+                .ui.button.toggle_repeating(class=toggle_repeating_class)
+                    i.refresh.icon
+                    |repeating
+                div
+                i.large.tag.icon
+                each picked_event_tags 
+                    .ui.blue.button.unpick_tag
+                        |#{this}
+                each event_tags 
+                    .ui.compact.button.pick_tag #{title}
+                div
 
             .twelve.wide.column
                 .ui.icon.input

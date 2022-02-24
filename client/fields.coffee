@@ -694,6 +694,9 @@ Template.multi_user_edit.events
 
 Template.single_user_edit.onCreated ->
     @user_results = new ReactiveVar
+    @autorun => @subscribe 'all_users', ->
+    # @autorun => Meteor.subscribe 'model_docs', @data.ref_model
+        
 Template.single_user_edit.helpers
     user_results: ->Template.instance().user_results.get()
 Template.single_user_edit.events
