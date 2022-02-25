@@ -56,8 +56,9 @@ template(name='users')
         .twelve.wide.column.scrolling
             if session_is 'view_mode' 'grid'
                 if one_result
-                    .ui.stackable.centered.two.cards
-                        +user_card
+                    .ui.stackable.centered.one.cards
+                        each user_docs
+                            +user_card
                 else
                     .ui.stackable.centered.four.cards
                         each user_docs

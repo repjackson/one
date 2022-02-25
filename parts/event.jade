@@ -389,6 +389,8 @@ template(name='ticket_view')
 
 
 template(name='event_view')
+    if image_id
+        img.ui.fluid.image.checkin_banner(src="{{c.url image_id width=1000 height=1000 crop='crop'}}")    
     with current_doc
         .ui.stackable.padded.grid
             .middle.aligned.row 
@@ -425,18 +427,26 @@ template(name='event_view')
                             i.globe.icon 
                             |#{link}
             .row 
+                .eight.wide.column.scrolling
+                    a(href="{{c.url image_id }}")
+                        img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                    // a.ui.header(href="/user/#{target.username}")
+                    //     |#{target.username}
+                    // .scrolling
+                    |!{description}
+                    // div 
+                    // .spacer
+                    // .spacer
                 .four.wide.column
                     if link 
                         a.ui.big.black.basic.fluid.button(href=link target='_window' title=link)
                             i.external.icon
                             // |#{link}
                             |link
-                    a(href="{{c.url image_id }}")
-                        img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                             
                     if location
-                        +location_map
-                        span(title='location')
+                        // +location_map
+                        .ui.header(title='location')
                             +i name='marker'
                             |#{location}
                     .spacer
@@ -466,6 +476,7 @@ template(name='event_view')
                         a.ui.header(href="/user/#{support.username}") 
                             img.ui.avatar.image(src="{{c.url support.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{support.name}
+                    +comments
                 .four.wide.column
                     if max_attendees
                         .ui.header
@@ -485,15 +496,6 @@ template(name='event_view')
                         +voting_full
                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
                     +rsvp
-                .eight.wide.column
-                    // a.ui.header(href="/user/#{target.username}")
-                    //     |#{target.username}
-                    // .scrolling
-                    |!{description}
-                    // div 
-                    // .spacer
-                    // .spacer
-                    +comments
 
 
 

@@ -6,7 +6,7 @@ template(name='profile')
             img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
             .row
-                .four.wide.column.scrolling
+                .four.wide.column.scrollin
                     a.ui.fluid.large.circular.basic.button.fly_left(href='/users' title='back to users')
                         i.chevron.left.icon
                         +i name='groups'
@@ -19,21 +19,17 @@ template(name='profile')
                         // strong #{name}
                         strong #{first_name} #{last_name}
                         | @#{username}        
-                    .ui.two.column.middle.aligned.grid
-                        // .column
-                        //     img.ui.small.inline.image.mobile.only(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
-                        .column
-                            .ui.inline.header
-                                strong #{name}
-                                //- small @#{user.username}  
-                            if points
-                                a.ui.inline.header(href="/user/#{username}/credit" title='credit')
-                                    +i name='coins'
-                                    |#{points}p
-                            if boops
-                                .ui.header(title='boops')
-                                    +i name='tap-gesture'
-                                    |#{boops}
+                    if boops
+                        .ui.header(title='boops')
+                            +i name='tap-gesture'
+                            |#{boops}
+                    .ui.inline.header
+                        strong #{name}
+                        //- small @#{user.username}  
+                    if points
+                        a.ui.inline.header(href="/user/#{username}/credit" title='credit')
+                            +i name='coins'
+                            |#{points}p
                     if is_current_user
                         a.ui.circular.icon.compact.large.button(href="/user/#{current_user.username}/edit" title='profile settings')
                             i.cog.icon
@@ -87,27 +83,30 @@ template(name='profile')
                 .twelve.wide.column.scrolling
                     .ui.stackable.grid
                         // .spacer
-                        .eight.wide.column
-                            a.ui.inline.header.zoomer(href="/groups")
-                                +icolor name='campfire'
-                                |groups
-                            .ui.header
-                                // i.king.icon
-                                +i name='king'
-                                |leader of
-                            each user_leader_groups
-                                .ui.segment
-                                    a.ui.header(href="/m/group/#{_id}") #{title}
-                                    if is_current_user
-                                        +enter_group
-                            .ui.header 
-                                // i.users.icon
-                                +i name='groups'
-                                |member of
-                            each groups
-                                +profile_group_item
+                        .sixteen.wide.column
+                            // a.ui.inline.header.zoomer(href="/groups")
+                            //     +icolor name='campfire'
+                            //     |groups
+                            if user_leader_groups.length
+                                .ui.header
+                                    // i.king.icon
+                                    +i name='king'
+                                    |group leader of
+                                each user_leader_groups
+                                    .ui.segment
+                                        a.ui.header(href="/m/group/#{_id}") #{title}
+                                        if is_current_user
+                                            +enter_group
+                            if groups.length
+                                .ui.header 
+                                    // i.users.icon
+                                    +i name='groups'
+                                    |group member of
+                                .ui.doubling.cards
+                                    each groups
+                                        +profile_group_card
                                     
-                        .eight.wide.column
+                        .sixteen.wide.column
                             .medscroll
                                 .ui.header 
                                     +i name='ticket'
@@ -125,12 +124,12 @@ template(name='profile')
                                             |{{med_date date}}
                                             |{{long_time time}}
                             |!{description}
-                        .eight.wide.column
+                        .sixteen.wide.column
                             .ui.header 
                                 +i name='calendar'
                                 |user events
                             each user_events
-                                .ui.segment
+                                .ui.card
                                     .ui.small.header #{date} #{start_time}
                                     div
                                     +user_list_toggle key='read_by_ids' label='mark read' icon='eye'
@@ -139,72 +138,76 @@ template(name='profile')
                                     //- div
                                     +author_info
                                     +creation_info
-                            .ui.segment
-                                .ui.header.pointer.toggle_maybe
-                                    i.question.orange.icon
-                                    |maybe
-                                // if session_is 'view_maybe'
-                                each user_maybe_events
-                                    .ui.segment
-                                        a.ui.inline.header(href="/event/#{_id}") #{title} 
-                                        .ui.small.inline.header #{date} #{start_time}
-                                        +author_info
-                                        +creation_info
-                            .ui.segment
-                                .ui.header.pointer
-                                    i.checkmark.icon
-                                    |went
-                                // if session_is 'view_maybe'
-                                each user_went_events
-                                    .ui.segment
-                                        a.ui.inline.header(href="/event/#{_id}") #{title} 
-                                        .ui.small.inline.header #{date} #{start_time}
-                                        +author_info
-                                        +creation_info
-                            .ui.segment
-                                .ui.header.pointer
-                                    i.green.checkmark.icon
-                                    |going
-                                // if session_is 'view_maybe'
-                                each user_going_events
-                                    .ui.segment
-                                        a.ui.inline.header(href="/event/#{_id}") #{title} 
-                                        .ui.small.inline.header #{date} #{start_time}
-                                        +author_info
-                                        +creation_info
-                            .ui.segment
+                            if user_hosted_events.count
                                 .ui.header.pointer
                                     i.chess.king.icon
                                     |hosted
-                                // if session_is 'view_maybe'
-                                each user_hosted_events
-                                    .ui.segment
-                                        a.ui.inline.header(href="/event/#{_id}") #{title} 
-                                        .ui.small.inline.header #{date} #{start_time}
-                                        +author_info
-                                        +creation_info
-                                            
-                        .eight.wide.column
-                            .ui.segment
-                                .ui.header 
-                                    // i.large.handshake.icon
-                                    +i name='friends'
-                                    |friends
-                                // .ui.input
-                                //     i.plus.icon
-                                //     input.search_friend(type='text' placeholder='add by username...')
-                                if is_current_user
-                                    +multi_user_edit key='friend_ids' label='friends' direct=true
-                                each friend_search_results
-                                    .ui.header #{username}
-                                each user_friends
-                                    .item #{username}
+                                .ui.cards
+                                    each user_hosted_events
+                                        .ui.card
+                                            .content
+                                                a.ui.inline.header(href="/event/#{_id}") #{title} 
+                                                .ui.small.inline.header #{date} #{start_time}
+                                                +author_info
+                                                +creation_info
+                            .ui.cards
+                                .ui.card
+                                    .content
+                                        .ui.header.pointer.toggle_maybe
+                                            i.question.orange.icon
+                                            |maybe
+                                        // if session_is 'view_maybe'
+                                        each user_maybe_events
+                                            .ui.card
+                                                a.ui.inline.header(href="/event/#{_id}") #{title} 
+                                                .ui.small.inline.header #{date} #{start_time}
+                                                +author_info
+                                                +creation_info
+                                .ui.card
+                                    .content
+                                        .ui.header.pointer
+                                            i.checkmark.icon
+                                            |went
+                                        // if session_is 'view_maybe'
+                                        each user_went_events
+                                            .ui.segment
+                                                a.ui.inline.header(href="/event/#{_id}") #{title} 
+                                                .ui.small.inline.header #{date} #{start_time}
+                                                +author_info
+                                                +creation_info
+                                .ui.card
+                                    .content
+                                        .ui.header.pointer
+                                            i.green.checkmark.icon
+                                            |going
+                                        // if session_is 'view_maybe'
+                                        each user_going_events
+                                            .ui.card
+                                                a.ui.inline.header(href="/event/#{_id}") #{title} 
+                                                .ui.small.inline.header #{date} #{start_time}
+                                                +author_info
+                                                +creation_info
+                                .ui.card
+                                    .content
+                                        .ui.header 
+                                            // i.large.handshake.icon
+                                            +i name='friends'
+                                            |friends
+                                        // .ui.input
+                                        //     i.plus.icon
+                                        //     input.search_friend(type='text' placeholder='add by username...')
+                                        if is_current_user
+                                            +multi_user_edit key='friend_ids' label='friends' direct=true
+                                        each friend_search_results
+                                            .ui.header #{username}
+                                        each user_friends
+                                            .item #{username}
                     
                                         
                                             
                            
-template(name='profile_group_item')
-    a.ui.card(href="/group/#{_id}")
+template(name='profile_group_card')
+    a.card(href="/group/#{_id}")
         .image
             +image_view key='image_id' direct=true cl='zoom ui tiny image'
         .content

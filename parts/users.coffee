@@ -18,8 +18,8 @@ if Meteor.isClient
             username_query = Session.get('username_query')
             if username_query
                 match.username = {$regex:"#{username_query}", $options: 'i'}
-            if picked_tags.array().length > 0
-                match.tags = $all: picked_tags
+            if picked_user_tags.array().length > 0
+                match.tags = $all: picked_user_tags.array()
                 
             match._id = $ne:Meteor.userId()
             Meteor.users.find(match
