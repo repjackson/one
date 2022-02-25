@@ -5,7 +5,7 @@ template(name='groups')
                 +i name='groups'
                 |groups
             if currentUser
-                a.ui.icon.circular.button.add_group(title='cook')
+                a.ui.icon.circular.button.add_group(title='add')
                     i.plus.green.large.icon
             // .ui.left.icon.search.small.input
             //     i.search.icon.refresh_tags
@@ -50,8 +50,8 @@ template(name='groups')
 template(name='group_card')
     .ui.card
         if image_id
-            a.fly_right(href="/group/#{_id}")
-                img.ui.image(src="{{c.url image_id width=400 height=400}}")
+            a.image.fly_right(href="/group/#{_id}")
+                img.ui.image(src="{{c.url image_id width=600 height=600}}")
         .content
             a.ui.header.fly_right(href="/group/#{_id}")
                 |#{title}
@@ -89,7 +89,8 @@ template(name='group_edit')
                     +text_edit key='title' direct=true
                     +html_edit key='description' label='content' icon='content' direct=true
                 .column
-                    +single_user_edit key='leader_id' label='leader' icon='crown' direct=true
+                    // +single_user_edit key='leader_id' label='leader' icon='crown' direct=true
+                    +multi_user_edit key='leader_ids' label='leaders' icon='crown' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     +text_edit key='contact_info' label='contact info' icon='info' direct=true
@@ -136,24 +137,31 @@ template(name='group_view')
                     +html_view key='description' icon='content' label='description'
                     .ui.inline.header 
                         +i name='crown' cl='ui avatar image'
-                        |leader: 
-                    with group_leader 
+                        |leaders: 
+                    each leader_ids 
                         +user_info
                     // a.ui.button(href="/user/#{leader}")
                     //     |#{leader}
-                    .ui.header 
+                    with event_group
+                        a.ui.fluid.card.fly_up(href="/group/#{group_id}")
+                            img.ui.image(src="{{c.url image_id width=500 height=500}}")
+                            .content
+                                .ui.header group: #{title}
+                            
+                    div
+                    .ui.inline.header 
                         +i name='groups'
-                        |#{member_ids.count} members
-                    .ui.large.selection.animated.list
-                        each member_ids
-                            +user_info
+                        |#{member_ids.length} members
+                    each member_ids
+                        +user_info
+                    // .ui.large.selection.animated.list
                             // a.item(href="/group/#{_id}/#{username}")
                             //     img.ui.mini.image(src="{{c.url image_id width=200 height=200}}")
                             //     .content
                             //         .header
                             //             |#{username}
                     if currentUser
-                        +doc_array_togggle key='member_ids' value=currentUser._id add_label='join' remove_label='joined'
+                        +doc_array_togggle key='member_ids' value=currentUser._id add_label='join' remove_label='leave'
                     else 
                         a.ui.big.button(href="/login")
                             +i name='internal'

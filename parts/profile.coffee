@@ -42,7 +42,6 @@ if Meteor.isClient
                 sort: _timestamp:-1
                 limit: 10
 
-            Template.profile.helpers
         groups: ->
             current_user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find {

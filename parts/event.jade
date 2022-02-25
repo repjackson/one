@@ -57,7 +57,7 @@ template(name='events')
                 .ui.inline.header sort
                 +session_set key='sort_key' value='start_datetime' label='start time/date' icon='calendar'
                 +session_set key='sort_key' value='price' label='price' icon='money'
-                
+                .spacer
                 if session_is 'view_mode' 'grid'
                     if one_result
                         .ui.stackable.one.cards.scrolling
@@ -149,7 +149,8 @@ template(name='event_item')
     .ui.item
         .content
             if image_id
-                img.ui.tiny.inline.image(src="{{c.url image_id gravity='center' crop='fill'}}" class=currentUser.invert_class)
+                a.fly_right(href="/event/#{_id}")
+                    img.ui.small.inline.image.rounded(src="{{c.url image_id gravity='center' crop='fill'}}" class=currentUser.invert_class)
             a.ui.inline.header.fly_right(href="/event/#{_id}") #{title} 
             .ui.small.inline.header {{medium_date date}} 
                 if time 
@@ -419,6 +420,10 @@ template(name='event_view')
                     if can_edit
                         a.edit_event.fly_left(href="/event/#{_id}/edit" title='edit')
                             i.large.blue.link.pencil.circular.icon
+                    if link 
+                        a.ui.button(href=link target="_window")
+                            i.globe.icon 
+                            |#{link}
             .row 
                 .four.wide.column
                     if link 
@@ -451,9 +456,9 @@ template(name='event_view')
                         .ui.dividing.header 
                             i.chess.king.grey.icon
                             |host
-                        a.ui.header(href="/user/#{fac.username}") 
-                            img.ui.avatar.image(src="{{c.url fac.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                            |#{fac.name}
+                        a.ui.header(href="/user/#{host.username}") 
+                            img.ui.avatar.image(src="{{c.url host.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                            |#{host.name}
                     if support
                         .ui.dividing.header 
                             i.chess.queen.grey.icon

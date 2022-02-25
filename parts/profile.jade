@@ -87,24 +87,13 @@ template(name='profile')
                 .twelve.wide.column.scrolling
                     .ui.stackable.grid
                         // .spacer
-                        .sixteen.wide.column
+                        .eight.wide.column
                             a.ui.inline.header.zoomer(href="/groups")
                                 +icolor name='campfire'
                                 |groups
-                            .scrollin
-                                // if currentUser.admin_mode
-                                //     .ui.circular.button.add_group
-                                //         i.plus.icon
-                                //         |group
-                                .ui.doubling.cards
-                                    each groups
-                                        +profile_group_item
-                                
-                            // if is_current_user
-                            //     a.ui.circular.icon.button(href="/user/#{current_user.username}/edit/groups")
-                            //         i.pencil.icon
-                            .ui.header 
-                                i.king.icon
+                            .ui.header
+                                // i.king.icon
+                                +i name='king'
                                 |leader of
                             each user_leader_groups
                                 .ui.segment
@@ -112,28 +101,29 @@ template(name='profile')
                                     if is_current_user
                                         +enter_group
                             .ui.header 
-                                i.users.icon
+                                // i.users.icon
+                                +i name='groups'
                                 |member of
-                            each user_member_groups
-                                .ui.segment
-                                    a.ui.header(href="/m/group/#{_id}") #{title}
-                                    if is_current_user
-                                        +enter_group
+                            each groups
+                                +profile_group_item
                                     
                         .eight.wide.column
-                            // .medscroll
-                            //     each user_event_tickets
-                            //         .ui.card
-                            //             if ticket_event.image_id
-                            //                 a(href="/event/#{event_id}")
-                            //                     img.ui.fluid.zoom.image(src="{{c.url ticket_event.image_id height=200 width=200 crop='fit'}}" class=currentUser.invert_class)
-                            //             .content.zoom.pointer
-                            //                 a.header(href="/event/#{event_id}")
-                            //                     |#{ticket_event.title}
-                            //                 // |#{fac.shortname}
-                            //                 |#{description}
-                            //                 |{{med_date date}}
-                            //                 |{{long_time time}}
+                            .medscroll
+                                .ui.header 
+                                    +i name='ticket'
+                                    |tickets
+                                each user_event_tickets
+                                    .ui.card
+                                        if ticket_event.image_id
+                                            a(href="/event/#{event_id}")
+                                                img.ui.fluid.zoom.image(src="{{c.url ticket_event.image_id height=200 width=200 crop='fit'}}" class=currentUser.invert_class)
+                                        .content.zoom.pointer
+                                            a.header(href="/event/#{event_id}")
+                                                |#{ticket_event.title}
+                                            // |#{fac.shortname}
+                                            |#{description}
+                                            |{{med_date date}}
+                                            |{{long_time time}}
                             |!{description}
                         .eight.wide.column
                             .ui.header 

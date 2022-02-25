@@ -99,12 +99,21 @@ template(name='comments')
                     .ui.header #{body}
                     .meta #{when}
                         |by 
-                        // a(href="/user/#{author.username}") #{author.first_name} #{author.last_name}
-                        // if currentUser
-                            // +voting_small
-                            // if can_edit
-                            //     +remove_button
+                        if anon 
+                            .ui.label 
+                                i.anonymous.icon
+                                |anon
+                        else
+                            a(href="/user/#{_author.username}") #{_author.name}
+                        if currentUser
+                            +voting_small
+                            
+                        if can_edit
+                            +remove_button
+                            +boolean_edit key='anon' icon='anonymous' label='anon' direct=true
                                 
+                            
+                            
                                 
 template(name='reviews')
     .ui.header
@@ -145,8 +154,8 @@ template(name='viewing')
 
 template(name='user_info')
     with user_from_id this
-        a.ui.large.link.label(href="/user/#{username}")
-            img.ui.avatar.inline.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+        a.ui.big.link.image.zoomer.label(href="/user/#{username}")
+            img.ui.inline.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
             |#{username}
     // .ui.header #{this}
 
@@ -165,7 +174,7 @@ template(name='session_boolean_toggle')
 template(name='session_set')
     .ui.compact.button.set_session_value(class=calculated_class)
         if icon
-            +i name=icon cl='ui mini centered image'
+            +i name=icon cl='ui mini inline image'
         // if icon_view 
         //     i.icon(class=icon)
         // else 

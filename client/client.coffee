@@ -49,15 +49,16 @@ $.cloudinary.config
 
 Template.body.events
     'click .fly_right': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly right', 500)
-    # 'click .fly_right': (e,t)-> $(e.currentTarget).closest('.grid').transition('drop', 500)
+    'click .fly_up': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly up', 500)
+    'click .fly_down': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly down', 500)
     'click .fly_left': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly left', 500)
     # 'click .button': ->
     #     $(e.currentTarget).closest('.button').transition('bounce', 1000)
 
-    # 'click a(not:': ->
-    #     $('.global_container')
-    #     .transition('fade out', 200)
-    #     .transition('fade in', 200)
+    'click a': ->
+        $('.global_container')
+        .transition('fade out', 200)
+        .transition('fade in', 200)
 
     'click .log_view': ->
         # console.log Template.currentData()

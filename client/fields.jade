@@ -690,23 +690,23 @@ template(name='skvs')
 template(name='boolean_edit')
     //- div
     .ui.compact.button.toggle_boolean(class="#{boolean_toggle_class} #{cl}" title=tooltip)
+        if icon
+            +i name=icon cl='ui inline image'
         if field_value
             i.green.checkmark.icon
         else
             i.circle.outline.icon
         //- .ui.compact.button.toggle_boolean(class=boolean_toggle_class)
-        if icon
-            +i name=icon
-        .inline
-            //- if field_value
-            //-     i.checkmark.icon
-            if label
-                |#{label}
-            else if key
-                |#{key}
-            else
-                |#{this}
-        div
+        // .inline
+        //- if field_value
+        //-     i.checkmark.icon
+        if label
+            |#{label}
+        else if key
+            |#{key}
+        else
+            |#{this}
+        // div
         //- 
         //- if field_value
         //-     if true_icon
@@ -1028,8 +1028,8 @@ template(name='multi_user_edit')
     div
     .ui.inline.header
         if icon
-            i.icon(class=icon)
-            //- +i name=icon
+            +i name=icon
+            // i.icon(class=icon)
         if title
             |#{title}
         else if label
@@ -1054,7 +1054,7 @@ template(name='multi_user_edit')
                             small @#{username}
     +clear_value                
     each field_value
-        |#{this}
+        // |#{this}
         with user_from_id this
             div
             .ui.inline.header

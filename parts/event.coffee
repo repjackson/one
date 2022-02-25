@@ -177,28 +177,17 @@ if Meteor.isClient
             if picked_tags.array().length > 0
                 match.tags = $all: picked_tags
             
-            # date:$lt:moment().subtract(1,'days').format("YYYY-MM-DD")
-            # if Session.get('viewing_past')
-            # date:$gt:moment().subtract(1,'days').format("YYYY-MM-DD")
+            if Session.get('viewing_past')
+                match.date = $gt:moment().subtract(1,'days').format("YYYY-MM-DD")
+            # else
+            #     match.date = $lt:moment().subtract(1,'days').format("YYYY-MM-DD")
             if Session.get('current_query')
                 match.title = {$regex:"#{Session.get('current_query')}", $options: 'i'}
-                
                 Docs.find match,
                 sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
             else
                 Docs.find match,
                 sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
-    
-    
-        can_add_event: ->
-            facilitator_badge = 
-                Docs.findOne    
-                    model:'badge'
-                    slug:'facilitator'
-            if facilitator_badge
-                Meteor.userId() in facilitator_badge.badger_ids
-            
-    
     
 
 if Meteor.isServer

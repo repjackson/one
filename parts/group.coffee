@@ -446,49 +446,9 @@ if Meteor.isServer
 
 if Meteor.isClient
     Template.group_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
     Template.group_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
-    Template.group_history.onCreated ->
-        @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
-    Template.group_history.helpers
-        group_events: ->
-            Docs.find
-                model:'log_event'
-                parent_id:Router.current().params.doc_id
-
-
-    Template.group_subscription.onCreated ->
-        # @autorun => Meteor.subscribe 'children', 'log_event', Router.current().params.doc_id
-    Template.group_subscription.events
-        'click .subscribe': ->
-            Docs.insert
-                model:'log_event'
-                log_type:'subscribe'
-                parent_id:Router.current().params.doc_id
-                text: "#{Meteor.user().username} subscribed to group order."
-
-
-    Template.group_reservations.onCreated ->
-        @autorun => Meteor.subscribe 'group_reservations', Router.current().params.doc_id
-    Template.group_reservations.helpers
-        reservations: ->
-            Docs.find
-                model:'reservation'
-                group_id: Router.current().params.doc_id
-    Template.group_reservations.events
-        'click .new_reservation': ->
-            Docs.insert
-                model:'reservation'
-                group_id: Router.current().params.doc_id
-
-
-if Meteor.isServer
-    Meteor.publish 'group_reservations', (group_id)->
-        Docs.find
-            model:'reservation'
-            group_id: group_id
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
 
 
 

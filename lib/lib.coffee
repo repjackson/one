@@ -82,7 +82,7 @@ if Meteor.isServer
 
 
 Docs.helpers
-    # author: -> Meteor.users.findOne @_author_id
+    _author: -> Meteor.users.findOne @_author_id
     # cook: -> Meteor.users.findOne @cook_user_id
     source_products: ->
         Docs.find
