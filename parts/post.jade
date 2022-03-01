@@ -4,9 +4,16 @@ template(name='posts')
             .ui.inline.header 
                 +i name='blog'
                 |posts
-                // if currentUser
-                .ui.icon.button.add_post
-                    i.plus.large.icon
+                if currentUser
+                    .ui.icon.button.add_post
+                        i.plus.large.icon
+            .ui.compact.button.toggle_yours
+                if viewing_yours
+                    i.undo.green.icon
+                else
+                    i.circle.outline.icon
+                |yours
+
             each picked_tags
                 a.ui.blue.button.unpick_post_tag
                     |#{this}
@@ -120,30 +127,29 @@ template(name='post_view')
         .ui.stackable.padded.grid
             .row 
                 .four.wide.column
-                    a.ui.circular.icon.button(href="/posts")
-                        i.newspaper.big.icon
-                    // div
-                    // .ui.inline.grey.header {{from_now start_datetime}}
+                    a.ui.circular.icon.button(href="/posts" title='posts')
+                        i.chevron.left.icon
+                        +i name='post'
+                    div
+                    .ui.inline.grey.header {{from_now start_datetime}}
                     
                     if can_edit
                         a.ui.circular.icon.button.edit_post(href="/post/#{_id}/edit" title='edit')
-                            i.big.link.pencil.icon
+                            +i name='pencil'
                     .ui.segment
                         .ui.header 
                             small author
                         a.ui.header(href="/user/#{_author.username}") 
                             img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{_author.username}
-                    .ui.small.grey.header 
-                        i.line.chart.icon
-                        |stats
                     .ui.list
                         .item #{views} views
                     each viewers
                         .ui.label #{username
                     +array_view key='tags' label='tags' direct=true
                     +voting_full
-                    //- +array_view key='location_tags' label='location_tags' direct=true
+                    +array_view key='location_tags' label='location_tags' direct=true
+                    +visibility_settings
                 .twelve.wide.column.scrolling
                     .ui.header #{title}
                     img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
@@ -159,6 +165,23 @@ template(name='post_view')
                     //- .ui.fluid.green.button.submit
                     //-     i.checkmark.icon
                     //-     |submit
+
+
+
+template(name='visibility_settings')
+    .ui.header 
+        i.eye.icon
+        |visibility settings
+    if private 
+        .ui.header 
+            i.lock.icon
+            |private
+    if friends_only
+        .ui.header 
+            +i name='friends'
+            |friends only
+
+
 template(name='post_edit')
     with current_doc
         .ui.stackable.padded.grid
