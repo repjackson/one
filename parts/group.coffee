@@ -478,30 +478,30 @@ if Meteor.isServer
 
 
 if Meteor.isServer
-    Meteor.publish 'members', (tribe_id)->
+    Meteor.publish 'members', (group_id)->
         Meteor.users.find
-            _id:$in:@member_ids
+            _id:$in:@group_member_ids
 
-    Meteor.publish 'tribe_by_slug', (tribe_slug)->
+    Meteor.publish 'group_by_slug', (group_slug)->
         Docs.find
-            model:'tribe'
-            slug:tribe_slug
+            model:'group'
+            slug:group_slug
     Meteor.methods
-        calc_tribe_stats: (tribe_slug)->
-            tribe = Docs.findOne
-                model:'tribe'
-                slug: tribe_slug
+        calc_group_stats: (group_slug)->
+            group = Docs.findOne
+                model:'group'
+                slug: group_slug
 
             member_count =
-                tribe.member_ids.length
+                group.group_member_ids.length
 
-            tribe_members =
+            group_members =
                 Meteor.users.find
-                    _id: $in: tribe.member_ids
+                    _id: $in: group.group_member_ids
 
             dish_count = 0
             dish_ids = []
-            for member in tribe_members.fetch()
+            for member in group_members.fetch()
                 member_dishes =
                     Docs.find(
                         model:'dish'
@@ -514,37 +514,37 @@ if Meteor.isServer
             # dish_count =
             #     Docs.find(
             #         model:'dish'
-            #         tribe_id:tribe._id
+            #         group_id:group._id
             #     ).count()
-            tribe_count =
+            group_count =
                 Docs.find(
-                    model:'tribe'
-                    tribe_id:tribe._id
+                    model:'group'
+                    group_id:group._id
                 ).count()
 
             order_cursor =
                 Docs.find(
                     model:'order'
-                    tribe_id:tribe._id
+                    group_id:group._id
                 )
             order_count = order_cursor.count()
             total_credit_exchanged = 0
             for order in order_cursor.fetch()
                 if order.order_price
                     total_credit_exchanged += order.order_price
-            tribe_tribes =
+            group_groups =
                 Docs.find(
-                    model:'tribe'
-                    tribe_id:tribe._id
+                    model:'group'
+                    group_id:group._id
                 ).fetch()
 
             console.log 'total_credit_exchanged', total_credit_exchanged
 
 
-            Docs.update tribe._id,
+            Docs.update group._id,
                 $set:
                     member_count:member_count
-                    tribe_count:tribe_count
+                    group_count:group_count
                     dish_count:dish_count
                     total_credit_exchanged:total_credit_exchanged
                     dish_ids:dish_ids

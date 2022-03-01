@@ -97,7 +97,7 @@ template(name='profile')
                                         a.ui.header(href="/m/group/#{_id}") #{title}
                                         if is_current_user
                                             +enter_group
-                            if groups.length
+                            if user_member_groups.length
                                 .ui.header 
                                     // i.users.icon
                                     +i name='groups'

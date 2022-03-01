@@ -106,18 +106,27 @@ template(name='shortcut_modal')
 
 template(name='footer')
     .ui.divider
-    .ui.padded.grid 
+    .ui.padded.inverted.grid.segment
         .two.column.row
             .column
-                .ui.header 
+                .ui.inverted.large.header 
                     i.shield.icon
                     |footer 
+                with currentUser
+                    +boolean_edit key='admin_mode' label='admin mode' direct=true
+                .ui.inverted.header 
+                    i.users.icon
+                    |users 
                 .ui.list
                     each user_docs 
                         .item #{username}
             .column
-                .ui.header 
+                .ui.inverted.header 
+                    i.blog.icon
                     |docs 
-                .ui.list
+                .ui.animated.large.link.inverted.list.smallscroll
                     each doc_docs
-                        .item #{title} #{model}
+                        a.zoomer.item(href="/#{model}/#{_id}")
+                            img.ui.avatar.image(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
+                            |#{title} 
+                            .ui.label #{model}

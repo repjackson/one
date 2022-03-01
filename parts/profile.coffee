@@ -43,14 +43,6 @@ if Meteor.isClient
                 sort: _timestamp:-1
                 limit: 10
 
-        groups: ->
-            current_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.find {
-                model:'order'
-                _author_id: current_user._id
-                # recipient: target_user._id
-            },
-                sort:_timestamp:-1
 
         user_member_groups: ->
             user = Meteor.users.findOne username:@username
