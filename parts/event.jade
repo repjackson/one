@@ -455,18 +455,17 @@ template(name='event_view')
                     //     .ui.inline.header.pointer.zoom
                     //         |#{event_room.title}
                     // if is_admin
-                    .ui.segment
-                        .ui.header 
-                            i.shield.icon
-                            | author
-                        a.ui.header(href="/user/#{_author.username}") 
-                            img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-                            |#{_author.name}
+                    .ui.dividing.header 
+                        i.shield.icon
+                        | author
+                    a.ui.header.zoomer(href="/user/#{_author.username}") 
+                        img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                        |#{_author.name}
                     if host
                         .ui.dividing.header 
                             i.chess.king.grey.icon
                             |host
-                        a.ui.header(href="/user/#{host.username}") 
+                        a.ui.header.zoomer(href="/user/#{host.username}") 
                             img.ui.avatar.image(src="{{c.url host.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{host.name}
                     if support
