@@ -23,7 +23,7 @@ template(name='groups')
             span.sorting_row
                 .ui.icon.input
                     i.search.icon
-                    input.group_search(type='text' placeholder='search...')
+                    input.search_group(type='text' placeholder='search...')
                 |sort by
                 .ui.compact.small.menu
                     .ui.simple.dropdown.item
@@ -42,7 +42,7 @@ template(name='groups')
                 |&nbsp;
                 |&nbsp;
         .sixteen.wide.column
-            .ui.stackable.cards.scrollin
+            .ui.stackable.centered.cards.scrollin
                 each group_docs
                     +group_card
 

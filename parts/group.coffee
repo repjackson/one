@@ -11,12 +11,15 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_leaders', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_events', Router.current().params.doc_id, ->
+    Template.group_view.onRendered ->
+        Meteor.call 'log_view', Router.current().params.doc_id, ->
+    
     Template.group_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
 
 
     Template.groups_small.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'group', ->
+        @autorun => Meteor.subscribe 'model_docs', 'group', Sesion.get('group_search'),->
     Template.groups_small.helpers
         group_docs: ->
             Docs.find   
@@ -122,6 +125,7 @@ if Meteor.isClient
 
         @autorun => @subscribe 'group_results',
             picked_tags.array()
+            Session.get('group_title_search')
             Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
@@ -136,19 +140,19 @@ if Meteor.isClient
                 Docs.insert
                     model:'group'
             Router.go("/group/#{new_id}/edit")
-        'keyup .search_event': _.throttle((e,t)->
-            query = $('.search_event').val()
-            Session.set('current_query', query)
+        'keyup .search_group': _.throttle((e,t)->
+            query = $('.search_group').val()
+            Session.set('group_title_search', query)
             
-            console.log Session.get('current_query')
+            console.log Session.get('group_title_search')
             if e.which is 13
-                search = $('.search_event').val().trim().toLowerCase()
+                search = $('.search_group').val().trim().toLowerCase()
                 if search.length > 0
                     picked_tags.push search
                     console.log 'search', search
                     # Meteor.call 'log_term', search, ->
-                    $('.search_event').val('')
-                    Session.set('current_query', null)
+                    $('.search_group').val('')
+                    Session.set('group_title_search', null)
                     # # $( "p" ).blur();
                     # Meteor.setTimeout ->
                     #     Session.set('dummy', !Session.get('dummy'))
@@ -287,6 +291,7 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'group_results', (
         picked_tags
+        title_search=''
         doc_limit
         doc_sort_key
         doc_sort_direction
@@ -295,16 +300,19 @@ if Meteor.isServer
         view_open
         )->
         # console.log picked_tags
+        match = {model:'group'}
         if doc_limit
             limit = doc_limit
         else
             limit = 42
+        if title_search.length > 0
+            match.title = {$regex:"#{title_search}", $options: 'i'}
+
         if doc_sort_key
             sort_key = doc_sort_key
         if doc_sort_direction
             sort_direction = parseInt(doc_sort_direction)
         self = @
-        match = {model:'group'}
         # if view_open
         #     match.open = $ne:false
         # if view_delivery
@@ -452,7 +460,6 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-
     Meteor.methods
         calc_group_stats: ->
             group_stat_doc = Docs.findOne(model:'group_stats')
