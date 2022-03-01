@@ -3,6 +3,7 @@ template(name='groups')
         .sixteen.wide.column
             .ui.inline.header 
                 +i name='groups'
+                |#{group_docs.count}
                 |groups
             if currentUser
                 a.ui.icon.circular.button.add_group(title='add')

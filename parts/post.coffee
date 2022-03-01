@@ -21,6 +21,8 @@ if Meteor.isClient
     Template.registerHelper 'completer', () ->
         Meteor.users.findOne @completed_by_user_id
     
+    Template.posts.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'post', ->
     Template.post_view.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.post_edit.onCreated ->
@@ -29,6 +31,16 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
 
 
+    Template.posts.helpers
+        post_docs: ->
+            Docs.find 
+                model:'post'
+    Template.posts.events
+        'click .add_post': ->
+            new_id = 
+                Docs.insert 
+                    model:'post'
+            Router.go "/post/#{new_id}/edit"
     Template.post_card.events
         'click .view_post': ->
             Router.go "/post/#{@_id}"

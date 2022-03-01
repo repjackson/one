@@ -133,16 +133,6 @@ template(name='profile')
                             .ui.header 
                                 +i name='calendar'
                                 |user events
-                            each user_events
-                                .ui.card
-                                    .ui.small.header #{date} #{start_time}
-                                    div
-                                    +user_list_toggle key='read_by_ids' label='mark read' icon='eye'
-                                    if can_edit
-                                        +remove_button
-                                    //- div
-                                    +author_info
-                                    +creation_info
                             if user_hosted_events.count
                                 .ui.header.pointer
                                     i.chess.king.icon
@@ -150,12 +140,7 @@ template(name='profile')
                                     |hosted
                                 .ui.large.link.animated.list
                                     each user_hosted_events
-                                        a.item(href="/event/#{_id}")
-                                            .content
-                                                .ui.inline.header #{title} 
-                                                .ui.small.inline.header #{date} #{start_time}
-                                                +author_info
-                                                +creation_info
+                                        +event_item_small
                             .ui.grid
                                 .sixteen.wide.column
                                     .content
@@ -165,11 +150,7 @@ template(name='profile')
                                             |maybe
                                         // if session_is 'view_maybe'
                                         each user_maybe_events
-                                            .ui.card
-                                                a.ui.inline.header(href="/event/#{_id}") #{title} 
-                                                .ui.small.inline.header #{date} #{start_time}
-                                                +author_info
-                                                +creation_info
+                                            +event_item_small
                                 .sixteen.wide.column
                                     .content
                                         .ui.header.pointer
@@ -177,11 +158,7 @@ template(name='profile')
                                             |went
                                         // if session_is 'view_maybe'
                                         each user_went_events
-                                            .ui.segment
-                                                a.ui.inline.header(href="/event/#{_id}") #{title} 
-                                                .ui.small.inline.header #{date} #{start_time}
-                                                +author_info
-                                                +creation_info
+                                            +event_item_small
                                 .sixteen.wide.column
                                     .ui.segment
                                         .ui.header.pointer
@@ -191,17 +168,7 @@ template(name='profile')
                                         // if session_is 'view_maybe'
                                         .ui.large.link.animated.list
                                             each user_going_events
-                                                a.ui.item(href="/event/#{_id}")
-                                                    img.ui.avatar.image(src="{{c.url image_id height=400 width=400 crop='fit'}}" class=currentUser.invert_class)
-                                                    .content
-                                                        .header #{title} 
-                                                        .description
-                                                            |#{date} #{start_time}
-                                                            if start_datetime
-                                                                |{{med_date start_datetime}}
-                                                                |{{from_now start_datetime}}
-                                                            // +author_info
-                                                            // +creation_info
+                                                +event_item_small
                                 .ui.card
                                     .content
                                         .ui.header 
@@ -229,5 +196,15 @@ template(name='profile_group_card')
             .ui.header #{title}
                        
                                 
-                               
-           
+template(name='event_item_small')
+    a.ui.item(href="/event/#{_id}")
+        img.ui.avatar.image(src="{{c.url image_id height=400 width=400 crop='fit'}}" class=currentUser.invert_class)
+        .content
+            .header #{title} 
+            .description
+                |#{date} #{start_time}
+                if start_datetime
+                    |{{med_date start_datetime}}
+                    |{{from_now start_datetime}}
+                // +author_info
+                // +creation_info

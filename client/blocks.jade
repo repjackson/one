@@ -139,7 +139,7 @@ template(name='reviews')
 
 template(name='viewing')
     div
-    .ui.header #{views}
+    .ui.inline.header #{views} views
     if currentUser
         unless viewed_by
             .ui.icon.button.mark_read
