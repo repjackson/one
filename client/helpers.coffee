@@ -350,6 +350,7 @@ Template.registerHelper 'order_product', ->
         model:'product'
         _id:@product_id
 Template.registerHelper 'event_groups', ->
+    console.log @
     Docs.find
         model:'group'
         _id:$in:@group_ids

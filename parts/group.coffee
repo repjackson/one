@@ -28,7 +28,7 @@ if Meteor.isClient
         group_events: ->
             Docs.find 
                 model:'event'
-                group_id:Router.current().params.doc_id
+                group_ids:$in:[Router.current().params.doc_id]
         # current_group: ->
         #     Docs.findOne
         #         model:'group'
@@ -69,7 +69,7 @@ if Meteor.isServer
         #     _id:doc_id
         Docs.find
             model:'event'
-            group_id: doc_id
+            group_ids:$in: [doc_id]
 
 
     Meteor.publish 'group_leader', (doc_id)->

@@ -440,8 +440,8 @@ template(name='event_view')
                 .four.wide.column
                     if group_ids.length
                         .ui.header associated groups
-                        with event_groups
-                            a.ui.card(href="/group/#{_id}")
+                        each event_groups
+                            a.ui.card.fly_right(href="/group/#{_id}")
                                 .content
                                     img.ui.image(src="{{c.url image_id width=500 height=500}}")
                                     .ui.header 
