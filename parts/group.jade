@@ -181,12 +181,12 @@ template(name='group_view')
                     //     // .item #{total_credit_exchanged} credits exchanged
                     +comments
                 .column
-                    .ui.header
+                    .ui.inline.header
                         +i name='calendar' 
                         |events
-                    if currentUser 
-                        .ui.button.add_group_event
-                            |add event
+                        if currentUser 
+                            .ui.icon.button.add_group_event(title='add group event')
+                                i.plus.icon
                     .ui.link.animated.list
                         each group_events
                             a.item(href="/event/#{_id}") 

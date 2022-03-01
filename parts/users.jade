@@ -9,6 +9,11 @@ template(name='users')
                 .ui.icon.button.add_user
                     i.plus.large.icon
             div
+            if currentUser
+                a.ui.button.toggle_friends(class=toggle_friends_class)
+                    +i name='friends'
+                    |friends
+                
             +i name='campfire'
             if picked_user_groups
                 #clear_groups.ui.primary.icon.compact.button
@@ -78,7 +83,7 @@ template(name='user_cloud')
 template(name='user_card')
     a.card.zoomer.fly_left(href="/user/#{username}")
         unless avatar_image_id
-            img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill'}}")    
+            img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
         // if avatar_image_id
         //     .ui.fade.reveal.image
         //         .visible.content

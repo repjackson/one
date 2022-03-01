@@ -2,11 +2,17 @@ if Meteor.isClient
     Router.route '/users', -> @render 'users'
 
     Template.users.onCreated ->
+        Session.set('view_friends', false)
         # @autorun -> Meteor.subscribe('users')
         Session.setDefault('view_mode','grid')
-        @autorun => Meteor.subscribe 'search_user', Session.get('username_query'), picked_user_tags.array(), ->
+        @autorun => Meteor.subscribe 'search_user', 
+            Session.get('username_query')
+            picked_user_tags.array()
+            Session.get('view_friends')
+            ->
         @autorun => Meteor.subscribe 'user_tags', picked_user_tags.array(), ->
     Template.users.helpers
+        toggle_friends_class: -> if Session.get('view_friends',true) then 'blue large' else ''
         picked_user_tags: -> picked_user_tags.array()
         all_user_tags: -> Results.find model:'user_tag'
         one_result: ->
@@ -27,6 +33,7 @@ if Meteor.isClient
             ,{ limit:20 }).fetch()
 
     Template.users.events
+        'click .toggle_friends': -> Session.set('view_friends', !Session.get('view_friends'))
         'click .pick_user_tag': -> picked_user_tags.push @name
         'click .unpick_user_tag': -> picked_user_tags.remove @valueOf()
         'click .add_user': ->
@@ -112,8 +119,10 @@ if Meteor.isServer
             limit: limit
 
 
-    Meteor.publish 'search_user', (username, picked_user_tags)->
+    Meteor.publish 'search_user', (username, picked_user_tags, view_friends)->
         match = {}
+        if view_friends
+            match._id = $in: Meteor.user().friend_ids
         if picked_user_tags.length > 0 then match.tags = $all:picked_user_tags 
         if username
             match.username = {$regex:"#{username}", $options: 'i'}

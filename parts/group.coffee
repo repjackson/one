@@ -41,7 +41,7 @@ if Meteor.isClient
             new_id = 
                 Docs.insert 
                     model:'event'
-                    group_id:Router.current().params.doc_id
+                    group_ids:[Router.current().params.doc_id]
             Router.go "/event/#{new_id}/edit"
         # 'click .join': ->
         #     Docs.update

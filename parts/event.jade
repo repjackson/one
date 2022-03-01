@@ -439,11 +439,13 @@ template(name='event_view')
                     // .spacer
                 .four.wide.column
                     if group_ids.length
-                        .ui.header associated groups
+                        .ui.header 
+                            +i name='campfire'
+                            |associated groups
                         each event_groups
                             a.ui.card.fly_right(href="/group/#{_id}")
+                                img.ui.image(src="{{c.url image_id width=500 height=500}}")
                                 .content
-                                    img.ui.image(src="{{c.url image_id width=500 height=500}}")
                                     .ui.header 
                                         |#{title}
 
@@ -557,8 +559,13 @@ template(name='event_edit')
                     unless is_repeating 
                         +datetime_edit key='start_datetime' label='start datetime' direct=true
                         +datetime_edit key='end_datetime' label='end datetime' direct=true
-                    +single_user_edit key='host_id' label='host' icon='shield' direct=true
-                    +single_user_edit key='support_id' label='support' icon='chess queen' direct=true
+                    
+                    +boolean_edit key='has_host' label='has host' icon='king' direct=true
+                    if has_host
+                        +single_user_edit key='host_id' label='host' icon='shield' direct=true
+                    +boolean_edit key='has_support' label='has support' icon='king' direct=true
+                    if has_support
+                        +single_user_edit key='support_id' label='support' icon='chess queen' direct=true
                     div 
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     .ui.segment

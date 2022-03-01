@@ -146,12 +146,13 @@ template(name='profile')
                             if user_hosted_events.count
                                 .ui.header.pointer
                                     i.chess.king.icon
+                                    |#{user_hosted_events.count}
                                     |hosted
-                                .ui.cards
+                                .ui.large.link.animated.list
                                     each user_hosted_events
-                                        .ui.card
+                                        a.item(href="/event/#{_id}")
                                             .content
-                                                a.ui.inline.header(href="/event/#{_id}") #{title} 
+                                                .ui.inline.header #{title} 
                                                 .ui.small.inline.header #{date} #{start_time}
                                                 +author_info
                                                 +creation_info
@@ -160,6 +161,7 @@ template(name='profile')
                                     .content
                                         .ui.header.pointer.toggle_maybe
                                             i.question.orange.icon
+                                            |#{user_maybe_events.count}
                                             |maybe
                                         // if session_is 'view_maybe'
                                         each user_maybe_events
@@ -184,6 +186,7 @@ template(name='profile')
                                     .ui.segment
                                         .ui.header.pointer
                                             i.green.checkmark.icon
+                                            |#{user_going_events.count}
                                             |going
                                         // if session_is 'view_maybe'
                                         .ui.large.link.animated.list
