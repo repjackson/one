@@ -11,9 +11,10 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'my_cart_products'
 
     Template.nav.onRendered ->
-        # Meteor.setTimeout ->
-        #     $('.menu .item')
-        #         .popup()
+        Meteor.setTimeout ->
+            $('.menu .item')
+                .popup()
+        , 2000
         #     $('.ui.left.sidebar')
         #         .sidebar({
         #             context: $('.bottom.segment')
@@ -24,7 +25,6 @@ if Meteor.isClient
         #             scrollLock:true
         #         })
         #         .sidebar('attach events', '.toggle_leftbar')
-        # , 2000
         # Meteor.setTimeout ->
         #     $('.ui.rightbar')
         #         .sidebar({

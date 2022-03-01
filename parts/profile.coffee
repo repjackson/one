@@ -11,8 +11,10 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_member_groups', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_leader_groups', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_hosted_events', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_going_events', Router.current().params.username, ->
         # @autorun => Meteor.subscribe 'profile', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'order'
+        @autorun => Meteor.subscribe 'user_groups', Router.current().params.username, ->
 
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
         # @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username, ->
@@ -62,23 +64,15 @@ if Meteor.isClient
 
         user_going_events: ->
             user = Meteor.users.findOne username:@username
-            Docs.find
+            Docs.find {
                 model:'event'
                 going_user_ids:$in:[user._id]
+            }, sort:start_datetime:-1
         user_hosted_events: ->
             user = Meteor.users.findOne username:@username
             Docs.find
                 model:'event'
                 host_id:user._id
-    Template.profile.onCreated ->
-        @autorun => Meteor.subscribe 'user_groups', Router.current().params.username
-    Template.profile.helpers
-        groups: ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
-            Docs.find {
-                model:'group'
-                _author_id: current_user._id
-            }, sort:_timestamp:-1
 
 if Meteor.isServer 
     Meteor.publish 'user_bookmark_docs', ->
@@ -203,7 +197,7 @@ if Meteor.isServer
             model:'group'
             group_leader_ids:$in:[user._id]
             
-    Meteor.publish 'user_event_going', (username)->
+    Meteor.publish 'user_going_events', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
             model:'event'

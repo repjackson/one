@@ -155,8 +155,8 @@ template(name='profile')
                                                 .ui.small.inline.header #{date} #{start_time}
                                                 +author_info
                                                 +creation_info
-                            .ui.cards
-                                .ui.card
+                            .ui.grid
+                                .sixteen.wide.column
                                     .content
                                         .ui.header.pointer.toggle_maybe
                                             i.question.orange.icon
@@ -168,7 +168,7 @@ template(name='profile')
                                                 .ui.small.inline.header #{date} #{start_time}
                                                 +author_info
                                                 +creation_info
-                                .ui.card
+                                .sixteen.wide.column
                                     .content
                                         .ui.header.pointer
                                             i.checkmark.icon
@@ -180,18 +180,25 @@ template(name='profile')
                                                 .ui.small.inline.header #{date} #{start_time}
                                                 +author_info
                                                 +creation_info
-                                .ui.card
-                                    .content
+                                .sixteen.wide.column
+                                    .ui.segment
                                         .ui.header.pointer
                                             i.green.checkmark.icon
                                             |going
                                         // if session_is 'view_maybe'
-                                        each user_going_events
-                                            .ui.card
-                                                a.ui.inline.header(href="/event/#{_id}") #{title} 
-                                                .ui.small.inline.header #{date} #{start_time}
-                                                +author_info
-                                                +creation_info
+                                        .ui.large.link.animated.list
+                                            each user_going_events
+                                                a.ui.item(href="/event/#{_id}")
+                                                    img.ui.avatar.image(src="{{c.url image_id height=400 width=400 crop='fit'}}" class=currentUser.invert_class)
+                                                    .content
+                                                        .header #{title} 
+                                                        .description
+                                                            |#{date} #{start_time}
+                                                            if start_datetime
+                                                                |{{med_date start_datetime}}
+                                                                |{{from_now start_datetime}}
+                                                            // +author_info
+                                                            // +creation_info
                                 .ui.card
                                     .content
                                         .ui.header 
