@@ -8,7 +8,7 @@ if Meteor.isClient
     Template.message_edit.onCreated ->
         @autorun => Meteor.subscribe 'recipient_from_message_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
 
 
     Template.message_edit.helpers
@@ -93,7 +93,7 @@ if Meteor.isClient
 
 if Meteor.isClient
     Template.message_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'recipient_from_message_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
     Template.message_edit.onRendered ->

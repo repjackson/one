@@ -438,6 +438,15 @@ template(name='event_view')
                     // .spacer
                     // .spacer
                 .four.wide.column
+                    if group_ids.length
+                        .ui.header associated groups
+                        with event_groups
+                            a.ui.card(href="/group/#{_id}")
+                                .content
+                                    img.ui.image(src="{{c.url image_id width=500 height=500}}")
+                                    .ui.header 
+                                        |#{title}
+
                     if link 
                         a.ui.big.black.basic.fluid.button(href=link target='_window' title=link)
                             i.external.icon
@@ -576,3 +585,5 @@ template(name='event_edit')
                             // div
                     +html_edit key='description' label='description' direct=true
                     +link_edit key='link' label='link'
+                    +group_picker
+                    

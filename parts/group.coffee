@@ -4,10 +4,19 @@ Router.route '/group/:doc_id', (->
     ), name:'group_view'
 
 
-
 if Meteor.isClient
+    Template.group_view.onCreated ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
+        # @autorun => Meteor.subscribe 'children', 'group_update', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'group_leaders', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'group_events', Router.current().params.doc_id, ->
+    Template.group_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
+
+
     Template.groups_small.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'group', 
+        @autorun => Meteor.subscribe 'model_docs', 'group', ->
     Template.groups_small.helpers
         group_docs: ->
             Docs.find   
@@ -15,13 +24,11 @@ if Meteor.isClient
                 
                 
                 
-    Template.group_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-        # @autorun => Meteor.subscribe 'children', 'group_update', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'members', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'group_leader', Router.current().params.doc_id, ->
-        # @autorun => Meteor.subscribe 'group_dishes', Router.current().params.doc_id, ->
     Template.group_view.helpers
+        group_events: ->
+            Docs.find 
+                model:'event'
+                group_id:Router.current().params.doc_id
         # current_group: ->
         #     Docs.findOne
         #         model:'group'
@@ -56,13 +63,13 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'group_dishes', (doc_id)->
-        group = Docs.findOne
-            model:'group'
-            slug:doc_id
+    Meteor.publish 'group_events', (doc_id)->
+        # group = Docs.findOne
+        #     model:'group'
+        #     _id:doc_id
         Docs.find
-            model:'dish'
-            _id: $in: group.dish_ids
+            model:'event'
+            group_id: doc_id
 
 
     Meteor.publish 'group_leader', (doc_id)->
@@ -77,7 +84,7 @@ Router.route '/group/:doc_id/edit', -> @render 'group_edit'
 
 if Meteor.isClient
     Template.group_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'group_options', Router.current().params.doc_id
     Template.group_edit.events
         'click .add_option': ->
@@ -445,12 +452,6 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-    Template.group_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
-    Template.group_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
-
-
 
     Meteor.methods
         calc_group_stats: ->

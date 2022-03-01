@@ -349,10 +349,10 @@ Template.registerHelper 'order_product', ->
     Docs.findOne 
         model:'product'
         _id:@product_id
-Template.registerHelper 'event_group', ->
-    Docs.findOne 
+Template.registerHelper 'event_groups', ->
+    Docs.find
         model:'group'
-        _id:@group_id
+        _id:$in:@group_ids
 # Template.body.events
 #     'click .toggle_leftbar': -> $('.ui.sidebar').sidebar('toggle')
 

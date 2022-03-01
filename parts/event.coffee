@@ -9,14 +9,37 @@ if Meteor.isClient
         @render 'events'
         ), name:'events'
         
+    Template.events.onCreated ->
+        # @autorun => Meteor.subscribe 'model_docs', 'event', ->
+        # @autorun => Meteor.subscribe 'event_tags',picked_tags.array(), ->
+        Session.setDefault('current_query',null)
+        Session.setDefault('view_mode','grid')
+
+        @autorun => @subscribe 'event_facets',
+            picked_tags.array()
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('view_delivery')
+            Session.get('view_pickup')
+            Session.get('view_open')
+
+        @autorun => @subscribe 'event_results',
+            picked_tags.array()
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('view_delivery')
+            Session.get('view_pickup')
+            Session.get('view_open')
         
     # Router.route '/e/:doc_slug/', (->
     #     @layout 'layout'
     #     @render 'event_view'
     #     ), name:'event_view_by_slug'
         
-    Template.registerHelper 'facilitator', () ->    
-        Meteor.users.findOne @facilitator_id
+    Template.registerHelper 'host', () ->    
+        Meteor.users.findOne @host_id
     Template.registerHelper 'fac', () ->    
         Meteor.users.findOne @facilitator_id
    
@@ -68,7 +91,7 @@ if Meteor.isClient
 
 
     Template.event_view.onCreated ->
-        # @autorun => @subscribe 'model_docsmodel_docs', 'order'
+        @autorun => @subscribe 'groups_by_event_id',Router.current().params.doc_id, ->
         # @autorun => @subscribe 'all_users'
     Template.event_view.events
         'click .buy_ticket': ->
@@ -86,29 +109,6 @@ if Meteor.isClient
                 event_id:@_id
                 ticket_price: @point_price
         picked_tags: -> picked_tags.array()
-    Template.events.onCreated ->
-        # @autorun => Meteor.subscribe 'model_docs', 'event', ->
-        # @autorun => Meteor.subscribe 'event_tags',picked_tags.array(), ->
-        Session.setDefault('current_query',null)
-        Session.setDefault('view_mode','grid')
-
-        @autorun => @subscribe 'event_facets',
-            picked_tags.array()
-            Session.get('limit')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
-
-        @autorun => @subscribe 'event_results',
-            picked_tags.array()
-            Session.get('limit')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
 
     Template.session_icon_button.helpers
         session_icon_button_class: ->
@@ -191,6 +191,16 @@ if Meteor.isClient
     
 
 if Meteor.isServer
+    Meteor.publish 'groups_by_event_id', (event_id)->
+        event = Docs.findOne event_id
+        if event
+            Docs.find {
+                model:'group'
+                _id:$in:event.group_ids
+            }
+            
+            
+            
     Meteor.publish 'future_events', ()->
         console.log moment().subtract(1,'days').format("YYYY-MM-DD")
         Docs.find {
@@ -460,7 +470,7 @@ if Meteor.isServer
     Template.ticket_view.onCreated ->
         @autorun => Meteor.subscribe 'event_from_ticket_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'all_users'
         
     Template.ticket_view.onRendered ->
@@ -501,13 +511,19 @@ if Meteor.isServer
             _id:ticket.event_id
             
             
+    Meteor.publish 'group', (ticket_id)->
+        ticket = Docs.findOne ticket_id
+        Docs.find 
+            _id:ticket.event_id
+            
+            
     Meteor.methods
         remove_reservation: (doc_id)->
             Docs.remove doc_id
             
 if Meteor.isClient
     Template.event_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc_by_slug', Router.current().params.doc_slug
         @autorun => Meteor.subscribe 'author_by_doc_id', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'author_by_doc_slug', Router.current().params.doc_slug

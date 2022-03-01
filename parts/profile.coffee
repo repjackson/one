@@ -7,6 +7,7 @@ if Meteor.isClient
 
 
     Template.profile.onCreated ->
+        Session.setDefault 'view_group_members', true
         @autorun -> Meteor.subscribe 'user_member_groups', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_leader_groups', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_hosted_events', Router.current().params.username, ->
@@ -19,6 +20,8 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'model_docs', 'event'
         
     Template.profile.events
+        'click .toggle_group_members': -> Session.set('view_group_members', !Session.get('view_group_members'))
+    
         'click .user_credit_segment': ->
             Router.go "/debit/#{@_id}/view"
             

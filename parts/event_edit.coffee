@@ -5,7 +5,7 @@ if Meteor.isClient
         ), name:'event_edit'
 
     Template.event_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'room_reservation'
     Template.event_edit.onRendered ->
     Template.event_edit.onCreated ->

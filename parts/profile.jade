@@ -98,13 +98,18 @@ template(name='profile')
                                         if is_current_user
                                             +enter_group
                             if user_member_groups.count
-                                .ui.header 
-                                    // i.users.icon
+                                a.ui.inline.header.toggle_group_members.zoomer.pointer(title='toggle group members')
                                     +i name='groups'
+                                    |#{user_member_groups.count}
                                     |group member of
-                                .ui.doubling.four.cards
-                                    each user_member_groups
-                                        +profile_group_card
+                                    if session_is 'view_group_members' true
+                                        i.chevron.down.icon
+                                    else                                    
+                                        i.chevron.right.icon
+                                if session_is 'view_group_members' true
+                                    .ui.doubling.four.cards
+                                        each user_member_groups
+                                            +profile_group_card
                                     
                         .sixteen.wide.column
                             .medscroll

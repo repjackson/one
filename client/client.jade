@@ -112,6 +112,8 @@ template(name='footer')
                 .ui.inverted.large.header 
                     i.shield.icon
                     |footer 
+                with current_doc 
+                    +print_this
                 with currentUser
                     +boolean_edit key='admin_mode' label='admin mode' direct=true
                 .ui.inverted.header 

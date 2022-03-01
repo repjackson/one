@@ -13,7 +13,7 @@ if Meteor.isClient
     Template.message_view.onCreated ->
         @autorun => Meteor.subscribe 'product_from_message_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         
     Template.message_view.onRendered ->
 
