@@ -7,15 +7,15 @@ if Meteor.isClient
 
 
     Template.profile.onCreated ->
-        @autorun -> Meteor.subscribe 'user_member_groups', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_leader_groups', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_member_groups', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_leader_groups', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_hosted_events', Router.current().params.username, ->
         # @autorun => Meteor.subscribe 'profile', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'order'
 
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
         # @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username, ->
-        @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username, ->
         # @autorun -> Meteor.subscribe 'model_docs', 'event'
         
     Template.profile.events
@@ -48,7 +48,7 @@ if Meteor.isClient
             user = Meteor.users.findOne username:@username
             Docs.find
                 model:'group'
-                group_member_ids:$in:[user._id]
+                member_ids:$in:[user._id]
             
         user_leader_groups: ->
             user = Meteor.users.findOne username:@username
@@ -192,7 +192,7 @@ if Meteor.isServer
         user = Meteor.users.findOne username:username
         Docs.find
             model:'group'
-            group_member_ids:$in:[user._id]
+            member_ids:$in:[user._id]
             
     Meteor.publish 'user_leader_groups', (username)->
         user = Meteor.users.findOne username:username

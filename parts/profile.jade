@@ -87,7 +87,7 @@ template(name='profile')
                             // a.ui.inline.header.zoomer(href="/groups")
                             //     +icolor name='campfire'
                             //     |groups
-                            if user_leader_groups.length
+                            if user_leader_groups.count
                                 .ui.header
                                     // i.king.icon
                                     +i name='king'
@@ -97,13 +97,13 @@ template(name='profile')
                                         a.ui.header(href="/m/group/#{_id}") #{title}
                                         if is_current_user
                                             +enter_group
-                            if user_member_groups.length
+                            if user_member_groups.count
                                 .ui.header 
                                     // i.users.icon
                                     +i name='groups'
                                     |group member of
-                                .ui.doubling.cards
-                                    each groups
+                                .ui.doubling.four.cards
+                                    each user_member_groups
                                         +profile_group_card
                                     
                         .sixteen.wide.column
@@ -207,19 +207,11 @@ template(name='profile')
                                             
                            
 template(name='profile_group_card')
-    a.card(href="/group/#{_id}")
+    a.card.zoomer(href="/group/#{_id}")
         .image
-            +image_view key='image_id' direct=true cl='zoom ui tiny image'
+            +image_view key='image_id' direct=true cl='ui tiny image'
         .content
             .ui.header #{title}
-            a.ui.small.header.inline.lowercase(href="/group/#{_id}/")
-                |#{price_per_serving}c / #{serving_unit}
-            .ui.small.inline.header #{when}
-            a.ui.button(href="/group/#{_id}/")
-                |view
-                i.right.chevron.icon
-            if is_admin
-                +remove_button
                        
                                 
                                

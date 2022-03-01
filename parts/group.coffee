@@ -480,7 +480,7 @@ if Meteor.isServer
 if Meteor.isServer
     Meteor.publish 'members', (group_id)->
         Meteor.users.find
-            _id:$in:@group_member_ids
+            _id:$in:@member_ids
 
     Meteor.publish 'group_by_slug', (group_slug)->
         Docs.find
@@ -493,11 +493,11 @@ if Meteor.isServer
                 slug: group_slug
 
             member_count =
-                group.group_member_ids.length
+                group.member_ids.length
 
             group_members =
                 Meteor.users.find
-                    _id: $in: group.group_member_ids
+                    _id: $in: group.member_ids
 
             dish_count = 0
             dish_ids = []
