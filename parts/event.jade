@@ -49,7 +49,7 @@ template(name='events')
                 .ui.icon.input
                     i.search.icon
                     input.search_event(type='text' placeholder='search...' autofocus='')
-                +session_set key='view_mode' value='grid' icon='grid'
+                +session_set key='view_mode' value='grid' icon='th'
                 +session_set key='view_mode' value='list' icon='list'
                 +session_set key='view_attending' value='going' label='going' icon='checkmark'
                 +session_set key='view_attending' value='maybe' label='maybe' icon='question'
@@ -64,7 +64,7 @@ template(name='events')
                             each event_docs
                                 +event_card
                     else
-                        .ui.stackable.four.cards.scrolling
+                        .ui.stackable.three.cards.scrolling
                             each event_docs
                                 +event_card
                 if session_is 'view_mode' 'list'
@@ -426,8 +426,8 @@ template(name='event_view')
                         a.ui.button(href=link target="_window")
                             i.globe.icon 
                             |#{link}
-            .row 
-                .eight.wide.column.scrolling
+            .three.column.row 
+                .column.scrolling
                     a(href="{{c.url image_id }}")
                         img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
@@ -437,7 +437,7 @@ template(name='event_view')
                     // div 
                     // .spacer
                     // .spacer
-                .four.wide.column
+                .column
                     if group_ids.length
                         .ui.header 
                             +i name='campfire'
@@ -487,7 +487,7 @@ template(name='event_view')
                             img.ui.avatar.image(src="{{c.url support.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{support.name}
                     +comments
-                .four.wide.column
+                .column
                     if max_attendees
                         .ui.header
                             |#{max_attendees} max attendees

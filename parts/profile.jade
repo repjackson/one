@@ -80,7 +80,7 @@ template(name='profile')
                     if is_dev
                         .ui.small.inline.header #{_id}
                             
-                .twelve.wide.column.scrolling
+                .eight.wide.column.scrollin
                     .ui.stackable.grid
                         // .spacer
                         .sixteen.wide.column
@@ -112,9 +112,10 @@ template(name='profile')
                                             +profile_group_card
                                     
                         .sixteen.wide.column
-                            .medscroll
+                            .medscrolls
                                 .ui.header 
-                                    +i name='ticket'
+                                    i.ticket.icon
+                                    // +i name='ticket'
                                     |tickets
                                 each user_event_tickets
                                     .ui.card

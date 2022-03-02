@@ -16,7 +16,7 @@ body {
 
 .segment {
   opacity: 0.85 !important;
-  border-radius: 10px !important;
+  /*border-radius: 10px !important;*/
   
 }
 input {
