@@ -90,12 +90,12 @@ template(name='groups')
 
 
 template(name='group_card')
-    .ui.card
+    .ui.card.zoomer
         if image_id
-            a.image.fly_right(href="/group/#{_id}")
+            a.image.zoomer.fly_right(href="/group/#{_id}")
                 img.ui.image(src="{{c.url image_id width=600 height=600}}")
         .content
-            a.ui.header.fly_right(href="/group/#{_id}")
+            a.ui.header.zoomer.fly_right(href="/group/#{_id}")
                 |#{title}
             |#{member_ids.length} members
             .smallscroll
@@ -244,7 +244,9 @@ template(name='group_view')
                                             |every #{repeating_day}
                                         if start_datetime
                                             |{{from_now start_datetime}}
-                    .ui.header group posts
+                    .ui.inline.header
+                        i.large.blog.icon
+                        |group posts
                     if currentUser 
                         .ui.icon.button.add_group_post(title='add group post')
                             i.plus.icon
