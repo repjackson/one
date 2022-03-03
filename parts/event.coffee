@@ -93,6 +93,7 @@ if Meteor.isClient
     Template.event_view.onCreated ->
         @autorun => @subscribe 'groups_by_event_id',Router.current().params.doc_id, ->
         @autorun => @subscribe 'group_members',Router.current().params.doc_id, ->
+        @autorun => @subscribe 'related_groups',Router.current().params.doc_id, ->
         # @autorun => @subscribe 'all_users'
     Template.event_view.events
         'click .buy_ticket': ->
@@ -198,6 +199,14 @@ if Meteor.isServer
             Docs.find {
                 model:'group'
                 _id:$in:event.group_ids
+            }
+            
+    Meteor.publish 'related_groups', (doc_id)->
+        doc = Docs.findOne doc_id
+        if doc
+            Docs.find {
+                model:'group'
+                _id:$in:doc.group_ids
             }
             
             

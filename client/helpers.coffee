@@ -357,7 +357,7 @@ Template.registerHelper 'order_product', ->
     Docs.findOne 
         model:'product'
         _id:@product_id
-Template.registerHelper 'event_groups', ->
+Template.registerHelper 'related_groups', ->
     console.log @
     Docs.find
         model:'group'

@@ -19,8 +19,9 @@ template(name='groups')
                 button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}
-            each tag_results
-                button.ui.circular.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
+            each group_tag_results
+                button.ui.circular.compact.small.button.tag_result(tabindex="0" class=result_class title=count)
+                    |#{name}
                     //- small #{count}
             span.sorting_row
                 .ui.icon.input
@@ -208,21 +209,21 @@ template(name='group_view')
                             +i name='internal'
                             |join
                             
-                    // .ui.header 
-                    //     +i name='rss'
-                    //     |activity
-                    // each log_items
-                    //     +log_item
-                    // .ui.header 
-                    //     +i name='line-chart'
-                    //     |stats
-                    // i.refresh.link.icon.refresh_group_stats
-                    // .ui.large.list
-                    //     .item #{member_count} members
-                    //     .item #{events} events
-                    //     .item #{events} events
-                    //     // .item #{dish_count} dishes
-                    //     // .item #{total_credit_exchanged} credits exchanged
+                    .ui.header 
+                        +i name='rss'
+                        |activity
+                    each log_items
+                        +log_item
+                    .ui.header 
+                        +i name='line-chart'
+                        |stats
+                    i.refresh.link.icon.refresh_group_stats
+                    .ui.large.list
+                        .item #{member_count} members
+                        .item #{events} events
+                        .item #{events} events
+                        // .item #{dish_count} dishes
+                        // .item #{total_credit_exchanged} credits exchanged
                     +comments
                 .column
                     .ui.inline.header
@@ -243,7 +244,12 @@ template(name='group_view')
                                             |every #{repeating_day}
                                         if start_datetime
                                             |{{from_now start_datetime}}
-                        
+                    .ui.header group posts
+                    if currentUser 
+                        .ui.icon.button.add_group_post(title='add group post')
+                            i.plus.icon
+                    each group_posts
+                        .ui.header #{title}
 
     
     

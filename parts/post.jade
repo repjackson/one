@@ -150,6 +150,7 @@ template(name='post_view')
                     +voting_full
                     +array_view key='location_tags' label='location_tags' direct=true
                     +visibility_settings
+                    +group_widget
                 .twelve.wide.column.scrolling
                     .ui.header #{title}
                     img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
@@ -215,7 +216,7 @@ template(name='post_edit')
                 .column
                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
                     unless published
-                        a.ui.fluid.green.button.submit(href="/save")
+                        a.ui.fluid.green.button.submit
                             i.checkmark.icon
                             |publish
                     else
@@ -226,3 +227,4 @@ template(name='post_edit')
                     +boolean_edit key='private' label='private' 
                     if private 
                         +multi_user_edit key='access_user_ids' label='user picker' direct=true
+                    +group_picker

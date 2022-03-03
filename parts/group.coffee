@@ -11,6 +11,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_leaders', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_events', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'group_posts', Router.current().params.doc_id, ->
     Template.group_view.onRendered ->
         Meteor.call 'log_view', Router.current().params.doc_id, ->
     
@@ -18,12 +19,12 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
 
 
-    Template.groups_small.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'group', Sesion.get('group_search'),->
-    Template.groups_small.helpers
-        group_docs: ->
-            Docs.find   
-                model:'group'
+    # Template.groups_small.onCreated ->
+    #     @autorun => Meteor.subscribe 'model_docs', 'group', Sesion.get('group_search'),->
+    # Template.groups_small.helpers
+    #     group_docs: ->
+    #         Docs.find   
+    #             model:'group'
                 
                 
                 
@@ -32,6 +33,10 @@ if Meteor.isClient
             Docs.find 
                 model:'event'
                 group_ids:$in:[Router.current().params.doc_id]
+        group_posts: ->
+            Docs.find 
+                model:'post'
+                # group_ids:$in:[Router.current().params.doc_id]
         # current_group: ->
         #     Docs.findOne
         #         model:'group'
@@ -46,6 +51,12 @@ if Meteor.isClient
                     model:'event'
                     group_ids:[Router.current().params.doc_id]
             Router.go "/event/#{new_id}/edit"
+        'click .add_group_post': ->
+            new_id = 
+                Docs.insert 
+                    model:'post'
+                    group_ids:[Router.current().params.doc_id]
+            Router.go "/post/#{new_id}/edit"
         # 'click .join': ->
         #     Docs.update
         #         model:'group'
@@ -66,23 +77,31 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'group_events', (doc_id)->
+    Meteor.publish 'group_events', (group_id)->
         # group = Docs.findOne
         #     model:'group'
-        #     _id:doc_id
+        #     _id:group_id
         Docs.find
             model:'event'
-            group_ids:$in: [doc_id]
+            group_ids:$in: [group_id]
+
+    Meteor.publish 'group_posts', (group_id)->
+        # group = Docs.findOne
+        #     model:'group'
+        #     _id:group_id
+        Docs.find
+            model:'post'
+            group_ids:$in: [group_id]
 
 
     Meteor.publish 'group_leaders', (group_id)->
-        group = Docs.findOne doc_id
+        group = Docs.findOne group_id
         if group.leader_ids
             Meteor.users.find
                 _id: $in: group.leader_ids
 
-    Meteor.publish 'group_members', (doc_id)->
-        group = Docs.findOne doc_id
+    Meteor.publish 'group_members', (group_id)->
+        group = Docs.findOne group_id
         Meteor.users.find
             _id: $in: group.member_ids
 
@@ -238,16 +257,16 @@ if Meteor.isClient
         #     Meteor.status()
         # connected: ->
         #     Meteor.status().connected
-        tags: ->
+        group_tag_results: ->
             # if Session.get('current_query') and Session.get('current_query').length > 1
             #     Terms.find({}, sort:count:-1)
             # else
             group_count = Docs.find().count()
             # console.log 'group count', group_count
-            if group_count < 3
-                Results.find({count: $lt: group_count})
-            else
-                Results.find()
+            # if group_count < 3
+            #     Results.find({count: $lt: group_count})
+            # else
+            Results.find()
 
         result_class: ->
             if Template.instance().subscriptionsReady()
