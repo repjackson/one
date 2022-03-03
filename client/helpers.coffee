@@ -7,9 +7,11 @@ Template.registerHelper 'parent_doc', () ->
     # Template.parentData()
 
 Template.registerHelper 'is_in_past', () ->
-    console.log moment().subtract(1,'days').format("YYYY-MM-DD")
-    console.log @start_datetime
-
+    # console.log moment().subtract(1,'days').format("YYYY-MM-DD")
+    # console.log moment().subtract(1,'days').format()
+    # console.log moment(@start_datetime).format()
+    # console.log moment(@start_datetime).isSameOrAfter(moment())
+    moment().isSameOrAfter(moment(@start_datetime))
 
 
 Template.registerHelper 'host', () ->

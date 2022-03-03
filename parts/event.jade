@@ -11,9 +11,9 @@ template(name='events')
                         i.plus.big.icon
                 .ui.compact.button.toggle_past
                     if viewing_past
-                        i.undo.green.icon
+                        i.undo.green.large.icon
                     else
-                        i.circle.outline.icon
+                        i.circle.outline.large.icon
                     |past
                 .ui.compact.button.toggle_now(class=today_button_class)
                     if viewing_today
@@ -44,7 +44,6 @@ template(name='events')
                 each event_tags 
                     .ui.compact.button.pick_tag #{title}
                 div
-
             .twelve.wide.column
                 .ui.icon.input
                     i.search.icon
@@ -81,6 +80,9 @@ template(name='event_card')
         .content
             a.ui.inline.header.fly_right(href="/event/#{_id}") #{title} 
             div
+            if is_in_past
+                i.big.undo.icon 
+                |in past
             if start_datetime
                 .ui.small.inline.grey.header 
                     |{{medium_date start_datetime}} 
@@ -227,6 +229,9 @@ template(name='reserve_button')
         
 template(name='rsvp')
     div
+    if is_in_past 
+        .ui.header is in past
+        
     if has_tickets
         .ui.header 
             i.green.ticket.icon
@@ -306,39 +311,68 @@ template(name='rsvp')
 
 
 template(name='attendance')
-    if event_tickets.length
-        .ui.inline.green.header 
-            |#{ticket.length} going
-    .ui.button.mark_going 
-        .ui.green.header
-            i.green.checkmark.big.icon
-            |#{going.count}
-            |going
+    if is_in_past
+        if event_tickets.length
+            .ui.inline.green.header 
+                |#{ticket.length} tickets bought
+        .ui.disabled.button 
+            .ui.green.header
+                i.green.checkmark.big.icon
+                |#{going.count}
+                |went
+    else
+        if event_tickets.length
+            .ui.inline.green.header 
+                |#{ticket.length} going
+        .ui.button.mark_going 
+            .ui.green.header
+                i.green.checkmark.big.icon
+                |#{going.count}
+                |going
     each going 
         a.ui.circular.circular.button(href="/user/#{username}")    
             img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             |#{username}
     div
-    .ui.circular.button.mark_maybe
-        .ui.orange.header
-            // if currentUser
-            //     +icolor name='clock' cl='mark_maybe pointer'
-            // else
-            i.question.icon
-            |#{maybe_going.count} maybe
-    // .ui.icon.button.mark_maybe 
-    //     i.yellow.minus.big.icon
+    if is_in_past
+        .ui.circular.disabled.button
+            .ui.orange.header
+                // if currentUser
+                //     +icolor name='clock' cl='mark_maybe pointer'
+                // else
+                i.question.icon
+                |#{maybe_going.count} said maybe
+        // .ui.icon.button.mark_maybe 
+        //     i.yellow.minus.big.icon
+    else
+        .ui.circular.button.mark_maybe
+            .ui.orange.header
+                // if currentUser
+                //     +icolor name='clock' cl='mark_maybe pointer'
+                // else
+                i.question.icon
+                |#{maybe_going.count} maybe
+        // .ui.icon.button.mark_maybe 
+        //     i.yellow.minus.big.icon
     each maybe_going
         a.ui.circular.button.fly_right(href="/user/#{username}")    
             img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             |#{username}
     div
-    .ui.circular.button.mark_not
-        .ui.red.header
-            i.ban.icon
-            |#{not_going.count} not going
-        // .ui.icon.button.pick_not
-            // i.big.ban.icon
+    if is_in_past
+        .ui.circular.disabled.button
+            .ui.red.header
+                i.ban.icon
+                |#{not_going.count} didn't go
+            // .ui.icon.button.pick_not
+                // i.big.ban.icon
+    else
+        .ui.circular.button.mark_not
+            .ui.red.header
+                i.ban.icon
+                |#{not_going.count} not going
+            // .ui.icon.button.pick_not
+                // i.big.ban.icon
     each not_going
         a.ui.circular.circular.button(href="/user/#{username}")    
             img.ui.avatar.compact.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
@@ -532,7 +566,8 @@ template(name='event_edit')
                     a.ui.icon.green.big.button.fly_left(href="/event/#{_id}" title='save')
                         i.checkmark.big.icon
                     .ui.inline.header 
-                        +icolor name='tear-off-calendar'
+                        i.large.calendar.icon
+                        // +icolor name='tear-off-calendar'
                         |edit event
                     +boolean_edit key='published' label='published' direct=true
                     .ui.icon.circular.button.delete_item(title='delete')

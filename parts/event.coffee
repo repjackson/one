@@ -178,15 +178,15 @@ if Meteor.isClient
                 match.tags = $all: picked_tags
             
             if Session.get('viewing_past')
-                match.date = $gt:moment().subtract(1,'days').format("YYYY-MM-DD")
+                # match.date = $gt:moment().subtract(1,'days').format("YYYY-MM-DD")
+                match.start_datetime = $lt:moment().subtract(1,'days').format()
+            else 
+                match.start_datetime = $gt:moment().subtract(1,'days').format()
             # else
             #     match.date = $lt:moment().subtract(1,'days').format("YYYY-MM-DD")
             if Session.get('current_query')
                 match.title = {$regex:"#{Session.get('current_query')}", $options: 'i'}
-                Docs.find match,
-                sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
-            else
-                Docs.find match,
+            Docs.find match,
                 sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
     
 
