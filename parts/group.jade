@@ -248,8 +248,11 @@ template(name='group_view')
                     if currentUser 
                         .ui.icon.button.add_group_post(title='add group post')
                             i.plus.icon
-                    each group_posts
-                        .ui.header #{title}
+                    .ui.large.link.animated.list
+                        each group_posts
+                            a.item(href="/post/#{_id}")
+                                img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+                                |#{title}
 
     
     
