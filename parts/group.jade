@@ -2,7 +2,8 @@ template(name='groups')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.inline.header 
-                +i name='groups'
+                // +i name='groups'
+                i.fire.large.icon
                 |#{group_docs.count}
                 |groups
             if currentUser
@@ -146,7 +147,7 @@ template(name='group_view')
                         |#{title}
                     a.ui.circular.button.fly_right(href="/groups")
                         i.left.chevron.icon
-                        i.big.user.circle.icon
+                        i.big.fire.icon
                         // +i name='groups' cl='ui mini inline image'
                         |groups
                     if can_edit

@@ -14,6 +14,8 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'event_tags',picked_tags.array(), ->
         Session.setDefault('current_query',null)
         Session.setDefault('view_mode','grid')
+        Session.setDefault('sort_key','start_datetime')
+        Session.setDefault('sort_direction',-1)
 
         @autorun => @subscribe 'event_facets',
             picked_tags.array()
@@ -40,8 +42,6 @@ if Meteor.isClient
         
     Template.registerHelper 'host', () ->    
         Meteor.users.findOne @host_id
-    Template.registerHelper 'fac', () ->    
-        Meteor.users.findOne @facilitator_id
    
     Template.registerHelper 'my_ticket', () ->    
         event = Docs.findOne @_id

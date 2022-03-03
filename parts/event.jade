@@ -3,12 +3,12 @@ template(name='events')
         .row
             .four.wide.column
                 .ui.inline.header
-                    // i.calendar.icon
-                    +i name='calendar'
+                    i.calendar.large.icon
+                    // +i name='calendar'
                     |events
                 if currentUser
                     .ui.circular.icon.button.add_event(title='add event')
-                        i.plus.big.green.icon
+                        i.plus.big.icon
                 .ui.compact.button.toggle_past
                     if viewing_past
                         i.undo.green.icon
@@ -109,8 +109,8 @@ template(name='event_card')
                 |#{location}
             div 
             // small led by
-            img.ui.avatar.image(src="{{c.url fac.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            // strong #{fac.name}
+            img.ui.avatar.image(src="{{c.url host.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            // strong #{host.name}
             if views 
                 span(title='views')
                     |#{views} 
@@ -119,7 +119,7 @@ template(name='event_card')
             |#{event_tickets.count}
             a(href="/event/#{_id}" title='ticket purchase required')
                 i.checkmark.green.link.icon
-            | #{going.count}
+            | #{going_user_ids.count}
             each going
                 img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             i.question.orange.link.icon.mark_maybe(title='mark yourself maybe')
@@ -155,6 +155,16 @@ template(name='event_item')
             .ui.small.inline.header {{medium_date date}} 
                 if time 
                     |{{time}}
+            if start_datetime
+                .ui.small.inline.grey.header 
+                    |{{medium_date start_datetime}} 
+                    if time 
+                        |{{time}}
+                .ui.small.inline.header {{from_now start_datetime}}
+            if is_repeating
+                +i name='refresh' title='repeating'
+                |every #{repeating_day}
+                    
             // .ui.inline.small.header {{long_date start_datetime}}
             // div
             // .ui.small.grey.inline.header {{from_now start_datetime}}
@@ -162,12 +172,12 @@ template(name='event_item')
                 i.marker.icon 
                 |#{location}
             // small led by
-            img.ui.avatar.image(src="{{c.url fac.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
-            strong #{fac.name}
+            img.ui.avatar.image(src="{{c.url host.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+            strong #{host.name}
             |#{event_tickets.count}
             a(href="/event/#{_id}" title='ticket purchase required')
                 i.checkmark.green.link.icon
-            | #{going.count}
+            | #{maybe_user_ids.count}
             each going
                 img.ui.avatar.image(src="{{c.url image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             i.question.orange.link.icon.mark_maybe(title='mark yourself maybe')
@@ -397,7 +407,8 @@ template(name='event_view')
                 .sixteen.wide.column
                     a.ui.circular.big.icon.button.fly_left(href="/events")
                         i.chevron.left.large.icon
-                        +i name='calendar'
+                        // +i name='calendar'
+                        i.big.calendar.icon
                     .ui.large.inline.header #{title}
                     if is_repeating
                         .ui.inline.grey.header
@@ -421,7 +432,7 @@ template(name='event_view')
                         .ui.inline.grey.header {{time}}
                     if can_edit
                         a.edit_event.fly_left(href="/event/#{_id}/edit" title='edit')
-                            i.large.blue.link.pencil.circular.icon
+                            i.large.link.pencil.circular.icon
                     if link 
                         a.ui.button(href=link target="_window")
                             i.globe.icon 

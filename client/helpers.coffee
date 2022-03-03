@@ -6,6 +6,12 @@ Template.registerHelper 'parent_doc', () ->
     Docs.findOne @parent_id
     # Template.parentData()
 
+Template.registerHelper 'is_in_past', () ->
+    console.log moment().subtract(1,'days').format("YYYY-MM-DD")
+    console.log @start_datetime
+
+
+
 Template.registerHelper 'host', () ->
     Meteor.users.findOne @host_id
 Template.registerHelper 'is_admin', (model) ->

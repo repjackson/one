@@ -19,11 +19,6 @@ body {
   /*border-radius: 10px !important;*/
   
 }
-input {
-  opacity: 0.85 !important;
-  border-radius: 10px !important;
-  
-}
 
 .pointer:hover{
     cursor: pointer !important;

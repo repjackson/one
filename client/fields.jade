@@ -367,8 +367,8 @@ template(name='textarea_edit')
 template(name='text_edit')
     div
     if icon
-        //- i.grey.icon(class=icon)
-        +i name=icon
+        i.icon(class=icon)
+        // +i name=icon
     .ui.inline.small.header
         if title
             |#{title}
@@ -515,8 +515,9 @@ template(name='array_edit')
     //     i.grey.icon(class=i)
     //     // +i name=icon
     .ui.inline.header
-        |#{field_value.length}
-        +i name=icon
+        // |#{field_value.length}
+        // +i name=icon
+        i.large.icon(class=icon)
         if title
             |#{title}
         else if label
@@ -1028,8 +1029,8 @@ template(name='multi_user_edit')
     div
     .ui.inline.header
         if icon
-            +i name=icon
-            // i.icon(class=icon)
+            // +i name=icon
+            i.icon(class=icon)
         if title
             |#{title}
         else if label
