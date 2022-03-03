@@ -75,10 +75,16 @@ if Meteor.isServer
             group_ids:$in: [doc_id]
 
 
-    Meteor.publish 'group_leader', (doc_id)->
+    Meteor.publish 'group_leaders', (group_id)->
+        group = Docs.findOne doc_id
+        if group.leader_ids
+            Meteor.users.find
+                _id: $in: group.leader_ids
+
+    Meteor.publish 'group_members', (doc_id)->
         group = Docs.findOne doc_id
         Meteor.users.find
-            _id: group.leader_id
+            _id: $in: group.member_ids
 
 
 
@@ -398,35 +404,6 @@ if Meteor.isServer
             #     { $project: _id: 0, name: '$_id', count: 1 }
             #     ]
 
-        # else
-        # unless query and query.length > 2
-        # if picked_tags.length > 0 then match.tags = $all: picked_tags
-        # # match.tags = $all: picked_tags
-        # # console.log 'match for tags', match
-        # tag_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "tags": 1 }
-        #     { $unwind: "$tags" }
-        #     { $group: _id: "$tags", count: $sum: 1 }
-        #     { $match: _id: $nin: picked_tags }
-        #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $limit: 20 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ], {
-        #     allowDiskUse: true
-        # }
-        #
-        # tag_cloud.forEach (tag, i) =>
-        #     # console.log 'queried tag ', tag
-        #     # console.log 'key', key
-        #     self.added 'tags', Random.id(),
-        #         title: tag.name
-        #         count: tag.count
-        #         # category:key
-        #         # index: i
-
-
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
@@ -483,12 +460,6 @@ if Meteor.isServer
         Docs.find
             model:'group'
             _author_id: user._id
-
-
-if Meteor.isServer
-    Meteor.publish 'members', (group_id)->
-        Meteor.users.find
-            _id:$in:@member_ids
 
     Meteor.publish 'group_by_slug', (group_slug)->
         Docs.find

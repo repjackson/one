@@ -19,7 +19,7 @@ template(name='groups')
                 button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}
-            each tags
+            each tag_results
                 button.ui.circular.compact.small.button.tag_result(tabindex="0" class=result_class title=count) #{title}
                     //- small #{count}
             span.sorting_row

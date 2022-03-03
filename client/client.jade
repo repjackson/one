@@ -107,7 +107,7 @@ template(name='shortcut_modal')
 template(name='footer')
     .ui.divider
     .ui.padded.inverted.grid.segment
-        .two.column.row
+        .three.column.row
             .column
                 .ui.inverted.large.header 
                     i.shield.icon
@@ -132,3 +132,10 @@ template(name='footer')
                             img.ui.avatar.image(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
                             |#{title} 
                             .ui.label #{model}
+            .column
+                .ui.inverted.header 
+                    i.tag.icon
+                    |results 
+                .ui.animated.large.link.inverted.list.smallscroll
+                    each result_docs
+                        .ui.label #{name}: #{model}

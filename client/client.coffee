@@ -13,6 +13,8 @@ Tracker.autorun ->
 Template.footer.helpers
     doc_docs: ->
         Docs.find {}
+    result_docs: ->
+        Results.find {}
 
     # user_docs: ->
         # Meteor.users.find()

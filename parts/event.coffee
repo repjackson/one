@@ -92,6 +92,7 @@ if Meteor.isClient
 
     Template.event_view.onCreated ->
         @autorun => @subscribe 'groups_by_event_id',Router.current().params.doc_id, ->
+        @autorun => @subscribe 'group_members',Router.current().params.doc_id, ->
         # @autorun => @subscribe 'all_users'
     Template.event_view.events
         'click .buy_ticket': ->
