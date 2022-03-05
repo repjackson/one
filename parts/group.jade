@@ -76,18 +76,30 @@ template(name='groups')
                     |repeating
                 div
                 i.large.tag.icon
-                each picked_event_tags 
+                each picked_group_tags 
                     .ui.blue.button.unpick_tag
                         |#{this}
-                each event_tags 
+                each group_tags 
                     .ui.compact.button.pick_tag #{title}
                 div
                 
         .twelve.wide.column
-            .ui.stackable.centered.cards.scrollin
-                each group_docs
-                    +group_card
-
+            +session_set key='view_mode' value='grid' icon='th'
+            +session_set key='view_mode' value='list' icon='list'
+            if session_is 'view_mode' 'grid'
+                if one_result
+                    .ui.stackable.one.cards.scrolling
+                        each group_docs
+                            +group_card
+                else
+                    .ui.stackable.three.cards.scrolling
+                        each group_docs
+                            +group_card
+            if session_is 'view_mode' 'list'
+                .ui.selection.divided.animated.list.scrolling
+                    each group_docs 
+                        +group_item
+        
 
 template(name='group_card')
     .ui.card.zoomer
@@ -100,6 +112,29 @@ template(name='group_card')
             |#{member_ids.length} members
             .smallscroll
                 |!{description}
+            //+ismall name='tags' cl='ui inline image'
+            each tags
+                .ui.label #{this}
+            a.zoomer(href="/group/#{_id}")
+                i.chevron.right.large.circular.icon
+            // if is_admin
+            //     .ui.small.header slug: #{slug}
+            if can_edit
+                a.ui.circular.icon.button(href="/group/#{_id}/edit")
+                    i.pencil.blue.icon
+            +print_this
+                    
+template(name='group_item')
+    .item.zoomer
+        if image_id
+            img.ui.tiny.inline.image(src="{{c.url image_id width=600 height=600}}")
+        //     a.image.zoomer.fly_right(href="/group/#{_id}")
+        .content
+            a.ui.header.zoomer.fly_right(href="/group/#{_id}")
+                |#{title}
+            |#{member_ids.length} members
+            // .smallscroll
+            //     |!{description}
             //+ismall name='tags' cl='ui inline image'
             each tags
                 .ui.label #{this}
