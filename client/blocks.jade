@@ -95,23 +95,29 @@ template(name='comments')
         input.add_comment(model='text' placeholder='add')
     .ui.comments
         each doc_comments
-            .comment
-                .content
-                    .ui.header #{body}
-                    .meta #{when}
-                        |by 
-                        if anon 
-                            .ui.label 
-                                i.anonymous.icon
-                                |anon
-                        else
-                            a(href="/user/#{_author.username}") #{_author.name}
-                        if currentUser
-                            +voting_small
-                            
-                        if can_edit
-                            +remove_button
-                            +boolean_edit key='anon' icon='anonymous' label='anon' direct=true
+            +doc_comment
+            
+            
+            
+template(name='doc_comment')            
+    .comment
+        .content
+            .ui.header #{body}
+            .meta #{when}
+                |by 
+                if anon 
+                    .ui.label 
+                        i.user.icon
+                        |anon
+                else
+                    a(href="/user/#{_author.username}") #{_author.name}
+                if currentUser
+                    +voting_small
+                if can_edit
+                    +remove_button
+                    +boolean_edit key='anon' icon='user-lock' label='anon' direct=true
+                if currentUser.admin_mode 
+                    +single_user_edit key='_author_id' direct=true
                                 
                             
                             
