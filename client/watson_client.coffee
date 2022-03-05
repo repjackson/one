@@ -121,27 +121,28 @@ Template.call_watson.events
        
 
 
-# Template.call_watson.events
-#     'click .autotag': ->
-#         # console.log @
-#         # console.log Template.currentData()
-#         # console.log Template.parentData()
-#         # console.log Template.parentData(1)
-#         # console.log Template.parentData(2)
-#         # console.log Template.parentData(3)
-#         if @rd and @rd.selftext_html
-#             dom = document.createElement('textarea')
-#             # dom.innerHTML = doc.body
-#             dom.innerHTML = @rd.selftext_html
-#             # console.log 'innner html', dom.value
-#             # return dom.value
-#             Docs.update @_id,
-#                 $set:
-#                     parsed_selftext_html:dom.value
+Template.call_watson.events
+    'click .autotag': ->
+        # console.log @
+        # console.log Template.currentData()
+        # console.log Template.parentData()
+        # console.log Template.parentData(1)
+        # console.log Template.parentData(2)
+        # console.log Template.parentData(3)
+        # if @rd and @rd.selftext_html
+        #     dom = document.createElement('textarea')
+        #     # dom.innerHTML = doc.body
+        #     dom.innerHTML = @rd.selftext_html
+        #     # console.log 'innner html', dom.value
+        #     # return dom.value
+        #     Docs.update @_id,
+        #         $set:
+        #             parsed_selftext_html:dom.value
         
-#         doc = Template.parentData()
-#         Meteor.call 'call_watson', Template.parentData()._id, parent.key, @mode, ->
-#         # Meteor.call 'call_watson', doc._id, @key, @mode, ->
+        doc = Template.parentData()
+        # Meteor.call 'call_watson', Template.parentData()._id, parent.key, @mode, ->
+        Meteor.call 'call_watson', Router.current().params.doc_id, 'content', @mode, ->
+        # Meteor.call 'call_watson', doc._id, @key, @mode, ->
 
 
 

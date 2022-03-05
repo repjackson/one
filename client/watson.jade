@@ -218,36 +218,42 @@ template(name='categories')
 //- 
 template(name='watson_view')
     // +tone
-    +doc_sentiment
-    +doc_emotion
-    .ui.stackable.grid 
-        .two.column.row 
-            .column
-                +concepts
-            .column
-                +categories
-    +entities
-    // +semantic_roles
-    // +keyword_list
-    +concept_list
-    +keywords
-    .ui.hidden.divider
-    // +relations
-    //- if dev
-    //-     .ui.styled.accordion
-    //-         .title 
-    //-             i.code.icon
-    //-             i.dropdown.icon
-    //-         .content
-    //-             +jsonView(json=watson)
-    //- +personality
-    //- +consumption_preferences
-    
+    .ui.styled.accordion
+        .title 
+            +i name='line-chart'
+            |analysis
+            i.dropdown.icon
+        .content
+            +doc_sentiment
+            +doc_emotion
+            .ui.stackable.grid 
+                .two.column.row 
+                    .column
+                        +concepts
+                    .column
+                        +categories
+            +entities
+            // +semantic_roles
+            // +keyword_list
+            +concept_list
+            +keywords
+            // .ui.hidden.divider
+            // +relations
+            //- if dev
+            //-     .ui.styled.accordion
+            //-         .title 
+            //-             i.code.icon
+            //-             i.dropdown.icon
+            //-         .content
+            //-             +jsonView(json=watson)
+            //- +personality
+            //- +consumption_preferences
+            
     
 template(name='call_watson')
     .ui.button.autotag
         //i.chess.icon
-        +ismall name='dna-helix'
+        +i name='dna-helix'
         |call watson
 template(name='call_tone')
     .ui.button.call_tone

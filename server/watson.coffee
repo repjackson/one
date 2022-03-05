@@ -167,7 +167,7 @@ Meteor.methods
         #     parameters.clean = false
         #     console.log 'calling image'
         # else 
-        parameters.html = doc.content
+        parameters.html = doc.description
         parameters.returnAnalyzedText = true
         # switch mode
         #     when 'html'

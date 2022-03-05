@@ -175,7 +175,7 @@ template(name='group_edit')
 template(name='group_view')
     with current_doc
         .ui.stackable.padded.grid
-            .three.column.row
+            .two.column.row
                 .column
                     .ui.header 
                         if icon
@@ -209,6 +209,8 @@ template(name='group_view')
                         
                 .column
                     +html_view key='description' icon='content' label='description'
+                    if watson 
+                        +watson_view
                     if leaders_id
                         .ui.inline.header 
                             // +i name='crown' cl='ui avatar image'
