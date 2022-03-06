@@ -68,11 +68,11 @@ Template.body.events
         Docs.update @_id,
             $inc: views: 1
 
-# Template.healthclub.events
-    # 'click .button': ->
-    #     $('.global_container')
-    #     .transition('fade out', 5000)
-    #     .transition('fade in', 5000)
+# Template.layout.events
+#     'click .button': ->
+#         $('.global_container')
+#         .transition('fade out', 5000)
+#         .transition('fade in', 5000)
 
 
 # Tracker.autorun ->

@@ -16,20 +16,20 @@ template(name='profile')
                         // strong #{name}
                         strong #{first_name} #{last_name}
                         | @#{username}        
+                        // .ui.inline.header
+                        //     strong #{name}
+                        //     //- small @#{user.username}  
                     img.ui.circular.centered.image.pointer.boop(src="{{c.url image_id height=400 width=400 gravity='face' crop='fill'}}")
                     // .spacer
                     // a(href="/user/#{username}")
-                    if boops
-                        .ui.center.aligned.header(title='boops')
-                            +i name='tap-gesture'
-                            |#{boops}
-                    .ui.inline.header
-                        strong #{name}
-                        //- small @#{user.username}  
-                    if points
-                        a.ui.inline.header(href="/user/#{username}/credit" title='credit')
-                            +i name='coins'
-                            |#{points}p
+                    // if boops
+                    .ui.center.aligned.inline.header(title='boops')
+                        +i name='tap-gesture'
+                        |#{boops}
+                    a.ui.inline.header(href="/user/#{username}/credit" title='credit')
+                        +i name='coins'
+                        |#{points}p
+                    // if points
                     if is_current_user
                         a.ui.circular.icon.compact.large.button(href="/user/#{current_user.username}/edit" title='profile settings')
                             i.cog.icon
@@ -100,19 +100,20 @@ template(name='profile')
                                 if is_current_user
                                     +enter_group
                     if user_member_groups.count
-                        a.ui.inline.header.toggle_group_members.zoomer.pointer(title='toggle group members')
+                        a.ui.header.toggle_group_members.zoomer.pointer(title='toggle group members')
                             // +i name='groups'
                             i.large.fire.icon
+                            |member of 
                             |#{user_member_groups.count}
-                            |group member of
+                            |groups
                             if session_is 'view_group_members' true
                                 i.chevron.down.icon
                             else                                    
                                 i.chevron.right.icon
                         if session_is 'view_group_members' true
-                            .ui.doubling.centered.cards
+                            .ui.large.selection.link.list
                                 each user_member_groups
-                                    +profile_group_card
+                                    +profile_group_item
                 .column
                     +array_view key='allergens' label='allergens' icon='no-milk' direct=true
                     +array_view key='food_dislikes' label='food dislikes' icon='disgusting' direct=true
@@ -120,10 +121,12 @@ template(name='profile')
                     .ui.header 
                         +i name='chat'
                         |comments
-                    .ui.list 
+                    .ui.large.selection.link.list 
                         each model_docs_helper 'comment'
-                            a.item(href="/#{parent_model}/#{parent_id}") #{body}
+                            a.item(href="/#{parent_model}/#{parent_id}") 
+                                strong #{body}
                                 small #{when}
+                                .ui.label #{parent_model}
                     .ui.header 
                         +i name='blog'
                         |posts
@@ -131,7 +134,7 @@ template(name='profile')
                         each model_docs_helper 'post'
                             a.item(href="/post/#{parent_id}") #{body}
                                 small #{when}
-                .column
+                    +user_friends
                     .medscrolls
                         .ui.header 
                             i.ticket.icon
@@ -188,32 +191,37 @@ template(name='profile')
                             .ui.large.link.animated.list
                                 each user_going_events
                                     +event_item_small
-                .column
-                    .ui.fluid.card
-                        .content
-                            .ui.header 
-                                // i.large.handshake.icon
-                                +i name='friends'
-                                |friends
-                            // .ui.input
-                            //     i.plus.icon
-                            //     input.search_friend(type='text' placeholder='add by username...')
-                            if is_current_user
-                                +multi_user_view key='friend_ids' label='friends' direct=true
-                            // each friend_search_results
-                            //     .ui.header #{username}
-                            // each user_friends
-                            //     .item #{username}
+
+
+
+template(name='user_friends')
+    .ui.fluid.card
+        .content
+            .ui.header 
+                // i.large.handshake.icon
+                +i name='friends'
+                |friends
+            // .ui.input
+            //     i.plus.icon
+            //     input.search_friend(type='text' placeholder='add by username...')
+            if is_current_user
+                +multi_user_view key='friend_ids' label='friends' direct=true
+            // each friend_search_results
+            //     .ui.header #{username}
+            // each user_friends
+            //     .item #{username}
                     
                                         
                                             
                            
-template(name='profile_group_card')
-    a.card.zoomer(href="/group/#{_id}")
-        .image
-            +image_view key='image_id' direct=true cl='ui tiny image'
+template(name='profile_group_item')
+    a.item.zoomer(href="/group/#{_id}")
+        // .image
+        +image_view key='image_id' direct=true cl='ui tiny image'
         .content
             .ui.header #{title}
+                if private 
+                    i.large.lock.icon(title='private')
                        
                                 
 template(name='event_item_small')

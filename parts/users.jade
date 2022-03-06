@@ -82,14 +82,14 @@ template(name='user_cloud')
 
 template(name='user_card')
     a.card.zoomer.fly_left(href="/user/#{username}")
-        unless avatar_image_id
-            img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
-        // if avatar_image_id
-        //     .ui.fade.reveal.image
-        //         .visible.content
-        //             img(class=currentUser.invert_class src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}") 
-        //         .hidden.content
-        //             img(class=currentUser.invert_class src="{{c.url avatar_image_id height=500 width=500 gravity='face' crop='fill'}}") 
+        // unless avatar_image_id
+        //     img.ui.centered.image(class=currentUser.invert_class src="{{c.url image_id width=400 height=300 crop='fill' gravity='face'}}")    
+        if avatar_image_id
+            .ui.fade.reveal.image
+                .visible.content
+                    img(class=currentUser.invert_class src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}") 
+                .hidden.content
+                    img(class=currentUser.invert_class src="{{c.url avatar_image_id height=500 width=500 gravity='face' crop='fill'}}") 
 
         .content
             a.ui.inline.header.pointer.blink(href="/user/#{username}" style="color:#{theme_color};")
@@ -101,16 +101,16 @@ template(name='user_card')
                 .ui.basic.label(style="color:#{current_user.theme_color};" title='one ratio') {{to_percent one_ratio}}%
             if flow_volume
                 .ui.basic.label(style="color:#{current_user.theme_color};" title='flow volume') #{flow_volume}
-            // if debit_tags
-            //     div
-            //     i.gift.icon(title='gifted tags')
-            //     each debit_tags
-            //         .ui.small.basic.label #{title}
-            // if credit_tags
-            //     div
-            //     i.chevron.down.icon(title='received gift tags')
-            //     each credit_tags
-            //         .ui.small.basic.label #{title}
+            if debit_tags
+                div
+                i.gift.icon(title='gifted tags')
+                each debit_tags
+                    .ui.small.basic.label #{title}
+            if credit_tags
+                div
+                i.chevron.down.icon(title='received gift tags')
+                each credit_tags
+                    .ui.small.basic.label #{title}
             if tags 
                 each five_tags 
                     .ui.basic.label #{this}
@@ -121,14 +121,17 @@ template(name='user_card')
                 .ui.small.inline.header(title='status' style="color:#{theme_color};")
                     i.small.clock.icon
                     |!{current_status}
-            // div
-            // i.line.chart.icon(title='levels')
-            // each levels
-            //     .ui.basic.small.label(style="color:#{theme_color};") #{this}
-            // unless is_this_user
-            //     i.red.gift.pointer.debit.big.icon
-            //     i.teal.concierge.bell.pointer.request.big.icon
-            //     i.blue.chat.pointer.message.big.disabled.icon
+            div
+            i.line.chart.icon(title='levels')
+            each levels
+                .ui.basic.small.label(style="color:#{theme_color};") #{this}
+            unless is_this_user
+                i.red.gift.pointer.debit.big.icon
+                i.teal.concierge.bell.pointer.request.big.icon
+                i.blue.chat.pointer.message.big.disabled.icon
+            .ui.inline.header 
+                |#{views}
+                |views
             
             
             

@@ -471,7 +471,7 @@ template(name='event_view')
                         a.ui.button(href=link target="_window")
                             i.globe.icon 
                             |#{link}
-            .three.column.row 
+            .three.column.row.scrolling
                 .column.scrollin
                     a(href="{{c.url image_id }}")
                         img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
