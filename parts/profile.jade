@@ -5,20 +5,20 @@ template(name='profile')
         else 
             img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
-            .row
-                .four.wide.column.scrollin
+            .two.column.row
+                .column
                     a.ui.fluid.large.circular.basic.button.fly_left(href='/users' title='back to users')
                         i.chevron.left.icon
                         +i name='groups'
                         // |users
                     // a.item(href="/user/#{current_user.username}")
-                    img.ui.circular.centered.image.pointer.boop(src="{{c.url image_id height=400 width=400 gravity='face' crop='fill'}}")
-                    // .spacer
-                    // a(href="/user/#{username}")
                     .ui.center.aligned.header
                         // strong #{name}
                         strong #{first_name} #{last_name}
                         | @#{username}        
+                    img.ui.circular.centered.image.pointer.boop(src="{{c.url image_id height=400 width=400 gravity='face' crop='fill'}}")
+                    // .spacer
+                    // a(href="/user/#{username}")
                     if boops
                         .ui.header(title='boops')
                             +i name='tap-gesture'
@@ -79,112 +79,116 @@ template(name='profile')
                                 |!{current_status}
                     if is_dev
                         .ui.small.inline.header #{_id}
-                            
-                .eight.wide.column.scrollin
-                    .ui.stackable.grid
-                        // .spacer
+                .column
+                    // a.ui.inline.header.zoomer(href="/groups")
+                    //     +icolor name='campfire'
+                    //     |groups
+                    if user_leader_groups.count
+                        .ui.header
+                            i.king.icon
+                            // +i name='king'
+                            |group leader of
+                        each user_leader_groups
+                            .ui.segment
+                                a.ui.header(href="/m/group/#{_id}") #{title}
+                                if is_current_user
+                                    +enter_group
+                    if user_member_groups.count
+                        a.ui.inline.header.toggle_group_members.zoomer.pointer(title='toggle group members')
+                            // +i name='groups'
+                            i.large.fire.icon
+                            |#{user_member_groups.count}
+                            |group member of
+                            if session_is 'view_group_members' true
+                                i.chevron.down.icon
+                            else                                    
+                                i.chevron.right.icon
+                        if session_is 'view_group_members' true
+                            .ui.doubling.centered.cards
+                                each user_member_groups
+                                    +profile_group_card
+                .column
+                    .medscrolls
+                        .ui.header 
+                            i.ticket.icon
+                            // +i name='ticket'
+                            |tickets
+                        each user_event_tickets
+                            .ui.card
+                                if ticket_event.image_id
+                                    a(href="/event/#{event_id}")
+                                        img.ui.fluid.zoom.image(src="{{c.url ticket_event.image_id height=200 width=200 crop='fit'}}" class=currentUser.invert_class)
+                                .content.zoom.pointer
+                                    a.header(href="/event/#{event_id}")
+                                        |#{ticket_event.title}
+                                    // |#{fac.shortname}
+                                    |#{description}
+                                    |{{med_date date}}
+                                    |{{long_time time}}
+                    |!{description}
+                .column
+                    .ui.header 
+                        +i name='chat'
+                        |user comments
+                    .ui.list 
+                        each model_docs_helper 'comment'
+                            a.item(href="/#{parent_model}/#{parent_id}") #{body}
+                                small #{when}
+                .column
+                    .ui.header 
+                        +i name='calendar'
+                        |user events
+                    if user_hosted_events.count
+                        .ui.header.pointer
+                            i.chess.king.icon
+                            |#{user_hosted_events.count}
+                            |hosted
+                        .ui.large.link.animated.list
+                            each user_hosted_events
+                                +event_item_small
+                    .ui.grid
                         .sixteen.wide.column
-                            // a.ui.inline.header.zoomer(href="/groups")
-                            //     +icolor name='campfire'
-                            //     |groups
-                            if user_leader_groups.count
-                                .ui.header
-                                    // i.king.icon
-                                    +i name='king'
-                                    |group leader of
-                                each user_leader_groups
-                                    .ui.segment
-                                        a.ui.header(href="/m/group/#{_id}") #{title}
-                                        if is_current_user
-                                            +enter_group
-                            if user_member_groups.count
-                                a.ui.inline.header.toggle_group_members.zoomer.pointer(title='toggle group members')
-                                    +i name='groups'
-                                    |#{user_member_groups.count}
-                                    |group member of
-                                    if session_is 'view_group_members' true
-                                        i.chevron.down.icon
-                                    else                                    
-                                        i.chevron.right.icon
-                                if session_is 'view_group_members' true
-                                    .ui.doubling.four.cards
-                                        each user_member_groups
-                                            +profile_group_card
-                                    
+                            .content
+                                .ui.header.pointer.toggle_maybe
+                                    i.question.orange.icon
+                                    |#{user_maybe_events.count}
+                                    |maybe
+                                // if session_is 'view_maybe'
+                                each user_maybe_events
+                                    +event_item_small
                         .sixteen.wide.column
-                            .medscrolls
-                                .ui.header 
-                                    i.ticket.icon
-                                    // +i name='ticket'
-                                    |tickets
-                                each user_event_tickets
-                                    .ui.card
-                                        if ticket_event.image_id
-                                            a(href="/event/#{event_id}")
-                                                img.ui.fluid.zoom.image(src="{{c.url ticket_event.image_id height=200 width=200 crop='fit'}}" class=currentUser.invert_class)
-                                        .content.zoom.pointer
-                                            a.header(href="/event/#{event_id}")
-                                                |#{ticket_event.title}
-                                            // |#{fac.shortname}
-                                            |#{description}
-                                            |{{med_date date}}
-                                            |{{long_time time}}
-                            |!{description}
-                        .sixteen.wide.column
-                            .ui.header 
-                                +i name='calendar'
-                                |user events
-                            if user_hosted_events.count
+                            .content
                                 .ui.header.pointer
-                                    i.chess.king.icon
-                                    |#{user_hosted_events.count}
-                                    |hosted
+                                    i.checkmark.icon
+                                    |went
+                                // if session_is 'view_maybe'
+                                each user_went_events
+                                    +event_item_small
+                        .sixteen.wide.column
+                            .ui.segment
+                                .ui.header.pointer
+                                    i.green.checkmark.icon
+                                    |#{user_going_events.count}
+                                    |going
+                                // if session_is 'view_maybe'
                                 .ui.large.link.animated.list
-                                    each user_hosted_events
+                                    each user_going_events
                                         +event_item_small
-                            .ui.grid
-                                .sixteen.wide.column
-                                    .content
-                                        .ui.header.pointer.toggle_maybe
-                                            i.question.orange.icon
-                                            |#{user_maybe_events.count}
-                                            |maybe
-                                        // if session_is 'view_maybe'
-                                        each user_maybe_events
-                                            +event_item_small
-                                .sixteen.wide.column
-                                    .content
-                                        .ui.header.pointer
-                                            i.checkmark.icon
-                                            |went
-                                        // if session_is 'view_maybe'
-                                        each user_went_events
-                                            +event_item_small
-                                .sixteen.wide.column
-                                    .ui.segment
-                                        .ui.header.pointer
-                                            i.green.checkmark.icon
-                                            |#{user_going_events.count}
-                                            |going
-                                        // if session_is 'view_maybe'
-                                        .ui.large.link.animated.list
-                                            each user_going_events
-                                                +event_item_small
-                                .ui.card
-                                    .content
-                                        .ui.header 
-                                            // i.large.handshake.icon
-                                            +i name='friends'
-                                            |friends
-                                        // .ui.input
-                                        //     i.plus.icon
-                                        //     input.search_friend(type='text' placeholder='add by username...')
-                                        if is_current_user
-                                            +multi_user_edit key='friend_ids' label='friends' direct=true
-                                        each friend_search_results
-                                            .ui.header #{username}
-                                        each user_friends
-                                            .item #{username}
+                        .ui.card
+                            .content
+                                .ui.header 
+                                    // i.large.handshake.icon
+                                    +i name='friends'
+                                    |friends
+                                // .ui.input
+                                //     i.plus.icon
+                                //     input.search_friend(type='text' placeholder='add by username...')
+                                if is_current_user
+                                    +multi_user_edit key='friend_ids' label='friends' direct=true
+                                each friend_search_results
+                                    .ui.header #{username}
+                                each user_friends
+                                    .item #{username}
                     
                                         
                                             

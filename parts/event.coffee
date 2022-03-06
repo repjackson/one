@@ -1,4 +1,7 @@
 if Meteor.isClient
+
+    @picked_event_tags = new ReactiveArray []
+
     Router.route '/event/:doc_id', (->
         @layout 'layout'
         @render 'event_view'
@@ -12,7 +15,7 @@ if Meteor.isClient
     Template.events.onCreated ->
         # @autorun => Meteor.subscribe 'model_docs', 'event', ->
         # @autorun => Meteor.subscribe 'event_tags',picked_tags.array(), ->
-        Session.setDefault('current_query',null)
+        Session.setDefault('event_search',null)
         Session.setDefault('view_mode','grid')
         Session.setDefault('sort_key','start_datetime')
         Session.setDefault('sort_direction',-1)
@@ -28,6 +31,7 @@ if Meteor.isClient
 
         @autorun => @subscribe 'event_results',
             picked_tags.array()
+            Session.get('event_search')
             Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
@@ -139,19 +143,19 @@ if Meteor.isClient
                     published:false
                     # purchased:false
             Router.go "/event/#{new_id}/edit"
-        'keyup .search_event': _.throttle((e,t)->
-            query = $('.search_event').val()
-            Session.set('current_query', query)
+        'keyup .event_search': _.throttle((e,t)->
+            query = $('.event_search').val()
+            Session.set('event_search', query)
             
-            console.log Session.get('current_query')
+            console.log Session.get('event_search')
             if e.which is 13
-                search = $('.search_event').val().trim().toLowerCase()
+                search = $('.event_search').val().trim().toLowerCase()
                 if search.length > 0
-                    picked_tags.push search
-                    console.log 'search', search
+                    picked_event_tags.push search
+                    console.log 'event_search', search
                     # Meteor.call 'log_term', search, ->
-                    $('.search_event').val('')
-                    Session.set('current_query', null)
+                    $('.event_search').val('')
+                    Session.set('event_search', null)
                     # # $( "p" ).blur();
                     # Meteor.setTimeout ->
                     #     Session.set('dummy', !Session.get('dummy'))
@@ -182,12 +186,12 @@ if Meteor.isClient
             if Session.get('viewing_past')
                 # match.date = $gt:moment().subtract(1,'days').format("YYYY-MM-DD")
                 match.start_datetime = $lt:moment().subtract(1,'days').format()
-            else 
+            else if Session.get('view_mode', 'all')
                 match.start_datetime = $gt:moment().subtract(1,'days').format()
             # else
             #     match.date = $lt:moment().subtract(1,'days').format("YYYY-MM-DD")
-            if Session.get('current_query')
-                match.title = {$regex:"#{Session.get('current_query')}", $options: 'i'}
+            if Session.get('event_search')
+                match.title = {$regex:"#{Session.get('event_search')}", $options: 'i'}
             Docs.find match,
                 sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))
     
@@ -288,6 +292,7 @@ if Meteor.isServer
 
     Meteor.publish 'event_results', (
         picked_tags
+        event_search=''
         doc_limit
         doc_sort_key
         doc_sort_direction
@@ -316,9 +321,10 @@ if Meteor.isServer
             match.tags = $all: picked_tags
             # sort = 'member_count'
         else
-            # match.tags = $nin: ['wikipedia']
             sort = '_timestamp'
-            # match.source = $ne:'wikipedia'
+        if event_search.length > 0
+            match.title = {$regex: "#{event_search}", $options: 'i'}
+    
         # if view_images
         #     match.is_image = $ne:false
         # if view_videos
@@ -333,18 +339,18 @@ if Meteor.isServer
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
 
-        console.log 'group match', match
-        console.log 'sort key', sort_key
-        console.log 'sort direction', sort_direction
+        # console.log 'group match', match
+        # console.log 'sort key', sort_key
+        # console.log 'sort direction', sort_direction
         Docs.find match,
-            # sort:"#{sort_key}":sort_direction
-            sort:_timestamp:-1
+            sort:"#{sort_key}":sort_direction
+            # sort:_timestamp:-1
             limit: limit
 
     Meteor.publish 'event_facets', (
         picked_tags
+        event_search=''
         picked_timestamp_tags
-        query
         doc_limit
         doc_sort_key
         doc_sort_direction
@@ -367,7 +373,8 @@ if Meteor.isServer
         # if view_pickup
         #     match.pickup = $ne:false
         if picked_tags.length > 0 then match.tags = $all: picked_tags
-            # match.$regex:"#{current_query}", $options: 'i'}
+        if event_search.length > 0
+            match.title = {$regex: "#{event_search}", $options: 'i'}
         # else
         # unless query and query.length > 2
         # if picked_tags.length > 0 then match.tags = $all: picked_tags
@@ -379,7 +386,7 @@ if Meteor.isServer
         #     { $unwind: "$tags" }
         #     { $group: _id: "$tags", count: $sum: 1 }
         #     { $match: _id: $nin: picked_tags }
-        #     # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+        #     # { $match: _id: {$regex:"#{event_search}", $options: 'i'} }
         #     { $sort: count: -1, _id: 1 }
         #     { $limit: 20 }
         #     { $project: _id: 0, name: '$_id', count: 1 }

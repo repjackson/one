@@ -12,8 +12,11 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_leader_groups', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_hosted_events', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_going_events', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_comments', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'username_model_docs', Router.current().params.username, 'comment', ->
         # @autorun => Meteor.subscribe 'profile', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'order'
+        
         @autorun => Meteor.subscribe 'user_groups', Router.current().params.username, ->
 
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
@@ -109,6 +112,14 @@ if Meteor.isClient
         'click .boop': (e,t)->
             $(e.currentTarget).closest('.image').transition('bounce', 500)
             user = Meteor.users.findOne username:Router.current().params.username
+            $('body').toast(
+                showIcon: 'hand point down outline'
+                message: "boop"
+                showProgress: 'bottom'
+                class: 'success'
+                displayTime: '750',
+                position: "bottom center"
+            )
             Meteor.users.update user._id,
                 $inc:boops:1
             
@@ -149,15 +160,16 @@ if Meteor.isServer
                 $set:points:total_points
             
             
-    Meteor.publish 'username_model_docs', (model, username)->
-        if username 
-            Docs.find   
-                model:model
-                _author_username:username
-        else 
-            Docs.find   
-                model:model
-                _author_username:Meteor.user().username            
+    Meteor.publish 'username_model_docs', (username, model)->
+        user = Meteor.users.findOne username:username
+        # if username 
+        Docs.find   
+            model:model
+            _author_id:user._id
+        # else 
+        #     Docs.find   
+        #         model:model
+        #         _author_username:Meteor.user().username            
                 
                 
                 

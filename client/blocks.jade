@@ -103,6 +103,10 @@ template(name='doc_comment')
     .comment
         .content
             .ui.header #{body}
+            if can_edit 
+                +session_boolean_toggle key='editing_mode' icon='pencil' 
+                if session_is 'editing_mode' true
+                    +text_edit key='body' direct=true
             .meta #{when}
                 |by 
                 if anon 
@@ -169,7 +173,8 @@ template(name='user_info')
 
 template(name='session_boolean_toggle')
     .ui.compact.button.toggle_session_key(class=calculated_class)
-        +i name=icon cl='ui avatar image'
+        // +i name=icon cl='ui avatar image'
+        i.icon(class=icon)
         |#{label}
         //- if icon_view 
         //- else 

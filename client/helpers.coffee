@@ -14,6 +14,8 @@ Template.registerHelper 'is_in_past', () ->
     moment().isSameOrAfter(moment(@start_datetime))
 
 
+
+
 Template.registerHelper 'host', () ->
     Meteor.users.findOne @host_id
 Template.registerHelper 'is_admin', (model) ->
@@ -370,9 +372,9 @@ Template.registerHelper 'editing_doc', () ->
     Docs.findOne Session.get('editing_id')
 
 Template.registerHelper 'can_edit', () ->
-    # if Meteor.user()
-    #     Meteor.userId() is @_author_id or 'admin' in Meteor.user().roles
-    Meteor.user()
+    if Meteor.user()
+        Meteor.userId() is @_author_id or Meteor.user().admin_mode
+    # Meteor.user()
 Template.registerHelper 'publish_when', () -> moment(@publish_date).fromNow()
 Template.registerHelper 'ingredient_products', () -> 
     Docs.find 

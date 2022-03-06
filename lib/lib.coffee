@@ -89,7 +89,7 @@ Docs.helpers
             model:'product'
             source_id:@_id
     when: -> moment(@_timestamp).fromNow()
-    ten_tags: -> if @tags then @tags[..10]
+    seven_tags: -> if @tags then @tags[..7]
     five_tags: -> if @tags then @tags[..4]
     three_tags: -> if @tags then @tags[..2]
     is_visible: -> @published in [0,1]

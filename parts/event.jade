@@ -47,7 +47,7 @@ template(name='events')
             .twelve.wide.column
                 .ui.icon.input
                     i.search.icon
-                    input.search_event(type='text' placeholder='search...' autofocus='')
+                    input.event_search(type='text' placeholder='search...' autofocus='')
                 +session_set key='view_mode' value='grid' icon='th'
                 +session_set key='view_mode' value='list' icon='list'
                 +session_set key='view_attending' value='going' label='going' icon='checkmark'
@@ -103,7 +103,7 @@ template(name='event_card')
         .content
             if tags 
                 i.tag.icon
-                each tags 
+                each seven_tags 
                     .ui.link.label.zoomer.pick_flat_tag
                         |#{this}
             if location

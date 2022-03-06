@@ -374,7 +374,7 @@ if Meteor.isServer
             limit: limit
 
     Meteor.publish 'group_facets', (
-        picked_tags
+        picked_tags=[]
         picked_timestamp_tags
         query
         doc_limit
@@ -391,37 +391,15 @@ if Meteor.isServer
         self = @
         match = {}
         match.model = 'group'
-        if view_open
-            match.open = $ne:false
+        # if view_open
+        #     match.open = $ne:false
 
-        if view_delivery
-            match.delivery = $ne:false
-        if view_pickup
-            match.pickup = $ne:false
+        # if view_delivery
+        #     match.delivery = $ne:false
+        # if view_pickup
+        #     match.pickup = $ne:false
         if picked_tags.length > 0 then match.tags = $all: picked_tags
             # match.$regex:"#{current_query}", $options: 'i'}
-        # if query and query.length > 1
-        # #     console.log 'searching query', query
-        # #     # match.tags = {$regex:"#{query}", $options: 'i'}
-        # #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
-        # #
-        #     Terms.find {
-        #         title: {$regex:"#{query}", $options: 'i'}
-        #     },
-        #         sort:
-        #             count: -1
-        #         limit: 20
-            # tag_cloud = Docs.aggregate [
-            #     { $match: match }
-            #     { $project: "tags": 1 }
-            #     { $unwind: "$tags" }
-            #     { $group: _id: "$tags", count: $sum: 1 }
-            #     { $match: _id: $nin: picked_tags }
-            #     { $match: _id: {$regex:"#{query}", $options: 'i'} }
-            #     { $sort: count: -1, _id: 1 }
-            #     { $limit: 42 }
-            #     { $project: _id: 0, name: '$_id', count: 1 }
-            #     ]
 
         tag_cloud = Docs.aggregate [
             { $match: match }
@@ -430,16 +408,17 @@ if Meteor.isServer
             { $group: _id: "$tags", count: $sum: 1 }
             { $sort: count: -1, _id: 1 }
             { $limit: 20 }
-            { $project: _id: 0, title: '$_id', count: 1 }
+            { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
         }
 
         tag_cloud.forEach (tag, i) =>
-            # console.log 'tag result ', tag
-            self.added 'tags', Random.id(),
-                title: tag.title
+            # console.log 'group tag result ', tag
+            self.added 'results', Random.id(),
+                name: tag.name
                 count: tag.count
+                model:'group_tag'
                 # category:key
                 # index: i
 

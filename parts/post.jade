@@ -111,6 +111,9 @@ template(name='post_card')
                 | !{content}
             // +comments_view_small
             +author_info
+            if group_id     
+                +group_info
+            
         
 template(name='post_item')
     .ui.fluid.segment.view_post.pointer

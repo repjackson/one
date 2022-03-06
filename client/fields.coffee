@@ -778,5 +778,14 @@ Template.single_user_edit.events
         #     page_doc = Docs.findOne Router.current().params.doc_id
             # Meteor.call 'unassign_user', page_doc._id, @
 
-
+    'click .add_user': (e,t)->
+        # search_value = $(e.currentTarget).closest('.single_user_select_input').val().trim()
+        # search_value = $(e.currentTarget).closest('.single_user_select_input').val()
+        # console.log search_value
+        new_username = prompt('username')
+        Meteor.call 'add_user', new_username, (err,res)->
+            console.log res
+            new_user = Meteor.users.findOne res
+            # Router.go "/user/#{new_user.username}"
+        
 

@@ -72,6 +72,8 @@ if Meteor.isClient
             Docs.find
                 parent_id:parent._id
                 model:'comment'
+                
+                
     Template.comments.events
         'keyup .add_comment': (e,t)->
             if e.which is 13

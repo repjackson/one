@@ -12,15 +12,15 @@ template(name='groups')
             // .ui.left.icon.search.small.input
             //     i.search.icon.refresh_tags
             //     input#search_tag.prompt(type='text' autocomplete="off" placeholder='tags')
-            if selected_tag_plural
-                .ui.icon.circular.black.compact.button.clear_picked_tags
-                    i.remove.icon
-            each picked_tags
-                button.ui.blue.compact.circular.small.button.unselect_tag(tabindex='0')
+            // if selected_tag_plural
+            //     .ui.icon.circular.black.compact.button.clear_picked_tags
+            //         i.remove.icon
+            each picked_group_tags
+                button.ui.blue.compact.circular.small.button.unpick_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}
             each group_tag_results
-                button.ui.circular.compact.small.button.tag_result(tabindex="0" class=result_class title=count)
+                button.ui.circular.compact.small.button.pick_group_tag(tabindex="0" class=result_class title=count)
                     |#{name}
                     //- small #{count}
             span.sorting_row
@@ -125,7 +125,7 @@ template(name='group_card')
             +print_this
                     
 template(name='group_item')
-    .item.zoomer
+    a.item.zoomer(href="/group/#{_id}")
         if image_id
             img.ui.tiny.inline.image(src="{{c.url image_id width=600 height=600}}")
         //     a.image.zoomer.fly_right(href="/group/#{_id}")
@@ -136,17 +136,25 @@ template(name='group_item')
             // .smallscroll
             //     |!{description}
             //+ismall name='tags' cl='ui inline image'
-            each tags
+            each seven_tags
                 .ui.label #{this}
-            a.zoomer(href="/group/#{_id}")
-                i.chevron.right.large.circular.icon
+            // a.zoomer(href="/group/#{_id}")
+            //     i.chevron.right.large.circular.icon
             // if is_admin
             //     .ui.small.header slug: #{slug}
-            if can_edit
-                a.ui.circular.icon.button(href="/group/#{_id}/edit")
-                    i.pencil.blue.icon
+            // if can_edit
+            //     a.ui.circular.icon.button(href="/group/#{_id}/edit")
+            //         i.pencil.blue.icon
             +print_this
                     
+
+
+template(name='group_info')
+    with group
+        .ui.large.image.label 
+            img.ui.image(src="{{c.url image_id width=200 height=200}}")
+            |#{title}
+
 
 template(name='group_edit')
     with current_doc
