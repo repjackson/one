@@ -16,8 +16,8 @@ Template.footer.helpers
     result_docs: ->
         Results.find {}
 
-    # user_docs: ->
-        # Meteor.users.find()
+    user_docs: ->
+        Meteor.users.find()
 # Template.home.onCreated ->
 #     @autorun => @subscribe 'model_docs', 'stats', ->
 # Template.home.onRendered ->

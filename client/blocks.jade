@@ -563,3 +563,14 @@ template(name='group_picker')
                     |#{title}
                     i.remove.link.icon.zoomer.remove_group
                     
+
+
+template(name='friend_button')
+    if is_friend
+        .ui.button.unfriend
+            i.plus.icon
+            |friend
+    else 
+        .ui.button.friend
+            i.minus.icon
+            |unfriend

@@ -1,4 +1,23 @@
 if Meteor.isClient
+    Template.friend_button.events 
+        'click .friend': ->
+            console.log @
+            Meteor.users.update Meteor.userId(),
+                $addToSet: 
+                    friend_ids:@_id
+                    friend_usernames:@username
+        'click .unfriend': ->
+            console.log @
+            Meteor.users.update Meteor.userId(),
+                $pull: 
+                    friend_ids:@_id
+                    friend_usernames:@username
+                    
+    Template.friend_button.helpers
+        is_friend: ->
+            Meteor.user().friend_ids and @_id in Meteor.user().friend_ids
+                    
+                    
     Template.session_toggle.events
         'click .toggle_session_var': ->
             Session.set(@key, !Session.get(@key))

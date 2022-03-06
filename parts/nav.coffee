@@ -1,6 +1,6 @@
 if Meteor.isClient
     Template.nav.onCreated ->
-        @autorun => Meteor.subscribe 'me'
+        @autorun => Meteor.subscribe 'me', ->
         # @autorun => Meteor.subscribe 'all_users'
         # @autorun => Meteor.subscribe 'models', ->
         
