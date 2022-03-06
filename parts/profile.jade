@@ -7,7 +7,7 @@ template(name='profile')
         .ui.stackable.padded.grid
             .three.column.row
                 .column
-                    a.ui.fluid.large.circular.basic.button.fly_left(href='/users' title='back to users')
+                    a.ui.fluid.large.circular.button.fly_left(href='/users' title='back to users')
                         i.chevron.left.icon
                         +i name='groups'
                         // |users
@@ -20,7 +20,7 @@ template(name='profile')
                     // .spacer
                     // a(href="/user/#{username}")
                     if boops
-                        .ui.header(title='boops')
+                        .ui.center.aligned.header(title='boops')
                             +i name='tap-gesture'
                             |#{boops}
                     .ui.inline.header
@@ -51,8 +51,13 @@ template(name='profile')
                     //         +i name='shield'
                     //         // i.shield.icon
                     //         // |admin
+                    div
                     +array_view key='roles' label='roles' direct=true icon='shield'
+                    div
                     +array_view key='tags' label='tags' direct=true icon='tags'
+                    div
+                    +array_view key='skills' label='skills' icon='wrench' direct=true
+
                     .spacer
                     if is_current_user
                         a.ui.button.logout_other_clients(href="#" title='logout other clients')
@@ -78,8 +83,8 @@ template(name='profile')
                             .ui.small.header(title='status' )
                                 i.grey.clock.icon
                                 |!{current_status}
-                    if is_dev
-                        .ui.small.inline.header #{_id}
+                    // if is_dev
+                    //     .ui.small.inline.header #{_id}
                 .column
                     // a.ui.inline.header.zoomer(href="/groups")
                     //     +icolor name='campfire'
@@ -109,6 +114,9 @@ template(name='profile')
                                 each user_member_groups
                                     +profile_group_card
                 .column
+                    +array_view key='allergens' label='allergens' icon='no-milk' direct=true
+                    +array_view key='food_dislikes' label='food dislikes' icon='disgusting' direct=true
+                    +link_view key='profile_link' label='profile link' icon='link' direct=true
                     .ui.header 
                         +i name='chat'
                         |comments
