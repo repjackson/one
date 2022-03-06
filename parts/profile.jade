@@ -135,63 +135,68 @@ template(name='profile')
                             a.item(href="/post/#{parent_id}") #{body}
                                 small #{when}
                     +user_friends
-                    .medscrolls
-                        .ui.header 
-                            i.ticket.icon
-                            // +i name='ticket'
-                            |tickets
-                        each user_event_tickets
-                            .ui.card
-                                if ticket_event.image_id
-                                    a(href="/event/#{event_id}")
-                                        img.ui.fluid.zoom.image(src="{{c.url ticket_event.image_id height=200 width=200 crop='fit'}}" class=currentUser.invert_class)
-                                .content.zoom.pointer
-                                    a.header(href="/event/#{event_id}")
-                                        |#{ticket_event.title}
-                                    // |#{fac.shortname}
-                                    |#{description}
-                                    |{{med_date date}}
-                                    |{{long_time time}}
+                    +user_tickets
                     |!{description}
-                    .ui.header 
-                        +i name='calendar'
-                        |user events
-                    if user_hosted_events.count
-                        .ui.header.pointer
-                            i.chess.king.icon
-                            |#{user_hosted_events.count}
-                            |hosted
-                        .ui.large.link.animated.list
-                            each user_hosted_events
-                                +event_item_small
-                    .content
-                        .ui.header.pointer.toggle_maybe
-                            i.question.orange.icon
-                            |#{user_maybe_events.count}
-                            |maybe
-                        // if session_is 'view_maybe'
-                        each user_maybe_events
-                            +event_item_small
-                    .ui.styled.accordion
-                        .title
-                            .ui.header.pointer
-                                i.checkmark.icon
-                                |went
-                        .content
-                            each user_went_events
-                                +event_item_small
-                    .ui.styled.accordion
-                        .title
-                            .ui.header.pointer
-                                i.green.checkmark.icon
-                                |#{user_going_events.count}
-                                |going
-                            // if session_is 'view_maybe'
-                        .content
-                            .ui.large.link.animated.list
-                                each user_going_events
-                                    +event_item_small
+                    +user_events
+                    
+template(name='user_events')
+    .ui.header 
+        +i name='calendar'
+        |user events
+    if user_hosted_events.count
+        .ui.header.pointer
+            i.chess.king.icon
+            |#{user_hosted_events.count}
+            |hosted
+        .ui.large.link.animated.list
+            each user_hosted_events
+                +event_item_small
+    .ui.styled.accordion
+        .title
+            .ui.header.pointer
+                i.question.orange.icon
+                |#{user_maybe_events.count}
+                |maybe
+        .content
+            each user_maybe_events
+                +event_item_small
+        .title
+            .ui.header.pointer
+                i.checkmark.icon
+                |went
+        .content
+            each user_went_events
+                +event_item_small
+        .title
+            .ui.header.pointer
+                i.green.checkmark.icon
+                |#{user_going_events.count}
+                |going
+        .content
+            .ui.large.link.animated.list
+                each user_going_events
+                    +event_item_small
 
+
+
+template(name='user_tickets')
+    .medscrolls
+        .ui.header 
+            i.ticket.icon
+            // +i name='ticket'
+            |tickets
+        each user_event_tickets
+            .ui.card
+                if ticket_event.image_id
+                    a(href="/event/#{event_id}")
+                        img.ui.fluid.zoom.image(src="{{c.url ticket_event.image_id height=200 width=200 crop='fit'}}" class=currentUser.invert_class)
+                .content.zoom.pointer
+                    a.header(href="/event/#{event_id}")
+                        |#{ticket_event.title}
+                    // |#{fac.shortname}
+                    |#{description}
+                    |{{med_date date}}
+                    |{{long_time time}}
 
 
 template(name='user_friends')

@@ -30,7 +30,7 @@ if Meteor.isClient
             match._id = $ne:Meteor.userId()
             Meteor.users.find(match
                 # roles:$in:['resident','owner']
-            ,{ limit:20 }).fetch()
+            ,{ limit:100 }).fetch()
 
     Template.users.events
         'click .toggle_friends': -> Session.set('view_friends', !Session.get('view_friends'))
