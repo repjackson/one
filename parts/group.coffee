@@ -200,13 +200,13 @@ if Meteor.isClient
                 # Meteor.call 'search_reddit', picked_tags.array(), ->
 
         'click .clear_picked_tags': ->
-            Session.set('current_query',null)
+            Session.set('current_group_search',null)
             picked_tags.clear()
 
         'keyup #search': _.throttle((e,t)->
             query = $('#search').val()
-            Session.set('current_query', query)
-            # console.log Session.get('current_query')
+            Session.set('current_group_search', query)
+            # console.log Session.get('current_group_search')
             if e.which is 13
                 search = $('#search').val().trim().toLowerCase()
                 if search.length > 0
@@ -214,7 +214,7 @@ if Meteor.isClient
                     console.log 'search', search
                     # Meteor.call 'log_term', search, ->
                     $('#search').val('')
-                    Session.set('current_query', null)
+                    Session.set('current_group_search', null)
                     # # $('#search').val('').blur()
                     # # $( "p" ).blur();
                     # Meteor.setTimeout ->
@@ -248,8 +248,7 @@ if Meteor.isClient
 
 
     Template.groups.helpers
-        sorting_up: ->
-            parseInt(Session.get('group_sort_direction')) is 1
+        sorting_up: -> parseInt(Session.get('group_sort_direction')) is 1
 
         # toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
         # connection: ->
@@ -258,7 +257,7 @@ if Meteor.isClient
         # connected: ->
         #     Meteor.status().connected
         group_tag_results: ->
-            # if Session.get('current_query') and Session.get('current_query').length > 1
+            # if Session.get('current_group_search') and Session.get('current_group_search').length > 1
             #     Terms.find({}, sort:count:-1)
             # else
             group_count = Docs.find().count()
@@ -267,6 +266,8 @@ if Meteor.isClient
             #     Results.find({count: $lt: group_count})
             # else
             Results.find()
+
+        current_group_search: -> Session.get('current_group_search')
 
         result_class: ->
             if Template.instance().subscriptionsReady()
@@ -399,7 +400,7 @@ if Meteor.isServer
         # if view_pickup
         #     match.pickup = $ne:false
         if picked_tags.length > 0 then match.tags = $all: picked_tags
-            # match.$regex:"#{current_query}", $options: 'i'}
+            # match.$regex:"#{current_group_search}", $options: 'i'}
 
         tag_cloud = Docs.aggregate [
             { $match: match }

@@ -50,7 +50,8 @@ template(name='user_edit')
                     +single_user_edit key='referred_by_user_id' label='referred by' direct=true    
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                     +array_edit key='skills' label='skills' icon='wrench' direct=true
-                    
+                    +multi_user_view key='friend_ids' label='friends' direct=true
+
 template(name='user_settings')
     .ui.segment
         .ui.header 

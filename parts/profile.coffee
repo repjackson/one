@@ -23,6 +23,11 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username, ->
         # @autorun -> Meteor.subscribe 'model_docs', 'event'
+    Template.profile.onRendered ->
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
+        , 1000
+
         
     Template.profile.events
         'click .toggle_group_members': -> Session.set('view_group_members', !Session.get('view_group_members'))

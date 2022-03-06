@@ -635,6 +635,16 @@ Template.multi_doc_edit.events
 
 
 
+Template.multi_user_view.onCreated ->
+    @user_results = new ReactiveVar
+    @autorun => @subscribe 'all_users'
+Template.multi_user_view.helpers
+    user_results: -> 
+        console.log Template.instance().user_results.get()
+        Template.instance().user_results.get()
+
+
+
 Template.multi_user_edit.onCreated ->
     @user_results = new ReactiveVar
     @autorun => @subscribe 'all_users'

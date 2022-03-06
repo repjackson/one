@@ -5,7 +5,7 @@ template(name='profile')
         else 
             img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
-            .two.column.row
+            .three.column.row
                 .column
                     a.ui.fluid.large.circular.basic.button.fly_left(href='/users' title='back to users')
                         i.chevron.left.icon
@@ -46,13 +46,14 @@ template(name='profile')
                             // i.sign.out.alternate.icon
                             +i name='exit'
                             // |log out
-                    if currentUser.admin
-                        .ui.header
-                            +i name='shield'
-                            // i.shield.icon
-                            // |admin
+                    // if currentUser.admin
+                    //     .ui.header
+                    //         +i name='shield'
+                    //         // i.shield.icon
+                    //         // |admin
                     +array_view key='roles' label='roles' direct=true icon='shield'
                     +array_view key='tags' label='tags' direct=true icon='tags'
+                    .spacer
                     if is_current_user
                         a.ui.button.logout_other_clients(href="#" title='logout other clients')
                             // i.globe.icon
@@ -108,6 +109,21 @@ template(name='profile')
                                 each user_member_groups
                                     +profile_group_card
                 .column
+                    .ui.header 
+                        +i name='chat'
+                        |comments
+                    .ui.list 
+                        each model_docs_helper 'comment'
+                            a.item(href="/#{parent_model}/#{parent_id}") #{body}
+                                small #{when}
+                    .ui.header 
+                        +i name='blog'
+                        |posts
+                    .ui.list 
+                        each model_docs_helper 'post'
+                            a.item(href="/post/#{parent_id}") #{body}
+                                small #{when}
+                .column
                     .medscrolls
                         .ui.header 
                             i.ticket.icon
@@ -126,15 +142,6 @@ template(name='profile')
                                     |{{med_date date}}
                                     |{{long_time time}}
                     |!{description}
-                .column
-                    .ui.header 
-                        +i name='chat'
-                        |user comments
-                    .ui.list 
-                        each model_docs_helper 'comment'
-                            a.item(href="/#{parent_model}/#{parent_id}") #{body}
-                                small #{when}
-                .column
                     .ui.header 
                         +i name='calendar'
                         |user events
@@ -146,49 +153,49 @@ template(name='profile')
                         .ui.large.link.animated.list
                             each user_hosted_events
                                 +event_item_small
-                    .ui.grid
-                        .sixteen.wide.column
-                            .content
-                                .ui.header.pointer.toggle_maybe
-                                    i.question.orange.icon
-                                    |#{user_maybe_events.count}
-                                    |maybe
-                                // if session_is 'view_maybe'
-                                each user_maybe_events
+                    .content
+                        .ui.header.pointer.toggle_maybe
+                            i.question.orange.icon
+                            |#{user_maybe_events.count}
+                            |maybe
+                        // if session_is 'view_maybe'
+                        each user_maybe_events
+                            +event_item_small
+                    .ui.styled.accordion
+                        .title
+                            .ui.header.pointer
+                                i.checkmark.icon
+                                |went
+                        .content
+                            each user_went_events
+                                +event_item_small
+                    .ui.styled.accordion
+                        .title
+                            .ui.header.pointer
+                                i.green.checkmark.icon
+                                |#{user_going_events.count}
+                                |going
+                            // if session_is 'view_maybe'
+                        .content
+                            .ui.large.link.animated.list
+                                each user_going_events
                                     +event_item_small
-                        .sixteen.wide.column
-                            .content
-                                .ui.header.pointer
-                                    i.checkmark.icon
-                                    |went
-                                // if session_is 'view_maybe'
-                                each user_went_events
-                                    +event_item_small
-                        .sixteen.wide.column
-                            .ui.segment
-                                .ui.header.pointer
-                                    i.green.checkmark.icon
-                                    |#{user_going_events.count}
-                                    |going
-                                // if session_is 'view_maybe'
-                                .ui.large.link.animated.list
-                                    each user_going_events
-                                        +event_item_small
-                        .ui.card
-                            .content
-                                .ui.header 
-                                    // i.large.handshake.icon
-                                    +i name='friends'
-                                    |friends
-                                // .ui.input
-                                //     i.plus.icon
-                                //     input.search_friend(type='text' placeholder='add by username...')
-                                if is_current_user
-                                    +multi_user_edit key='friend_ids' label='friends' direct=true
-                                each friend_search_results
-                                    .ui.header #{username}
-                                each user_friends
-                                    .item #{username}
+                .column
+                    .ui.fluid.card
+                        .content
+                            .ui.header 
+                                // i.large.handshake.icon
+                                +i name='friends'
+                                |friends
+                            // .ui.input
+                            //     i.plus.icon
+                            //     input.search_friend(type='text' placeholder='add by username...')
+                            if is_current_user
+                                +multi_user_view key='friend_ids' label='friends' direct=true
+                            // each friend_search_results
+                            //     .ui.header #{username}
+                            // each user_friends
+                            //     .item #{username}
                     
                                         
                                             
