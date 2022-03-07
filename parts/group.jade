@@ -23,6 +23,7 @@ template(name='groups')
                 button.ui.circular.compact.small.button.pick_group_tag(tabindex="0" class=result_class title=count)
                     |#{name}
                     //- small #{count}
+        .twelve.wide.column
             span.sorting_row
                 .ui.icon.input
                     i.search.icon
@@ -43,47 +44,6 @@ template(name='groups')
                     else
                         i.sort.amount.up.icon
                 |&nbsp;
-                |&nbsp;
-                if currentUser
-                    .ui.circular.icon.button.add_event(title='add event')
-                        i.plus.big.green.icon
-                .ui.compact.button.toggle_past
-                    if viewing_past
-                        i.undo.green.icon
-                    else
-                        i.circle.outline.icon
-                    |past
-                .ui.compact.button.toggle_now(class=today_button_class)
-                    if viewing_today
-                        +i name='calendar'
-                    else
-                        +ios name='calendar'
-                    |now
-                .ui.compact.button.view_today(class=today_button_class)
-                    if viewing_today
-                        +i name='calendar'
-                    else
-                        +ios name='calendar'
-                    |today
-                .ui.compact.button.toggle_past(class=today_button_class)
-                    if viewing_today
-                        +i name='calendar'
-                    else
-                        +ios name='calendar'
-                    |this week
-                .ui.compact.button.toggle_repeating(class=toggle_repeating_class)
-                    i.refresh.icon
-                    |repeating
-                div
-                i.large.tag.icon
-                each picked_group_tags 
-                    .ui.blue.button.unpick_tag
-                        |#{this}
-                each group_tags 
-                    .ui.compact.button.pick_tag #{title}
-                div
-                
-        .twelve.wide.column
             +session_set key='view_mode' value='grid' icon='th'
             +session_set key='view_mode' value='list' icon='list'
             if session_is 'view_mode' 'grid'
@@ -127,17 +87,21 @@ template(name='group_card')
 template(name='group_item')
     a.item.zoomer(href="/group/#{_id}")
         if image_id
-            img.ui.tiny.inline.image(src="{{c.url image_id width=600 height=600}}")
+            img.ui.tiny.image(src="{{c.url image_id width=300 height=300}}")
         //     a.image.zoomer.fly_right(href="/group/#{_id}")
-        .content
+        .middle.aligned.content
             a.ui.header.zoomer.fly_right(href="/group/#{_id}")
                 |#{title}
             |#{member_ids.length} members
             // .smallscroll
             //     |!{description}
             //+ismall name='tags' cl='ui inline image'
+        .middle.aligned.content
             each seven_tags
                 .ui.label #{this}
+            if location 
+                i.red.marker.icon 
+                |#{location}
             // a.zoomer(href="/group/#{_id}")
             //     i.chevron.right.large.circular.icon
             // if is_admin
@@ -162,6 +126,7 @@ template(name='group_edit')
             .three.column.row
                 .column
                     .ui.header 
+                        i.pencil.icon
                         |edit group
                     a.ui.big.icon.fluid.green.button.fly_up(href="/group/#{_id}" title='save')
                         i.checkmark.large.icon
@@ -179,6 +144,14 @@ template(name='group_edit')
                     +multi_user_edit key='member_ids' label='members' direct=true
                     +boolean_edit key='private' label='private' direct=true
                     +link_edit key='link' label='link' direct=true
+                .column
+                    .ui.header 
+                        i.cubes.icon
+                        |modules
+                    +boolean_edit key='has_checkin' label='checkin' icon='clock' direct=true
+                    +boolean_edit key='has_shop' label='shop' icon='shop' direct=true
+                    +boolean_edit key='has_posts' label='posts' icon='blog' direct=true
+                    
                     
 template(name='group_view')
     with current_doc
@@ -300,7 +273,7 @@ template(name='group_view')
                             a.item(href="/post/#{_id}")
                                 img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
                                 |#{title}
-
+                .column
     
     
     
