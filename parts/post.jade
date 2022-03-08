@@ -42,48 +42,6 @@ template(name='set_post_sort_key')
         
         
                 
-template(name='user_posts')
-    .ui.inline.header 
-        +i name='cookbook'
-        |user posts
-    .ui.basic.icon.button.send_post
-        i.large.plus.icon
-    .ui.padded.stackable.two.column.grid
-        .column
-            .ui.header 
-                +i name='sent--v2'
-                |authored 
-            .ui.stackable.cards.scrolling
-                each sent_posts 
-                    .ui.card
-                        .content
-                            a(href="/post/#{_id}") 
-                                img.ui.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
-    
-                            .ui.header 
-                                |#{amount} #{recipient_username}
-                            // |created #{when}
-                            |sent {{from_now sent_timestamp}}
-                            small {{cal_time sent_timestamp}}
-                            a.ui.icon.button(href='/post/#{_id}')
-                                i.large.chevron.right.icon
-                            
-        .column
-            .ui.header 
-                +i name='gift--v1'
-                |bookmarks
-            .ui.stackable.cards.scrolling
-                each favorited
-                    .ui.card
-                        .content
-                            a(href="/post/#{_id}") 
-                                img.ui.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
-                            .ui.header 
-                                |#{amount} #{_author_username}
-                            |received {{from_now sent_timestamp}}
-                            small {{cal_time sent_timestamp}}
-                            a.ui.icon.button(href='/post/#{_id}')
-                            i.ui.large.link.chevron.right.icon.edit_address
                 
         
         
@@ -100,7 +58,7 @@ template(name='set_view_mode_post')
 
 
 template(name='post_card')
-    .ui.card.view_post.pointer
+    .ui.card.view_post.pointer.fly_right
         img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
             a.ui.header(href="/post/#{_id}") #{title}

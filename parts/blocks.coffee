@@ -1,17 +1,33 @@
 if Meteor.isClient
     Template.friend_button.events 
         'click .friend': ->
-            console.log @
+            # console.log @
             Meteor.users.update Meteor.userId(),
                 $addToSet: 
                     friend_ids:@_id
                     friend_usernames:@username
+            $('body').toast(
+                showIcon: 'thumbs up'
+                message: "friended"
+                showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
         'click .unfriend': ->
-            console.log @
+            # console.log @
             Meteor.users.update Meteor.userId(),
                 $pull: 
                     friend_ids:@_id
                     friend_usernames:@username
+            $('body').toast(
+                showIcon: 'minus'
+                message: "unfriended"
+                showProgress: 'bottom'
+                class: 'success'
+                displayTime: 'auto',
+                position: "bottom right"
+            )
                     
     Template.friend_button.helpers
         is_friend: ->
@@ -295,7 +311,8 @@ if Meteor.isClient
                 # $(e.currentTarget).closest('.comment').transition('pulse')
                 $('.unread_icon').transition('pulse')
     Template.viewing.helpers
-        viewed_by: -> Meteor.userId() in @read_ids
+        viewed_by: -> 
+            @read_ids and Meteor.userId() in @read_ids
         readers: ->
             readers = []
             if @read_ids

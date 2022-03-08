@@ -19,6 +19,33 @@ if Meteor.isClient
     
     Template.posts.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'post', ->
+    Template.posts.onCreated ->
+        Session.setDefault 'view_mode', 'list'
+        Session.setDefault 'sort_key', 'member_count'
+        Session.setDefault 'sort_label', 'available'
+        Session.setDefault 'limit', 20
+        Session.setDefault 'view_open', true
+
+    Template.posts.onCreated ->
+        @autorun => @subscribe 'post_facets',
+            picked_tags.array()
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('view_delivery')
+            Session.get('view_pickup')
+            Session.get('view_open')
+
+        @autorun => @subscribe 'post_results',
+            picked_tags.array()
+            Session.get('group_title_search')
+            Session.get('limit')
+            Session.get('sort_key')
+            Session.get('sort_direction')
+            Session.get('view_delivery')
+            Session.get('view_pickup')
+            Session.get('view_open')
+
     Template.post_view.onCreated ->
         @autorun => @subscribe 'related_groups',Router.current().params.doc_id, ->
 

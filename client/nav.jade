@@ -11,13 +11,6 @@ template(name='nav')
         //     +i name='yin-yang'
         //     // i.large.home.icon
         //     span.mobile.hidden one
-        // .search.item.zoomer.mobile.hidden(title='search')
-        //     .ui.icon.transparent.input
-        //         if current_product_search
-        //             i.remove.large.red.link.icon.clear_search
-        //         else
-        //             i.search.large.icon
-        //         input.search_products(type='text' autocomplete="off" value=current_product_search)
         a.icon.item.fly_right(href="/events" class="{{isActiveRoute 'events'}}" title='events')
             // i.large.calendar.icon
             +i name='calendar'
@@ -38,8 +31,19 @@ template(name='nav')
             // i.large.exchange.icon
             +i name='exchange'
             // span.mobile.hidden posts
+        a.icon.disabled.item.fly_right(href="/rentals" class="{{isActiveRoute 'rentals'}}" title='rentals')
+            // i.large.exchange.icon
+            +i name='clock'
+            // span.mobile.hidden posts
         // // .icon.item 
         // //     i.large.search.icon
+        .search.item.zoomer.mobile.hidden(title='search')
+            .ui.icon.transparent.inverted.input
+                if current_product_search
+                    i.remove.large.red.link.icon.clear_search
+                else
+                    i.search.large.icon
+                input.global_search(type='text' autocomplete="off" value=current_searchs)
         .right.menu
             if currentUser
                 a.icon.item(href="/inbox")

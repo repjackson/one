@@ -86,58 +86,81 @@ template(name='profile')
                     // if is_dev
                     //     .ui.small.inline.header #{_id}
                 .column
-                    // a.ui.inline.header.zoomer(href="/groups")
-                    //     +icolor name='campfire'
-                    //     |groups
-                    if user_leader_groups.count
-                        .ui.header
-                            i.king.icon
-                            // +i name='king'
-                            |group leader of
-                        each user_leader_groups
-                            .ui.segment
-                                a.ui.header(href="/m/group/#{_id}") #{title}
-                                if is_current_user
-                                    +enter_group
-                    if user_member_groups.count
-                        a.ui.header.toggle_group_members.zoomer.pointer(title='toggle group members')
-                            // +i name='groups'
-                            i.large.fire.icon
-                            |member of 
-                            |#{user_member_groups.count}
-                            |groups
-                            if session_is 'view_group_members' true
-                                i.chevron.down.icon
-                            else                                    
-                                i.chevron.right.icon
-                        if session_is 'view_group_members' true
-                            .ui.large.selection.link.list
-                                each user_member_groups
-                                    +profile_group_item
+                    +user_groups
                 .column
                     +array_view key='allergens' label='allergens' icon='no-milk' direct=true
                     +array_view key='food_dislikes' label='food dislikes' icon='disgusting' direct=true
                     +link_view key='profile_link' label='profile link' icon='link' direct=true
-                    .ui.header 
-                        +i name='chat'
-                        |comments
-                    .ui.large.selection.link.list 
-                        each model_docs_helper 'comment'
-                            a.item(href="/#{parent_model}/#{parent_id}") 
-                                strong #{body}
-                                small #{when}
-                                .ui.label #{parent_model}
-                    .ui.header 
-                        +i name='blog'
-                        |posts
-                    .ui.list 
-                        each model_docs_helper 'post'
-                            a.item(href="/post/#{parent_id}") #{body}
-                                small #{when}
+                    +user_comments
+                    +user_posts
                     +user_friends
                     +user_tickets
                     |!{description}
                     +user_events
+
+template(name='user_posts')                    
+    .ui.header 
+        +i name='blog'
+        |posts
+    .ui.list 
+        each model_docs_helper 'post'
+            a.item(href="/post/#{parent_id}") #{body}
+                small #{when}
+    .ui.inline.header 
+        +i name='cookbook'
+        |user posts
+    .ui.basic.icon.button.send_post
+        i.large.plus.icon
+    .ui.padded.stackable.two.column.grid
+        .column
+            .ui.header 
+                +i name='sent--v2'
+                |authored 
+            .ui.stackable.cards.scrolling
+                each sent_posts 
+                    .ui.card
+                        .content
+                            a(href="/post/#{_id}") 
+                                img.ui.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+    
+                            .ui.header 
+                                |#{amount} #{recipient_username}
+                            // |created #{when}
+                            |sent {{from_now sent_timestamp}}
+                            small {{cal_time sent_timestamp}}
+                            a.ui.icon.button(href='/post/#{_id}')
+                                i.large.chevron.right.icon
+                            
+        .column
+            .ui.header 
+                +i name='gift--v1'
+                |bookmarks
+            .ui.stackable.cards.scrolling
+                each favorited
+                    .ui.card
+                        .content
+                            a(href="/post/#{_id}") 
+                                img.ui.image(src="{{c.url image_id width=400 height=300 crop='pad'}}")
+                            .ui.header 
+                                |#{amount} #{_author_username}
+                            |received {{from_now sent_timestamp}}
+                            small {{cal_time sent_timestamp}}
+                            a.ui.icon.button(href='/post/#{_id}')
+                            i.ui.large.link.chevron.right.icon.edit_address
+                
+                
+                    
+template(name='user_comments')
+    .ui.header 
+        +i name='chat'
+        |comments
+    .ui.large.selection.link.list 
+        each model_docs_helper 'comment'
+            a.item(href="/#{parent_model}/#{parent_id}") 
+                strong #{body}
+                small #{when}
+                .ui.label #{parent_model}
+
                     
 template(name='user_events')
     .ui.header 
@@ -177,6 +200,35 @@ template(name='user_events')
                 each user_going_events
                     +event_item_small
 
+template(name='user_groups')
+    a.ui.inline.header.zoomer(href="/groups")
+        +icolor name='campfire'
+        |groups
+    if user_leader_groups.count
+        .ui.header
+            i.king.icon
+            // +i name='king'
+            |group leader of
+        each user_leader_groups
+            .ui.segment
+                a.ui.header(href="/m/group/#{_id}") #{title}
+                if is_current_user
+                    +enter_group
+    if user_member_groups.count
+        a.ui.header.toggle_group_members.zoomer.pointer(title='toggle group members')
+            // +i name='groups'
+            i.large.fire.icon
+            |member of 
+            |#{user_member_groups.count}
+            |groups
+            if session_is 'view_group_members' true
+                i.chevron.down.icon
+            else                                    
+                i.chevron.right.icon
+        if session_is 'view_group_members' true
+            .ui.large.selection.link.list
+                each user_member_groups
+                    +profile_group_item
 
 
 template(name='user_tickets')

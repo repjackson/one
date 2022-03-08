@@ -49,8 +49,10 @@ $.cloudinary.config
 # Router.notFound =
     # action: 'not_found'
 
-Template.body.events
-    'click .fly_right': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly right', 500)
+Template.layout.events
+    'click .fly_right': (e,t)-> 
+        console.log 'hi'
+        $(e.currentTarget).closest('.grid').transition('fly right', 500)
     'click .fly_up': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly up', 500)
     'click .fly_down': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly down', 500)
     'click .fly_left': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly left', 500)
