@@ -1,33 +1,33 @@
 if Meteor.isClient
-    Router.route '/posts', (->
+    Router.route '/tasks', (->
         @layout 'layout'
-        @render 'posts'
-        ), name:'posts'
-    Router.route '/post/:doc_id/edit', (->
+        @render 'tasks'
+        ), name:'tasks'
+    Router.route '/task/:doc_id/edit', (->
         @layout 'layout'
-        @render 'post_edit'
-        ), name:'post_edit'
-    Router.route '/post/:doc_id', (->
+        @render 'task_edit'
+        ), name:'task_edit'
+    Router.route '/task/:doc_id', (->
         @layout 'layout'
-        @render 'post_view'
-        ), name:'post_view'
-    Router.route '/post/:doc_id/view', (->
+        @render 'task_view'
+        ), name:'task_view'
+    Router.route '/task/:doc_id/view', (->
         @layout 'layout'
-        @render 'post_view'
-        ), name:'post_view_long'
+        @render 'task_view'
+        ), name:'task_view_long'
     
     
-    # Template.posts.onCreated ->
-    #     @autorun => Meteor.subscribe 'model_docs', 'post', ->
-    Template.posts.onCreated ->
+    # Template.tasks.onCreated ->
+    #     @autorun => Meteor.subscribe 'model_docs', 'task', ->
+    Template.tasks.onCreated ->
         Session.setDefault 'view_mode', 'list'
         Session.setDefault 'sort_key', 'member_count'
         Session.setDefault 'sort_label', 'available'
         Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
 
-    Template.posts.onCreated ->
-        @autorun => @subscribe 'post_facets',
+    Template.tasks.onCreated ->
+        @autorun => @subscribe 'task_facets',
             picked_tags.array()
             Session.get('limit')
             Session.get('sort_key')
@@ -36,7 +36,7 @@ if Meteor.isClient
             Session.get('view_pickup')
             Session.get('view_open')
 
-        @autorun => @subscribe 'post_results',
+        @autorun => @subscribe 'task_results',
             picked_tags.array()
             Session.get('group_title_search')
             Session.get('limit')
@@ -46,39 +46,39 @@ if Meteor.isClient
             Session.get('view_pickup')
             Session.get('view_open')
 
-    Template.post_view.onCreated ->
+    Template.task_view.onCreated ->
         @autorun => @subscribe 'related_groups',Router.current().params.doc_id, ->
 
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-    Template.post_edit.onCreated ->
+    Template.task_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-    Template.post_card.onCreated ->
+    Template.task_card.onCreated ->
         @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
 
 
-    Template.posts.helpers
-        post_docs: ->
+    Template.tasks.helpers
+        task_docs: ->
             Docs.find 
-                model:'post'
-    Template.posts.events
-        'click .add_post': ->
+                model:'task'
+    Template.tasks.events
+        'click .add_task': ->
             new_id = 
                 Docs.insert 
-                    model:'post'
-            Router.go "/post/#{new_id}/edit"
-    Template.post_card.events
-        'click .view_post': ->
-            Router.go "/post/#{@_id}"
-    Template.post_item.events
-        'click .view_post': ->
-            Router.go "/post/#{@_id}"
+                    model:'task'
+            Router.go "/task/#{new_id}/edit"
+    Template.task_card.events
+        'click .view_task': ->
+            Router.go "/task/#{@_id}"
+    Template.task_item.events
+        'click .view_task': ->
+            Router.go "/task/#{@_id}"
 
-    Template.post_view.events
-        'click .add_post_recipe': ->
+    Template.task_view.events
+        'click .add_task_recipe': ->
             new_id = 
                 Docs.insert 
                     model:'recipe'
-                    post_ids:[@_id]
+                    task_ids:[@_id]
             Router.go "/recipe/#{new_id}/edit"
 
     Template.favorite_icon_toggle.helpers
@@ -106,10 +106,10 @@ if Meteor.isClient
                     $addToSet:favorite_ids:Meteor.userId()
     
     
-    Template.post_edit.events
-        'click .delete_post': ->
+    Template.task_edit.events
+        'click .delete_task': ->
             Swal.fire({
-                title: "delete post?"
+                title: "delete task?"
                 text: "cannot be undone"
                 icon: 'question'
                 confirmButtonText: 'delete'
@@ -123,16 +123,16 @@ if Meteor.isClient
                     Swal.fire(
                         position: 'top-end',
                         icon: 'success',
-                        title: 'post removed',
+                        title: 'task removed',
                         showConfirmButton: false,
                         timer: 1500
                     )
-                    Router.go "/post"
+                    Router.go "/task"
             )
 
         'click .publish': ->
             Swal.fire({
-                title: "publish post?"
+                title: "publish task?"
                 text: "point bounty will be held from your account"
                 icon: 'question'
                 confirmButtonText: 'publish'
@@ -142,11 +142,11 @@ if Meteor.isClient
                 reverseButtons: true
             }).then((result)=>
                 if result.value
-                    Meteor.call 'publish_post', @_id, =>
+                    Meteor.call 'publish_task', @_id, =>
                         Swal.fire(
                             position: 'bottom-end',
                             icon: 'success',
-                            title: 'post published',
+                            title: 'task published',
                             showConfirmButton: false,
                             timer: 1000
                         )
@@ -154,7 +154,7 @@ if Meteor.isClient
 
         'click .unpublish': ->
             Swal.fire({
-                title: "unpublish post?"
+                title: "unpublish task?"
                 text: "point bounty will be returned to your account"
                 icon: 'question'
                 confirmButtonText: 'unpublish'
@@ -164,18 +164,18 @@ if Meteor.isClient
                 reverseButtons: true
             }).then((result)=>
                 if result.value
-                    Meteor.call 'unpublish_post', @_id, =>
+                    Meteor.call 'unpublish_task', @_id, =>
                         Swal.fire(
                             position: 'bottom-end',
                             icon: 'success',
-                            title: 'post unpublished',
+                            title: 'task unpublished',
                             showConfirmButton: false,
                             timer: 1000
                         )
             )
             
 if Meteor.isServer
-    Meteor.publish 'post_results', (
+    Meteor.publish 'task_results', (
         )->
         # console.log picked_ingredients
         # if doc_limit
@@ -187,7 +187,7 @@ if Meteor.isServer
         # if doc_sort_direction
         #     sort_direction = parseInt(doc_sort_direction)
         self = @
-        match = {model:'post'}
+        match = {model:'task'}
         # if picked_ingredients.length > 0
         #     match.ingredients = $all: picked_ingredients
         #     # sort = 'price_per_serving'
@@ -197,15 +197,15 @@ if Meteor.isServer
         # else
             # match.tags = $nin: ['wikipedia']
         sort = '_timestamp'
-        match.published = true
+        # match.published = true
             # match.source = $ne:'wikipedia'
         # if view_vegan
         #     match.vegan = true
         # if view_gf
         #     match.gluten_free = true
-        # if post_query and post_query.length > 1
-        #     console.log 'searching post_query', post_query
-        #     match.title = {$regex:"#{post_query}", $options: 'i'}
+        # if task_query and task_query.length > 1
+        #     console.log 'searching task_query', task_query
+        #     match.title = {$regex:"#{task_query}", $options: 'i'}
         #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
 
         # match.tags = $all: picked_ingredients
@@ -217,7 +217,7 @@ if Meteor.isServer
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
 
-        # console.log 'post match', match
+        # console.log 'task match', match
         # console.log 'sort key', sort_key
         # console.log 'sort direction', sort_direction
         Docs.find match,
@@ -226,10 +226,10 @@ if Meteor.isServer
             limit: 42
             
             
-    Meteor.publish 'post_count', (
+    Meteor.publish 'task_count', (
         picked_ingredients
         picked_sections
-        post_query
+        task_query
         view_vegan
         view_gf
         )->
@@ -237,7 +237,7 @@ if Meteor.isServer
     
         # console.log picked_ingredients
         self = @
-        match = {model:'post'}
+        match = {model:'task'}
         if picked_ingredients.length > 0
             match.ingredients = $all: picked_ingredients
             # sort = 'price_per_serving'
@@ -252,16 +252,16 @@ if Meteor.isServer
             match.vegan = true
         if view_gf
             match.gluten_free = true
-        if post_query and post_query.length > 1
-            console.log 'searching post_query', post_query
-            match.title = {$regex:"#{post_query}", $options: 'i'}
-        Counts.publish this, 'post_counter', Docs.find(match)
+        if task_query and task_query.length > 1
+            console.log 'searching task_query', task_query
+            match.title = {$regex:"#{task_query}", $options: 'i'}
+        Counts.publish this, 'task_counter', Docs.find(match)
         return undefined
 
-    Meteor.publish 'post_facets', (
+    Meteor.publish 'task_facets', (
         picked_ingredients
         picked_sections
-        post_query
+        task_query
         view_vegan
         view_gf
         doc_limit
@@ -277,17 +277,17 @@ if Meteor.isServer
 
         self = @
         match = {}
-        match.model = 'post'
+        match.model = 'task'
         if view_vegan
             match.vegan = true
         if view_gf
             match.gluten_free = true
         if picked_ingredients.length > 0 then match.ingredients = $all: picked_ingredients
         if picked_sections.length > 0 then match.menu_section = $all: picked_sections
-            # match.$regex:"#{post_query}", $options: 'i'}
-        if post_query and post_query.length > 1
-            console.log 'searching post_query', post_query
-            match.title = {$regex:"#{post_query}", $options: 'i'}
+            # match.$regex:"#{task_query}", $options: 'i'}
+        if task_query and task_query.length > 1
+            console.log 'searching task_query', task_query
+            match.title = {$regex:"#{task_query}", $options: 'i'}
             # match.tags_string = {$regex:"#{query}", $options: 'i'}
         #
         #     Terms.find {
@@ -318,7 +318,7 @@ if Meteor.isServer
             { $project: "menu_section": 1 }
             { $group: _id: "$menu_section", count: $sum: 1 }
             { $match: _id: $nin: picked_sections }
-            # { $match: _id: {$regex:"#{post_query}", $options: 'i'} }
+            # { $match: _id: {$regex:"#{task_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
             { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
@@ -367,9 +367,9 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-    Template.post_card.onCreated ->
+    Template.task_card.onCreated ->
         # @autorun => Meteor.subscribe 'model_docs', 'food'
-    Template.post_card.events
+    Template.task_card.events
         'click .quickbuy': ->
             console.log @
             Session.set('quickbuying_id', @_id)
@@ -393,8 +393,8 @@ if Meteor.isClient
         # 'click .view_card': ->
         #     $('.container_')
 
-    Template.post_card.helpers
-        post_card_class: ->
+    Template.task_card.helpers
+        task_card_class: ->
             # if Session.get('quickbuying_id')
             #     if Session.equals('quickbuying_id', @_id)
             #         'raised'

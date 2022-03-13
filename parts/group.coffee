@@ -12,6 +12,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'group_leaders', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_events', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'group_posts', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'group_products', Router.current().params.doc_id, ->
     Template.group_view.onRendered ->
         Meteor.call 'log_view', Router.current().params.doc_id, ->
     
@@ -42,6 +43,15 @@ if Meteor.isClient
         #         model:'group'
         #         slug: Router.current().params.doc_id
 
+    Template.group_shop.events
+        'click .add_product': ->
+            new_id = 
+                Docs.insert 
+                    model:'product'
+                    group_id:Router.current().params.doc_id
+                    
+            Router.go "/product/#{new_id}/edit"
+            
     Template.group_view.events
         'click .refresh_group_stats': ->
             Meteor.call 'calc_group_stats', Router.current().params.doc_id, ->
@@ -110,6 +120,8 @@ if Meteor.isServer
 
 Router.route '/group/:doc_id/edit', -> @render 'group_edit'
 
+
+# group edit
 if Meteor.isClient
     Template.group_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
@@ -124,6 +136,8 @@ if Meteor.isClient
             Docs.find
                 model:'group_option'
 
+
+# groups
 if Meteor.isClient
     Router.route '/groups', (->
         @layout 'layout'

@@ -285,6 +285,28 @@ template(name='group_view')
                                     a.item(href="/post/#{_id}")
                                         img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
                                         |#{title}
+                        if has_shop
+                            .title
+                                i.large.shop.icon
+                                |shop
+                                i.dropdown.icon
+                            .content
+                                +group_shop
+                                
+                                
+                                
+                                
+template(name='group_shop')
+    .ui.header 
+        |shop
+    if currentUser
+        .ui.button.add_product  
+            i.plus.icon
+    each group_products 
+        a.item(href="/post/#{_id}")
+            img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
+            |#{title}
+                                                        
     
     
     

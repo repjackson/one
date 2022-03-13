@@ -19,6 +19,10 @@ template(name='nav')
             // i.large.users.icon
             +i name='groups'
             // .mobile.hidden users 
+        a.icon.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
+            // i.large.users.icon
+            +i name='shop'
+            // .mobile.hidden users 
         a.icon.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
             // i.large.fire.icon
             +i name='campfire'
@@ -31,7 +35,11 @@ template(name='nav')
             // i.large.exchange.icon
             +i name='exchange'
             // span.mobile.hidden posts
-        a.icon.disabled.item.fly_right(href="/rentals" class="{{isActiveRoute 'rentals'}}" title='rentals')
+        a.icon.item.fly_right(href="/tasks" class="{{isActiveRoute 'tasks'}}" title='tasks')
+            // i.large.exchange.icon
+            +i name='tasks'
+            // span.mobile.hidden posts
+        a.icon.item.fly_right(href="/rentals" class="{{isActiveRoute 'rentals'}}" title='rentals')
             // i.large.exchange.icon
             +i name='clock'
             // span.mobile.hidden posts
