@@ -163,7 +163,7 @@ Meteor.publish 'doc_by_id', (doc_id)->
 
 Meteor.publish 'author_from_doc_id', (doc_id)->
     doc = Docs.findOne doc_id
-    Meteor.users.find user_id
+    Meteor.users.find doc._author_id
 
 # Meteor.publish 'page', (slug)->
 #     Docs.find
@@ -172,7 +172,6 @@ Meteor.publish 'author_from_doc_id', (doc_id)->
 
 
 Meteor.publish 'doc_tags', (picked_tags)->
-
     user = Meteor.users.findOne @userId
     # current_herd = user.profile.current_herd
 

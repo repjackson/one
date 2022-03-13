@@ -87,6 +87,7 @@ template(name='profile')
                     //     .ui.small.inline.header #{_id}
                 .column
                     +user_groups
+                    +user_points
                 .column
                     +array_view key='allergens' label='allergens' icon='no-milk' direct=true
                     +array_view key='food_dislikes' label='food dislikes' icon='disgusting' direct=true
@@ -97,6 +98,13 @@ template(name='profile')
                     +user_tickets
                     |!{description}
                     +user_events
+
+
+template(name='user_points')
+    .ui.header user points
+
+
+
 
 template(name='user_posts')                    
     .ui.header 

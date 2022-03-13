@@ -11,6 +11,18 @@ template(name='session_key_value_edit')
             // i.icon(class=icon)
         |#{label}
 
+template(name='key_value_edit')
+    .ui.compact.button.set_key_value(class=calculated_class)
+        if icon 
+            +i name=icon cl='ui avatar image'
+            // i.icon(class=icon)
+        if label
+            |#{label}
+        else 
+            |#{value}
+            
+
+
 
 template(name='favorite_icon_toggle')
     i.large.favorite.link.circular.icon.toggle_fav(class=icon_class)
@@ -32,16 +44,6 @@ template(name='limit_menu')
                 +set_limit amount=20
 
 
-template(name='key_value_edit')
-    .ui.compact.button.set_key_value(class=calculated_class)
-        if icon 
-            +i name=icon cl='ui avatar image'
-            // i.icon(class=icon)
-        if label
-            |#{label}
-        else 
-            |#{value}
-            
         
         
 template(name='doc_array_togggle')
