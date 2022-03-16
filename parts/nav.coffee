@@ -14,7 +14,7 @@ if Meteor.isClient
         Meteor.setTimeout ->
             $('.menu .item')
                 .popup()
-        , 2000
+        , 5000
         Meteor.setTimeout ->
             $('.ui.left.sidebar')
                 .sidebar({
@@ -22,11 +22,11 @@ if Meteor.isClient
                     transition:'push'
                     mobileTransition:'scale'
                     exclusive:true
-                    duration:200
+                    duration:500
                     scrollLock:true
                 })
                 .sidebar('attach events', '.toggle_leftbar')
-        , 2000
+        , 5000
         Meteor.setTimeout ->
             $('.ui.rightbar')
                 .sidebar({
@@ -34,11 +34,11 @@ if Meteor.isClient
                     transition:'push'
                     mobileTransition:'push'
                     exclusive:true
-                    duration:200
+                    duration:500
                     scrollLock:true
                 })
                 .sidebar('attach events', '.toggle_rightbar')
-        , 2000
+        , 5000
         Meteor.setTimeout ->
             $('.ui.topbar.sidebar')
                 .sidebar({
@@ -46,11 +46,11 @@ if Meteor.isClient
                     transition:'push'
                     mobileTransition:'push'
                     exclusive:true
-                    duration:200
+                    duration:500
                     scrollLock:true
                 })
                 .sidebar('attach events', '.toggle_topbar')
-        , 2000
+        , 5000
         Meteor.setTimeout ->
             $('.ui.secnav.sidebar')
                 .sidebar({
@@ -58,11 +58,11 @@ if Meteor.isClient
                     transition:'push'
                     mobileTransition:'scale'
                     exclusive:true
-                    duration:200
+                    duration:500
                     scrollLock:true
                 })
                 .sidebar('attach events', '.toggle_leftbar')
-        , 2000
+        , 5000
         Meteor.setTimeout ->
             $('.ui.sidebar.cartbar')
                 .sidebar({
@@ -70,7 +70,7 @@ if Meteor.isClient
                     transition:'scale'
                     mobileTransition:'scale'
                     exclusive:true
-                    duration:200
+                    duration:500
                     scrollLock:true
                 })
                 .sidebar('attach events', '.toggle_cartbar')
@@ -82,11 +82,11 @@ if Meteor.isClient
                     transition:''
                     mobileTransition:'scale'
                     exclusive:true
-                    duration:200
+                    duration:500
                     scrollLock:true
                 })
                 .sidebar('attach events', '.toggle_walletbar')
-        , 2000
+        , 5000
     
     Template.right_sidebar.events
         'click .logout': ->

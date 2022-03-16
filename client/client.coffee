@@ -53,9 +53,9 @@ Template.layout.events
     'click .fly_right': (e,t)-> 
         console.log 'hi'
         $(e.currentTarget).closest('.grid').transition('fly right', 500)
-    'click .fly_up': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly up', 500)
-    'click .fly_down': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly down', 500)
-    'click .fly_left': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly left', 500)
+    'click .fly_up': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly up', 1000)
+    'click .fly_down': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly down', 1000)
+    'click .fly_left': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly left', 1000)
     # 'click .button': ->
     #     $(e.currentTarget).closest('.button').transition('bounce', 1000)
 
@@ -73,7 +73,7 @@ Template.layout.events
 # Template.layout.events
 #     'click .button': ->
 #         $('.global_container')
-#         .transition('fade out', 5000)
+#         .transition('fade out', 10000)
 #         .transition('fade in', 5000)
 
 
