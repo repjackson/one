@@ -15,76 +15,78 @@ if Meteor.isClient
             $('.menu .item')
                 .popup()
         , 2000
-        #     $('.ui.left.sidebar')
-        #         .sidebar({
-        #             context: $('.bottom.segment')
-        #             transition:'push'
-        #             mobileTransition:'scale'
-        #             exclusive:true
-        #             duration:200
-        #             scrollLock:true
-        #         })
-        #         .sidebar('attach events', '.toggle_leftbar')
-        # Meteor.setTimeout ->
-        #     $('.ui.rightbar')
-        #         .sidebar({
-        #             context: $('.bottom.segment')
-        #             transition:'push'
-        #             mobileTransition:'push'
-        #             exclusive:true
-        #             duration:200
-        #             scrollLock:true
-        #         })
-        #         .sidebar('attach events', '.toggle_rightbar')
-        # , 2000
-        # Meteor.setTimeout ->
-        #     $('.ui.topbar.sidebar')
-        #         .sidebar({
-        #             context: $('.bottom.segment')
-        #             transition:'push'
-        #             mobileTransition:'push'
-        #             exclusive:true
-        #             duration:200
-        #             scrollLock:true
-        #         })
-        #         .sidebar('attach events', '.toggle_topbar')
-        # , 2000
-        # Meteor.setTimeout ->
-        #     $('.ui.secnav.sidebar')
-        #         .sidebar({
-        #             context: $('.bottom.segment')
-        #             transition:'push'
-        #             mobileTransition:'scale'
-        #             exclusive:true
-        #             duration:200
-        #             scrollLock:true
-        #         })
-        #         .sidebar('attach events', '.toggle_leftbar')
-        # , 2000
-        # Meteor.setTimeout ->
-        #     $('.ui.sidebar.cartbar')
-        #         .sidebar({
-        #             context: $('.bottom.segment')
-        #             transition:'scale'
-        #             mobileTransition:'scale'
-        #             exclusive:true
-        #             duration:200
-        #             scrollLock:true
-        #         })
-        #         .sidebar('attach events', '.toggle_cartbar')
-        # , 3000
-        # Meteor.setTimeout ->
-        #     $('.ui.sidebar.walletbar')
-        #         .sidebar({
-        #             context: $('.bottom.segment')
-        #             transition:''
-        #             mobileTransition:'scale'
-        #             exclusive:true
-        #             duration:200
-        #             scrollLock:true
-        #         })
-        #         .sidebar('attach events', '.toggle_walletbar')
-        # , 2000
+        Meteor.setTimeout ->
+            $('.ui.left.sidebar')
+                .sidebar({
+                    context: $('.bottom.segment')
+                    transition:'push'
+                    mobileTransition:'scale'
+                    exclusive:true
+                    duration:200
+                    scrollLock:true
+                })
+                .sidebar('attach events', '.toggle_leftbar')
+        , 2000
+        Meteor.setTimeout ->
+            $('.ui.rightbar')
+                .sidebar({
+                    context: $('.bottom.segment')
+                    transition:'push'
+                    mobileTransition:'push'
+                    exclusive:true
+                    duration:200
+                    scrollLock:true
+                })
+                .sidebar('attach events', '.toggle_rightbar')
+        , 2000
+        Meteor.setTimeout ->
+            $('.ui.topbar.sidebar')
+                .sidebar({
+                    context: $('.bottom.segment')
+                    transition:'push'
+                    mobileTransition:'push'
+                    exclusive:true
+                    duration:200
+                    scrollLock:true
+                })
+                .sidebar('attach events', '.toggle_topbar')
+        , 2000
+        Meteor.setTimeout ->
+            $('.ui.secnav.sidebar')
+                .sidebar({
+                    context: $('.bottom.segment')
+                    transition:'push'
+                    mobileTransition:'scale'
+                    exclusive:true
+                    duration:200
+                    scrollLock:true
+                })
+                .sidebar('attach events', '.toggle_leftbar')
+        , 2000
+        Meteor.setTimeout ->
+            $('.ui.sidebar.cartbar')
+                .sidebar({
+                    context: $('.bottom.segment')
+                    transition:'scale'
+                    mobileTransition:'scale'
+                    exclusive:true
+                    duration:200
+                    scrollLock:true
+                })
+                .sidebar('attach events', '.toggle_cartbar')
+        , 3000
+        Meteor.setTimeout ->
+            $('.ui.sidebar.walletbar')
+                .sidebar({
+                    context: $('.bottom.segment')
+                    transition:''
+                    mobileTransition:'scale'
+                    exclusive:true
+                    duration:200
+                    scrollLock:true
+                })
+                .sidebar('attach events', '.toggle_walletbar')
+        , 2000
     
     Template.right_sidebar.events
         'click .logout': ->
