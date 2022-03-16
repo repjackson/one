@@ -109,17 +109,15 @@ Meteor.publish 'all_users', ()->
     
     
 Meteor.publish 'model_docs', (model,limit)->
+    match = {}
+    unless Meteor.userId()
+        match.private = $ne:true
+    match.model = model
     if limit
-        Docs.find {
-            model: model
-            # app:'nf'
-        }, 
+        Docs.find match, 
             limit:limit
     else
-        Docs.find {
-            # app:'nf'
-            model: model
-        }, sort:_timestamp:-1
+        Docs.find match , sort:_timestamp:-1
 Meteor.publish 'me', ->
     Meteor.users.find({_id:@userId},{
         # fields:

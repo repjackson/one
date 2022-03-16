@@ -29,14 +29,24 @@ if Meteor.isClient
         , 1000
 
         
+    Template.user_points.events
+        'click .send_points': ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            new_id = 
+                Docs.insert 
+                    model:'transfer'
+                    recipient_id:user._id
+                    recipient_username:user.username
+            Router.go "/transfer/#{new_id}/edit"
+                
     Template.profile.events
         'click .toggle_group_members': -> Session.set('view_group_members', !Session.get('view_group_members'))
     
         'click .user_credit_segment': ->
-            Router.go "/debit/#{@_id}/view"
+            Router.go "/transfer/#{@_id}"
             
         'click .user_debit_segment': ->
-            Router.go "/debit/#{@_id}/view"
+            Router.go "/transfer/#{@_id}"
             
             
     Template.profile.helpers
@@ -45,6 +55,7 @@ if Meteor.isClient
 
         user: ->
             Meteor.users.findOne username:Router.current().params.username
+    
     
     
         user_event_tickets: ->

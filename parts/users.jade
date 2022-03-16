@@ -36,7 +36,7 @@ template(name='users')
             each all_user_tags
                 .ui.compact.button.pick_user_tag(class=cloud_tag_class) 
                     strong #{this.name}
-        .twelve.wide.column.scrolling
+        .twelve.wide.column
             +session_icon_button key='view_mode' value='grid' icon='grid' 
             +session_icon_button key='view_mode' value='list' icon='list'
             +session_set key='sort_users_direction' value='-1' icon='chevron down'
@@ -47,7 +47,7 @@ template(name='users')
             +session_set key='view_limit' value=10
             +session_set key='view_limit' value=20
             +session_set key='view_limit' value=50
-            .ui.icon.large.input
+            .ui.icon.input
                 if username_query
                     i.remove.link.red.circular.icon.zoomer.clear_query
                 else
@@ -61,19 +61,20 @@ template(name='users')
             // .ui.header
             +i name='tag'
             +i name='campfire'
-            if session_is 'view_mode' 'grid'
-                if one_result
-                    .ui.stackable.centered.one.cards
+            .scrolling
+                if session_is 'view_mode' 'grid'
+                    if one_result
+                        .ui.stackable.centered.one.cards
+                            each user_docs
+                                +user_card
+                    else
+                        .ui.stackable.centered.four.cards
+                            each user_docs
+                                +user_card
+                else if session_is 'view_mode' 'list'
+                    .ui.divided.selection.animated.list
                         each user_docs
-                            +user_card
-                else
-                    .ui.stackable.centered.four.cards
-                        each user_docs
-                            +user_card
-            else if session_is 'view_mode' 'list'
-                .ui.divided.selection.animated.list
-                    each user_docs
-                        +user_item
+                            +user_item
             //             div
 
 template(name='user_cloud')

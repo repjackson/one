@@ -322,6 +322,7 @@ if Meteor.isClient
         
         
     Template.transfer_edit.onCreated ->
+        @autorun => Meteor.subscribe 'all_users', ->
         @autorun => Meteor.subscribe 'recipient_from_transfer_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'author_from_doc_id, ->', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
@@ -342,7 +343,7 @@ if Meteor.isClient
             Results.find(model:'tag')
         recipient: ->
             transfer = Docs.findOne Router.current().params.doc_id
-            if transfer.recipient_id
+            if transfer and transfer.recipient_id
                 Meteor.users.findOne
                     _id: transfer.recipient_id
         members: ->
@@ -474,12 +475,16 @@ if Meteor.isClient
                             position: 'top-end',
                             timer: 1000
                         )
-                        Router.go "/transfer/#{@_id}/view"
+                        Router.go "/transfer/#{@_id}"
             )
 
 
 
 if Meteor.isServer
+    Meteor.publish 'recipient_from_transfer_id', (transfer_id)->
+        transfer = Docs.findOne transfer_id
+        if transfer
+            Meteor.users.findOne transfer.recipient_id
     Meteor.methods
         send_transfer: (transfer_id)->
             transfer = Docs.findOne transfer_id

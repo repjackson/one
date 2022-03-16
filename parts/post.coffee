@@ -27,6 +27,7 @@ if Meteor.isClient
         Session.setDefault 'view_open', true
 
     Template.posts.onCreated ->
+        @autorun => @subscribe 'model_docs', 'post', ->
         @autorun => @subscribe 'post_facets',
             picked_tags.array()
             Session.get('limit')

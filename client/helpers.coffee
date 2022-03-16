@@ -219,7 +219,9 @@ Template.registerHelper 'parent_key_value_is', (key, value)->
 
 
 Template.registerHelper '_author', () -> Meteor.users.findOne @_author_id
-Template.registerHelper 'recipient', () -> Meteor.users.findOne @recipient_id
+Template.registerHelper 'recipient', () -> 
+    if @recipient_id
+        Meteor.users.findOne @recipient_id
 Template.registerHelper 'is_text', () ->
     # console.log @field_type
     @field_type is 'text'

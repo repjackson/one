@@ -30,13 +30,13 @@ tone_analyzer = new ToneAnalyzerV3(
     url: Meteor.settings.private.tone.url)
 
 
-visual_recognition = new VisualRecognitionV3({
-  version: '2018-03-19',
-  authenticator: new IamAuthenticator({
-    apikey: Meteor.settings.private.visual.apikey,
-  }),
-  url: Meteor.settings.private.visual.url,
-});
+# visual_recognition = new VisualRecognitionV3({
+#   version: '2018-03-19',
+#   authenticator: new IamAuthenticator({
+#     apikey: Meteor.settings.private.visual.apikey,
+#   }),
+#   url: Meteor.settings.private.visual.url,
+# });
 
 
 # kevin lang
@@ -232,7 +232,7 @@ Meteor.methods
                             # main_emotions.push emotion
 
                 # console.log 'emotions', emotions
-                sadness_percent = emotions.sadness
+                sadness_per cent = emotions.sadness
                 joy_percent = emotions.joy
                 fear_percent = emotions.fear
                 anger_percent = emotions.anger

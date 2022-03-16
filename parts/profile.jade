@@ -101,7 +101,24 @@ template(name='profile')
 
 
 template(name='user_points')
-    .ui.header user points
+    .ui.header
+        +i name='leaderboard'
+        |user points
+    .ui.header 
+        +i name='sent'
+        |sent 
+    .ui.button.send_points
+        |send points
+    .ui.list
+        each sent_transfers
+            .item #{when} #{amount}
+    .ui.header 
+        +i name='gift'
+        |received
+    .ui.list 
+        each received_transfers
+            .item #{when} #{amount}
+            
 
 
 
