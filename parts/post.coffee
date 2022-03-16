@@ -27,7 +27,7 @@ if Meteor.isClient
         Session.setDefault 'view_open', true
 
     Template.posts.onCreated ->
-        @autorun => @subscribe 'model_docs', 'post', ->
+        # @autorun => @subscribe 'model_docs', 'post', ->
         @autorun => @subscribe 'post_facets',
             picked_tags.array()
             Session.get('limit')
@@ -198,7 +198,7 @@ if Meteor.isServer
         # else
             # match.tags = $nin: ['wikipedia']
         sort = '_timestamp'
-        match.published = true
+        # match.published = true
             # match.source = $ne:'wikipedia'
         # if view_vegan
         #     match.vegan = true
@@ -221,6 +221,8 @@ if Meteor.isServer
         # console.log 'post match', match
         # console.log 'sort key', sort_key
         # console.log 'sort direction', sort_direction
+        unless Meteor.userId()
+            match.private = $ne:true
         Docs.find match,
             # sort:"#{sort_key}":sort_direction
             # sort:_timestamp:-1
