@@ -57,13 +57,13 @@ template(name='layout')
     // img.ui.fluid.image.(src="{{c.url 'cafe'}}")
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")    
     +nav
-    #main.ui.bottom.attached.pushable.segment
+    #main.ui.bottom.segment.attached.pushable.segment
         +topbar
         +left_sidebar
         +right_sidebar
+        .global_container
+            +yield
     // #ain_area.global_conainer.pusher
-    // .global_container
-    //     +yield
     if in_dev
         +footer
 
