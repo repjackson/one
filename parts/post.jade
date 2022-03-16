@@ -118,6 +118,8 @@ template(name='post_view')
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
                     |!{content}
+                    if watson 
+                        +watson_view
                     div 
                     .spacer
                     .spacer
