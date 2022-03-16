@@ -54,6 +54,8 @@ template(name='nav')
                 input.global_search(type='text' autocomplete="off" value=current_searchs)
         .right.menu
             if currentUser
+                .icon.item 
+                    i.large.plus.icon
                 a.icon.item(href="/inbox")
                     // i.large.inbox.icon
                     +i name='inbox'
