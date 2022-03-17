@@ -32,7 +32,15 @@ if Meteor.isClient
     Template.friend_button.helpers
         is_friend: ->
             Meteor.user().friend_ids and @_id in Meteor.user().friend_ids
-                    
+        user_friends: ->
+            current_user = Meteor.users.findOne username:Router.current().params.username
+            Meteor.users.find 
+                _id:$in:current_user.friend_ids
+            
+        friended_by: ->
+            current_user = Meteor.users.findOne username:Router.current().params.username
+            Meteor.users.find 
+                _id:$in:current_user.friend_ids
                     
     Template.session_toggle.events
         'click .toggle_session_var': ->

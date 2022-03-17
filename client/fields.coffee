@@ -727,7 +727,8 @@ Template.single_user_edit.onCreated ->
     # @autorun => Meteor.subscribe 'model_docs', @data.ref_model
         
 Template.single_user_edit.helpers
-    user_results: ->Template.instance().user_results.get()
+    user_results: ->
+        console.log Template.instance().user_results.get()
 Template.single_user_edit.events
     'click .clear_results': (e,t)->
         t.user_results.set null

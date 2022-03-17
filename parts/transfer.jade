@@ -193,12 +193,13 @@ template(name='transfer_edit')
                     if has_image
                         +image_edit key='image_id' label='image' direct=true
                     div
-                    .ui.inline.header
-                        i.tag.red.icon
-                        |tags
-                    .ui.input
-                        input.new_tag(type='text' placeholder='+' autocomplete="off")
-                        //- +clear_value                
+                    +array_edit key='tags' label='tags'
+                    // .ui.inline.header
+                    //     i.tag.red.icon
+                    //     |tags
+                    // .ui.input
+                    //     input.new_tag(type='text' placeholder='+' autocomplete="off")
+                    //     //- +clear_value                
                     // each terms 
                     //     a.ui.large.circular.basic.button.select_term(href='#')
                     //         if image

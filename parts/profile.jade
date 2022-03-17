@@ -287,8 +287,8 @@ template(name='user_friends')
             // .ui.input
             //     i.plus.icon
             //     input.search_friend(type='text' placeholder='add by username...')
-            if is_current_user
-                +multi_user_view key='friend_ids' label='friends' direct=true
+            // if is_current_user
+            +multi_user_view key='friend_ids' label='friends' direct=true
             // each friend_search_results
             //     .ui.header #{username}
             // each user_friends

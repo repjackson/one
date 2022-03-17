@@ -154,7 +154,7 @@ template(name='task_edit')
                         |#{_author.username}
                     if is_dev
                         +single_user_edit key='_author_id' label='author' direct=true
-                    +boolean_edit key='has_image' icon='content' direct=true
+                    +boolean_edit key='has_image' icon='image' direct=true
                     if has_image
                         +image_edit key='image_id' label='image' direct=true
                     div 
