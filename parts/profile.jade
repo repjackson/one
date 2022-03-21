@@ -5,8 +5,8 @@ template(name='profile')
         else 
             img.ui.image.checkin_banner(src="{{c.url image_id height=1000 crop='crop'}}")
         .ui.stackable.padded.grid
-            .three.column.row
-                .column
+            .row
+                .four.wide.column.scrolling
                     a.ui.fluid.large.circular.button.fly_left(href='/users' title='back to users')
                         i.chevron.left.icon
                         +i name='groups'
@@ -85,10 +85,12 @@ template(name='profile')
                                 |!{current_status}
                     // if is_dev
                     //     .ui.small.inline.header #{_id}
-                .column
+                .twelve.wide.column.scrolling
+                    // +profile_nav_link icon='blog' label='posts' route='posts'
+                    +user_posts
                     +user_groups
                     +user_points
-                .column
+                .column.scrolling
                     +array_view key='allergens' label='allergens' icon='no-milk' direct=true
                     +array_view key='food_dislikes' label='food dislikes' icon='disgusting' direct=true
                     +link_view key='profile_link' label='profile link' icon='link' direct=true
@@ -98,6 +100,13 @@ template(name='profile')
                     +user_tickets
                     |!{description}
                     +user_events
+
+
+template(name='profile_nav_link')
+    .ui.button(href="/user/#{current_user.username}/#{route}")
+        +i name=icon
+        |#{label}
+
 
 
 template(name='user_points')
@@ -128,14 +137,11 @@ template(name='user_posts')
         +i name='blog'
         |posts
     .ui.list 
-        each model_docs_helper 'post'
-            a.item(href="/post/#{parent_id}") #{body}
+        each user_post_docs
+            a.item(href="/post/#{parent_id}") !{content}
                 small #{when}
-    .ui.inline.header 
-        +i name='cookbook'
-        |user posts
-    .ui.basic.icon.button.send_post
-        i.large.plus.icon
+    // .ui.basic.icon.button.send_post
+    //     i.large.plus.icon
     .ui.padded.stackable.two.column.grid
         .column
             .ui.header 

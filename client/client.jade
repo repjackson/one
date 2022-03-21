@@ -57,7 +57,7 @@ template(name='layout')
     // img.ui.fluid.image.(src="{{c.url 'cafe'}}")
     img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")    
     +nav
-    #main.ui.bottom.segment.attached.pushable.segment
+    #main.ui.bottom.segment.attached.pushable
         +topbar
         +left_sidebar
         +right_sidebar
@@ -105,7 +105,6 @@ template(name='shortcut_modal')
 
 
 template(name='footer')
-    .ui.divider
     .ui.padded.inverted.grid.segment
         .three.column.row
             .column

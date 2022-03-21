@@ -13,6 +13,12 @@ body {
     /* background: #0e0e44 !important; */
 }
 
+/*#main {*/
+/*  height: 100% !important;*/
+/*}*/
+/*.global_container {*/
+/*  height: 100% !important;*/
+/*}*/
 
 .segment {
   opacity: 0.85 !important;
@@ -40,7 +46,7 @@ body {
 }
 
 .scrolling::-webkit-scrollbar {
-  width: 2px;
+  width: 1px;
 }
 
 .hscroll{

@@ -17,7 +17,7 @@ if Meteor.isClient
         all_user_tags: -> Results.find model:'user_tag'
         one_result: ->
             # console.log 'one'
-            Meteor.users.find().count() is 1
+            Meteor.users.find({_id:$ne:Meteor.userId()}).count() is 1
         username_query: -> Session.get('username_query')
         user_docs: ->
             match = {}

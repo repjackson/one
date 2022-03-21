@@ -30,12 +30,12 @@ if Meteor.isClient
         # @autorun => @subscribe 'model_docs', 'post', ->
         @autorun => @subscribe 'post_facets',
             picked_tags.array()
-            Session.get('limit')
-            Session.get('sort_key')
-            Session.get('sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
+            # Session.get('limit')
+            # Session.get('sort_key')
+            # Session.get('sort_direction')
+            # Session.get('view_delivery')
+            # Session.get('view_pickup')
+            # Session.get('view_open')
 
         @autorun => @subscribe 'post_results',
             picked_tags.array()
@@ -61,6 +61,12 @@ if Meteor.isClient
         post_docs: ->
             Docs.find 
                 model:'post'
+        post_tags: ->
+            Results.find 
+                model:'post_tag'
+        picked_post_tags: -> picked_tags.array()
+        
+                
     Template.posts.events
         'click .add_post': ->
             new_id = 
@@ -262,65 +268,31 @@ if Meteor.isServer
         return undefined
 
     Meteor.publish 'post_facets', (
-        picked_ingredients
-        picked_sections
+        picked_tags
         post_query
-        view_vegan
-        view_gf
         doc_limit
         doc_sort_key
         doc_sort_direction
-        view_delivery
-        view_pickup
-        view_open
         )->
         # console.log 'dummy', dummy
         # console.log 'query', query
-        console.log 'picked ingredients', picked_ingredients
 
         self = @
         match = {}
         match.model = 'post'
-        if view_vegan
-            match.vegan = true
-        if view_gf
-            match.gluten_free = true
-        if picked_ingredients.length > 0 then match.ingredients = $all: picked_ingredients
-        if picked_sections.length > 0 then match.menu_section = $all: picked_sections
             # match.$regex:"#{post_query}", $options: 'i'}
-        if post_query and post_query.length > 1
-            console.log 'searching post_query', post_query
-            match.title = {$regex:"#{post_query}", $options: 'i'}
-            # match.tags_string = {$regex:"#{query}", $options: 'i'}
-        #
-        #     Terms.find {
-        #         title: {$regex:"#{query}", $options: 'i'}
-        #     },
-        #         sort:
-        #             count: -1
-        #         limit: 42
-            # tag_cloud = Docs.aggregate [
-            #     { $match: match }
-            #     { $project: "tags": 1 }
-            #     { $unwind: "$tags" }
-            #     { $group: _id: "$tags", count: $sum: 1 }
-            #     { $match: _id: $nin: picked_ingredients }
-            #     { $match: _id: {$regex:"#{query}", $options: 'i'} }
-            #     { $sort: count: -1, _id: 1 }
-            #     { $limit: 42 }
-            #     { $project: _id: 0, name: '$_id', count: 1 }
-            #     ]
-
-        # else
-        # unless query and query.length > 2
-        # if picked_ingredients.length > 0 then match.tags = $all: picked_ingredients
-        # # match.tags = $all: picked_ingredients
+        # if post_query and post_query.length > 1
+        #     console.log 'searching post_query', post_query
+        #     match.title = {$regex:"#{post_query}", $options: 'i'}
+        #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
+        # if picked_tags.length > 0
+        match.tags = $all: picked_tags
         # # console.log 'match for tags', match
-        section_cloud = Docs.aggregate [
+        tag_cloud = Docs.aggregate [
             { $match: match }
-            { $project: "menu_section": 1 }
-            { $group: _id: "$menu_section", count: $sum: 1 }
-            { $match: _id: $nin: picked_sections }
+            { $project: "tags": 1 }
+            { $group: _id: "$tags", count: $sum: 1 }
+            { $match: _id: $nin: picked_tags }
             # { $match: _id: {$regex:"#{post_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
             { $limit: 20 }
@@ -329,36 +301,13 @@ if Meteor.isServer
             allowDiskUse: true
         }
         
-        section_cloud.forEach (section, i) =>
-            # console.log 'queried section ', section
+        tag_cloud.forEach (tag, i) =>
+            # console.log 'queried tag ', tag
             # console.log 'key', key
             self.added 'results', Random.id(),
-                title: section.name
-                count: section.count
-                model:'section'
-                # category:key
-                # index: i
-
-
-        ingredient_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: "ingredients": 1 }
-            { $unwind: "$ingredients" }
-            { $match: _id: $nin: picked_ingredients }
-            { $group: _id: "$ingredients", count: $sum: 1 }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
-            { $project: _id: 0, title: '$_id', count: 1 }
-        ], {
-            allowDiskUse: true
-        }
-
-        ingredient_cloud.forEach (ingredient, i) =>
-            # console.log 'ingredient result ', ingredient
-            self.added 'results', Random.id(),
-                title: ingredient.title
-                count: ingredient.count
-                model:'ingredient'
+                title: tag.name
+                count: tag.count
+                model:'tag'
                 # category:key
                 # index: i
 

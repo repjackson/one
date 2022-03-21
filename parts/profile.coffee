@@ -18,7 +18,7 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'model_docs', 'order'
         
         @autorun => Meteor.subscribe 'user_groups', Router.current().params.username, ->
-
+        @autorun => Meteor.subscribe 'user_posts', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
         # @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username, ->
@@ -74,6 +74,12 @@ if Meteor.isClient
                 model:'group'
                 member_ids:$in:[user._id]
             
+        user_post_docs: ->
+            user = Meteor.users.findOne username:@username
+            Docs.find
+                model:'post'
+                _author_id:user._id
+            
         user_leader_groups: ->
             user = Meteor.users.findOne username:@username
             Docs.find
@@ -97,6 +103,12 @@ if Meteor.isServer
     Meteor.publish 'user_bookmark_docs', ->
         Docs.find 
             _id:$in:Meteor.user().bookmark_ids
+            
+    Meteor.publish 'user_posts', (username)->
+        user = Meteor.users.findOne username:username
+        Docs.find 
+            model:'post'
+            _author_id:user._id
 
     Meteor.publish 'user_hosted_events', (username)->
         user = Meteor.users.findOne username:username
