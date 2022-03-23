@@ -59,9 +59,10 @@ if Meteor.isClient
 
     Template.posts.helpers
         post_docs: ->
-            Docs.find 
+            Docs.find {
                 model:'post'
-        post_tags: ->
+            }, sort:_timestamp:-1
+        tag_results: ->
             Results.find 
                 model:'post_tag'
         picked_post_tags: -> picked_tags.array()
@@ -285,12 +286,13 @@ if Meteor.isServer
         #     console.log 'searching post_query', post_query
         #     match.title = {$regex:"#{post_query}", $options: 'i'}
         #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
-        # if picked_tags.length > 0
-        match.tags = $all: picked_tags
+        if picked_tags.length > 0
+            match.tags = $all: picked_tags
         # # console.log 'match for tags', match
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
+            { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: picked_tags }
             # { $match: _id: {$regex:"#{post_query}", $options: 'i'} }
@@ -305,9 +307,9 @@ if Meteor.isServer
             # console.log 'queried tag ', tag
             # console.log 'key', key
             self.added 'results', Random.id(),
-                title: tag.name
+                name: tag.name
                 count: tag.count
-                model:'tag'
+                model:'post_tag'
                 # category:key
                 # index: i
 

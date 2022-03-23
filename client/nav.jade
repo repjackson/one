@@ -1,6 +1,6 @@
 template(name='nav')
     // https://fomantic-ui.com/elements/icon.html#/icon
-    #topnav.topnav.ui.attached.borderless.inverted.menu.hscroll
+    #topnav.topnav.ui.attached.borderless.big.menu.hscroll
         // if is_loading
         //     .icon.item
         //         i.big.loading.grey.refresh.icon.cancel
@@ -26,7 +26,7 @@ template(name='nav')
         // // .icon.item 
         // //     i.large.search.icon
         // .search.item.zoomer.mobile.hidden(title='search')
-        //     .ui.icon.transparent.inverted.input
+        //     .ui.icon.transparent.input
         //         if current_product_search
         //             i.remove.large.red.link.icon.clear_search
         //         else
@@ -74,7 +74,7 @@ template(name='nav')
                     i.sign.in.large.icon
                     // +i name='internal'
                     span.mobile.hidden login
-    .ui.small.attached.borderless.inverted.menu.hscroll
+    .ui.attached.borderless.menu.hscroll
             // each model_docs
             //     a.item.zoomer.reset(href='/m/#{slug}' class="{{isActivePath '/delta'}}")
             //         +i name=icon

@@ -26,6 +26,61 @@ Meteor.users.helpers
     #     @_id in ['vwCi2GTJgvBJN5F6c','Dw2DfanyyteLytajt','LQEJBS6gHo3ibsJFu','YFPxjXCgjhMYEPADS','RWPa8zfANCJsczDcQ']
 
 
+Docs.helpers
+    _author: -> Meteor.users.findOne @_author_id
+    # cook: -> Meteor.users.findOne @cook_user_id
+    source_products: ->
+        Docs.find
+            model:'product'
+            source_id:@_id
+    when: -> moment(@_timestamp).fromNow()
+    seven_tags: -> if @tags then @tags[..7]
+    five_tags: -> if @tags then @tags[..4]
+    three_tags: -> if @tags then @tags[..2]
+    is_visible: -> @published in [0,1]
+    # is_published: -> @published is 1
+    # is_anonymous: -> @published is 0
+    # is_private: -> @published is -1
+    # from_user: ->
+    #     if @from_user_id
+    #         Meteor.users.findOne @from_user_id
+    # to_user: ->
+    #     if @to_user_id
+    #         Meteor.users.findOne @to_user_id
+
+
+    # order_total_transaction_amount: ->
+    #     @serving_purchase_price+@cook_tip
+
+
+    order: ->
+        Docs.findOne
+            model:'order'
+            _id:@order_id
+    product: ->
+        Docs.findOne
+            model:'product'
+            _id:@product_id
+
+
+
+    upvoters: ->
+        if @upvoter_ids
+            upvoters = []
+            for upvoter_id in @upvoter_ids
+                upvoter = Meteor.users.findOne upvoter_id
+                upvoters.push upvoter
+            upvoters
+    downvoters: ->
+        if @downvoter_ids
+            downvoters = []
+            for downvoter_id in @downvoter_ids
+                downvoter = Meteor.users.findOne downvoter_id
+                downvoters.push downvoter
+            downvoters
+
+
+
 Docs.before.insert (userId, doc)->
     if Meteor.userId()
         doc._author_id = Meteor.userId()
@@ -81,58 +136,6 @@ if Meteor.isServer
 # ), fetchPrevious: true
 
 
-Docs.helpers
-    _author: -> Meteor.users.findOne @_author_id
-    # cook: -> Meteor.users.findOne @cook_user_id
-    source_products: ->
-        Docs.find
-            model:'product'
-            source_id:@_id
-    when: -> moment(@_timestamp).fromNow()
-    seven_tags: -> if @tags then @tags[..7]
-    five_tags: -> if @tags then @tags[..4]
-    three_tags: -> if @tags then @tags[..2]
-    is_visible: -> @published in [0,1]
-    # is_published: -> @published is 1
-    # is_anonymous: -> @published is 0
-    # is_private: -> @published is -1
-    # from_user: ->
-    #     if @from_user_id
-    #         Meteor.users.findOne @from_user_id
-    # to_user: ->
-    #     if @to_user_id
-    #         Meteor.users.findOne @to_user_id
-
-
-    # order_total_transaction_amount: ->
-    #     @serving_purchase_price+@cook_tip
-
-
-    order: ->
-        Docs.findOne
-            model:'order'
-            _id:@order_id
-    product: ->
-        Docs.findOne
-            model:'product'
-            _id:@product_id
-
-
-
-    upvoters: ->
-        if @upvoter_ids
-            upvoters = []
-            for upvoter_id in @upvoter_ids
-                upvoter = Meteor.users.findOne upvoter_id
-                upvoters.push upvoter
-            upvoters
-    downvoters: ->
-        if @downvoter_ids
-            downvoters = []
-            for downvoter_id in @downvoter_ids
-                downvoter = Meteor.users.findOne downvoter_id
-                downvoters.push downvoter
-            downvoters
 
 
 Meteor.methods
