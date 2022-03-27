@@ -106,7 +106,7 @@ body {
   height: 1px;
 }
 
- .button {
+.button {
     margin: .2em !important;
 } 
 
@@ -187,4 +187,9 @@ body {
 	/*max-height:85vh;*/
 	padding-top: 1em;
 	/*padding-left: 1em;*/
+}
+
+
+.smallscroll::-webkit-scrollbar {
+  width: 1px;
 }

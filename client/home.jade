@@ -1,0 +1,12 @@
+template(name='home')
+    .ui.padded.grid 
+        .sixteen.wide.column    
+            .ui.cards 
+                +home_card name='posts' icon='blog' link='posts'
+                
+                
+template(name='home_card')
+    a.card(href="/#{link}") 
+        i.massive.icon(class=icon)
+        .content 
+            .ui.header #{name}

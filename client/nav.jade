@@ -7,10 +7,10 @@ template(name='nav')
         // else 
         a.icon.item.toggle_leftbar
             i.large.bars.icon
-        // a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" )
-        //     +i name='yin-yang'
-        //     // i.large.home.icon
-        //     span.mobile.hidden one
+        a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" )
+            +i name='yin-yang'
+            // i.large.home.icon
+            span.mobile.hidden one
         a.icon.item.fly_right(href="/events" class="{{isActiveRoute 'events'}}" title='events')
             // i.large.calendar.icon
             +i name='calendar'
@@ -22,7 +22,7 @@ template(name='nav')
         a.icon.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
             // i.large.users.icon
             +i name='shop'
-            // .mobile.hidden users 
+            // .mobile.hidden products 
         // // .icon.item 
         // //     i.large.search.icon
         // .search.item.zoomer.mobile.hidden(title='search')

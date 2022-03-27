@@ -287,7 +287,7 @@ Router.configure
 
 # Router.route '/user/:username', -> @render 'user'
 # Router.route '/verification_confirmation', -> @render 'verification_confirmation'
-Router.route '*', -> @render 'transfers'
+Router.route '*', -> @render 'home'
 
 # Router.route '/user/:username/m/:type', -> @render 'user_layout', 'user_section'
 # Router.route '/add_resident', (->
@@ -304,5 +304,5 @@ Router.route '*', -> @render 'transfers'
 
 # Router.route '/login', -> @render 'login'
 
-Router.route '/', -> @render 'events'
+Router.route '/', -> @render 'home'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
