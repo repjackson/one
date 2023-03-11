@@ -120,6 +120,7 @@ Template.registerHelper 'fixed', (input) ->
 Template.registerHelper 'int', (input) -> 
     if input
         input.toFixed(0)
+Template.registerHelper '_when', () -> moment(@_timestamp).fromNow()
 Template.registerHelper 'when', () -> moment(@_timestamp).fromNow()
 Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
 Template.registerHelper 'cal_time', (input) -> moment(input).calendar()
