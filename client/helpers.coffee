@@ -154,7 +154,7 @@ Template.registerHelper 'hsd', () ->
 
 # Template.registerHelper 'grabber', () ->
 #     Meteor.users.findOne
-        _id:@grabber_id
+        # _id:@grabber_id
 
 
 
