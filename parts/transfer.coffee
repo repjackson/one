@@ -365,9 +365,10 @@ if Meteor.isClient
             else 
                 Meteor.user().points
         
-        can_submit: ->
+        can_send: ->
             transfer = Docs.findOne Router.current().params.doc_id
             transfer.amount and transfer.recipient_id
+            Meteor.user().coins > tranfer.amount
     Template.transfer_edit.events
         'click .add_recipient': ->
             Docs.update Router.current().params.doc_id,

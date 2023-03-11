@@ -1,9 +1,17 @@
 template(name='coin')
     .ui.padded.grid
         .ui.sixteen.wide.column
-            .ui.header #{my_coins.count} coins
-            .ui.button.mint_coin
-                |mint
+            .ui.header 
+                +i name='coin'
+                |#{my_coins.count} coins
+            .ui.button.mint_coin mint
+            .ui.button.calc_coin calc
             .ui.header my coins 
             each my_coins
-                .ui.header #{_when}
+                +coin_item
+                
+                
+template(name='coin_item')
+    .ui.header #{_when}
+    .ui.button.transfer 
+        |transfer

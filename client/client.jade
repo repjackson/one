@@ -81,6 +81,7 @@ template(name='nav')
                 a.icon.item(href="/coin")
                     // i.large.inbox.icon
                     +i name='coins'
+                    strong #{currentUser.coins}c
                 a.item.toggle_topbar.mobile.hidden(title='alerts')
                     // i.wallet.icon
                     // .ui.avatar.image.bell

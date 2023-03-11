@@ -217,7 +217,9 @@ template(name='transfer_edit')
                     //         //     img.ui.mini.rounded.inline.image(src="{{c.url image height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                     //         |#{title}
                 .five.wide.center.aligned.column
-                    .ui.big.header #{amount}pts
+                    .ui.big.header 
+                        +i name='coins'
+                        |#{amount} coin
                     .ui.big.input
                         input.point_amount(type='number' value=amount min='1' max=point_max)
                     div
