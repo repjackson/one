@@ -71,7 +71,7 @@ template(name='task_card')
             +author_info
             if group_id     
                 +group_info
-            +boolean_edit key='completed'
+            +boolean_edit key='completed' label='completed'
             
         
 template(name='task_item')
@@ -113,7 +113,7 @@ template(name='task_view')
                     +array_view key='location_tags' label='location_tags' direct=true
                     +visibility_settings
                     +group_widget
-                .twelve.wide.column.scrolling
+                .eight.wide.column.scrolling
                     .ui.header #{title}
                     img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
@@ -123,11 +123,12 @@ template(name='task_view')
                     .spacer
                     .spacer
                     +comments
-                // .four.wide.column
-                
-                    //- .ui.fluid.green.button.submit
-                    //-     i.checkmark.icon
-                    //-     |submit
+                .four.wide.column
+                    +boolean_edit key='completed' label='completed'
+                    +single_user_edit key='assigned_id' label='assigned to'
+                    .ui.fluid.green.button.submit
+                        i.checkmark.icon
+                        |submit
 
 
 

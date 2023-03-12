@@ -332,10 +332,7 @@ Template.array_edit.events
 
         element = @valueOf()
         field = Template.currentData()
-        if field.direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
 
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
@@ -524,10 +521,7 @@ Template.single_doc_edit.helpers
         selection = @
         current = Template.currentData()
         ref_field = Template.parentData(1)
-        if ref_field.direct
-            parent = Template.parentData(2)
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData(2)
         target = Template.parentData(2)
         if true
             if target["#{ref_field.key}"]
@@ -543,16 +537,11 @@ Template.single_doc_edit.events
     'click .select_choice': ->
         selection = @
         ref_field = Template.currentData()
-        if ref_field.direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         # parent = Template.parentData(1)
 
         # key = ref_field.button_key
         key = ref_field.key
-
-
         # if parent["#{key}"] and @["#{ref_field.button_key}"] in parent["#{key}"]
         if parent["#{key}"] and @slug in parent["#{key}"]
             doc = Docs.findOne parent._id
@@ -561,7 +550,6 @@ Template.single_doc_edit.events
                     $unset:"#{ref_field.key}":1
         else
             doc = Docs.findOne parent._id
-
             if doc
                 Docs.update parent._id,
                     $set: "#{ref_field.key}": @slug
@@ -608,19 +596,7 @@ Template.multi_doc_edit.events
     'click .select_choice': ->
         selection = @
         ref_field = Template.currentData()
-        if ref_field.direct
-            parent = Template.parentData(2)
-        else
-            parent = Template.parentData(6)
-        parent = Template.parentData(1)
-        parent2 = Template.parentData(2)
-        parent3 = Template.parentData(3)
-        parent4 = Template.parentData(4)
-        parent5 = Template.parentData(5)
-        parent6 = Template.parentData(6)
-        parent7 = Template.parentData(7)
-
-        #
+        parent = Template.parentData(2)
 
         if parent["#{ref_field.key}"] and @slug in parent["#{ref_field.key}"]
             doc = Docs.findOne parent._id
@@ -680,10 +656,7 @@ Template.multi_user_edit.events
 
 
         val = t.$('.multi_user_select_input').val()
-        if field.direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
         doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
@@ -729,6 +702,8 @@ Template.single_user_edit.onCreated ->
 Template.single_user_edit.helpers
     user_results: ->
         console.log Template.instance().user_results.get()
+        Template.instance().user_results.get()
+        
 Template.single_user_edit.events
     'click .clear_results': (e,t)->
         t.user_results.set null
@@ -756,10 +731,7 @@ Template.single_user_edit.events
 
 
         val = t.$('.edit_text').val()
-        if field.direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        parent = Template.parentData()
 
         doc = Docs.findOne parent._id
         if doc

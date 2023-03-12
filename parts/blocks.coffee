@@ -1,4 +1,18 @@
 if Meteor.isClient
+    Template.tip_button.events 
+        'click .tip': ->
+            new_transfer = {model:'transfer'}
+            console.log @
+            doc = Docs.findOne @_id
+            user = Meteor.users.findOne @_id
+            if doc 
+                new_transfer.parent_id = @_id
+                new_transfer.parent_model = @model
+                new_transfer.target_user_id = @_author_id
+            else if user 
+                new_transfer.target_user_id = @_id
+            new_id = Docs.insert new_transfer
+            Router.go "/transfer/#{new_id}/edit"
     Template.friend_button.events 
         'click .friend': ->
             # console.log @
