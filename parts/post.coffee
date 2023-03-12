@@ -57,6 +57,9 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'doc_comments', @data._id, ->
 
 
+    Template.posts.events
+        'click .pick_post_tag': -> picked_tags.push @name
+        'click .unpick_post_tag': -> picked_tags.remove @valueOf()
     Template.posts.helpers
         post_docs: ->
             Docs.find {
@@ -190,6 +193,7 @@ if Meteor.isClient
             
 if Meteor.isServer
     Meteor.publish 'post_results', (
+        picked_tags=[]
         )->
         # console.log picked_ingredients
         # if doc_limit
@@ -221,8 +225,9 @@ if Meteor.isServer
         #     console.log 'searching post_query', post_query
         #     match.title = {$regex:"#{post_query}", $options: 'i'}
         #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
-
-        # match.tags = $all: picked_ingredients
+        if picked_tags.length > 0
+            match.tags = $all: picked_tags
+            
         # if filter then match.model = filter
         # keys = _.keys(prematch)
         # for key in keys
