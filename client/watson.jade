@@ -107,7 +107,7 @@ template(name='keywords')
     //     |#{watson.keywords.length} keywords
     .ui.five.column.stackable.grid
         each watson.keywords
-            .ui.column
+            .ui.column.zoomer
                 span.large120(class="{{calculated_size 'relevance'}}" title="{{ to_percent relevance }}% relevant") #{text}
                 .ui.basic.circular.label(title='relevant') {{ to_percent relevance }}% rel
                 .ui.basic.circular.label {{ sentiment.label }} {{ to_percent sentiment.score }}%:

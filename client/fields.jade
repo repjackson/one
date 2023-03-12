@@ -74,7 +74,8 @@ template(name='html_edit')
         .field
             label 
                 if icon
-                    i.icon(class=icon)
+                    // i.icon(class=icon)
+                    +i name=icon
                 if title
                     |#{title}
                 else if label
@@ -87,7 +88,7 @@ template(name='html_edit')
         .field.testsun
             textarea#sample.sun-editor-editable
                 |#{field_value}
-    +call_watson mode='html' key='content'
+    +call_watson mode='html' key=key
     //- div
     //- //- +tone mode='html'
     if watson
@@ -253,7 +254,8 @@ template(name='image_view')
 template(name='image_edit')
     .ui.form
         if icon
-            i.icon(class=icon)
+            // i.icon(class=icon)
+            +i name=icon
         .ui.inline.header
             if title
                 |#{title}
@@ -516,8 +518,8 @@ template(name='array_edit')
     //     // +i name=icon
     .ui.inline.header
         // |#{field_value.length}
-        // +i name=icon
-        i.large.icon(class=icon)
+        +i name=icon
+        // i.large.icon(class=icon)
         if title
             |#{title}
         else if label
@@ -574,7 +576,8 @@ template(name='array_view')
     if field_value
         // div
         if icon
-            i.icon(class=icon)
+            // i.icon(class=icon)
+            +i name=icon
         if label
             .ui.inline.small.grey.header.say_body(title=title)
                 |#{label}
@@ -974,7 +977,8 @@ template(name='single_user_edit')
     div
     .ui.header 
         if icon
-            i.icon(class=icon)
+            // i.icon(class=icon)
+            +i name=icon
         |#{label} #{title}
     // if field_value
     //     .pull_user.ui.icon.compact.button(title='remove user')
@@ -1034,8 +1038,8 @@ template(name='multi_user_edit')
     div
     .ui.inline.header
         if icon
-            // +i name=icon
-            i.icon(class=icon)
+            +i name=icon
+            // i.icon(class=icon)
         if title
             |#{title}
         else if label

@@ -29,11 +29,16 @@ template(name='posts')
             +session_set key='sort_key' value='points' label='points' icon='hashtag'
             .scrolling
                 if subs_ready
-                    .ui.centered.stackable.fluid.cards
-                        each post_docs 
-                            +post_card
+                    if session_is 'view_mode' 'grid'
+                        .ui.centered.stackable.fluid.cards
+                            each post_docs 
+                                +post_card
+                    else
+                        .ui.selection.list 
+                            each post_docs 
+                                +post_item
                 else 
-                    i.massive.yin.yang.loading.icon
+                    i.massive.yin.yang.loading.grey.icon
 
 
 template(name='set_post_sort_key')
@@ -82,10 +87,12 @@ template(name='post_card')
 template(name='post_item')
     .ui.fluid.segment.view_post.pointer
         a.ui.header(href="/post/#{_id}/view") #{title}
+        img.ui.small.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         div
         .ui.small.grey.inline.header #{when}
-        | #{content}
-        each tags 
+        .smallscroll
+            | !{content}
+        each seven_tags 
             .ui.basic.small.label #{this}
         
 
@@ -94,9 +101,9 @@ template(name='post_view')
         .ui.stackable.padded.grid
             .row 
                 .four.wide.column.scrolling
-                    a.ui.circular.icon.button(href="/posts" title='posts')
+                    a.ui.circular.large.button(href="/posts" title='posts')
                         i.chevron.left.icon
-                        +i name='post'
+                        +i name='blog'
                         |posts
                     .ui.inline.grey.header {{from_now start_datetime}}
                     
