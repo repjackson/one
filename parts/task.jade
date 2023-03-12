@@ -22,7 +22,7 @@ template(name='tasks')
                 a.ui.compact.button.pick_task_tag
                     |#{title} 
                     // small.ui.grey.text #{count}
-        .twelve.wide.column
+        .twelve.wide.column.scrolling
             .ui.centered.stackable.cards
                 each task_docs 
                     +task_card

@@ -7,6 +7,7 @@ template(name='profile')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column.scrolling
+                    +account_finance
                     a.ui.fluid.large.circular.button.fly_left(href='/users' title='back to users')
                         i.chevron.left.icon
                         +i name='groups'
@@ -94,12 +95,14 @@ template(name='profile')
                     +array_view key='food_dislikes' label='food dislikes' icon='disgusting' direct=true
                     +link_view key='profile_link' label='profile link' icon='link' direct=true
                     +user_comments
-                    +user_posts
                     +user_friends
                     +user_tickets
                     |!{description}
                     +user_events
 
+template(name='account_finance')
+    .ui.button.add_five_credits
+        |add five
 
 template(name='profile_nav_link')
     .ui.button(href="/user/#{current_user.username}/#{route}")

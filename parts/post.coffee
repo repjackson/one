@@ -68,6 +68,12 @@ if Meteor.isClient
         picked_post_tags: -> picked_tags.array()
         
                 
+    Template.nav.events
+        'click .add_post': ->
+            new_id = 
+                Docs.insert 
+                    model:'post'
+            Router.go "/post/#{new_id}/edit"
     Template.posts.events
         'click .add_post': ->
             new_id = 
