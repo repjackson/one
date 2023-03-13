@@ -89,7 +89,7 @@ input {
     transition: scale 1s; /* Animation */
     /* box-shadow: 0 2px 2px 2px rgba(50, 50, 100, 0.1) !important; */
 }
-a:hover, .button:hover, .pointer:hover, .link:hover {
+a:hover, .button:hover, .pointer:hover {
     transform: scale(1.1) !important;
 }
 .zoomer:hover {

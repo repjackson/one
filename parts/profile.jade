@@ -187,7 +187,7 @@ template(name='user_comments')
     .ui.header 
         +i name='chat'
         |comments
-    .ui.large.selection.link.list 
+    .ui.large.selection.link.list.smallscroll
         each model_docs_helper 'comment'
             a.item(href="/#{parent_model}/#{parent_id}") 
                 strong #{body}
