@@ -316,7 +316,7 @@ Template.array_edit.events
 
     'keyup .new_element': (e,t)->
         if e.which is 13
-            element_val = t.$('.new_element').val().trim()
+            element_val = t.$('.new_element').val().trim().toLowerCase()
             if element_val.length>0
                 parent = Template.parentData()
                 # if true

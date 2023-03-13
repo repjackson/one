@@ -585,7 +585,7 @@ if Meteor.isClient
     Template.group_picker.onCreated ->
         Session.setDefault('group_search','')
         @autorun => @subscribe 'group_search_results', Session.get('group_search'), ->
-        @autorun => @subscribe 'model_docs', 'group', ->
+        # @autorun => @subscribe 'model_docs', 'group', ->
     Template.group_picker.helpers
         group_results: ->
             if Session.get('group_search').length > 1
@@ -636,8 +636,9 @@ if Meteor.isClient
 
 
 if Meteor.isServer 
-    Meteor.publish 'group_search_results', (group_title_queary)->
-        Docs.find 
-            model:'group'
-            title: {$regex:"#{group_title_queary}",$options:'i'}
+    Meteor.publish 'group_search_results', (group_title_query='')->
+        if group_title_query.length>1
+            Docs.find 
+                model:'group'
+                title: {$regex:"#{group_title_query}",$options:'i'}
 
