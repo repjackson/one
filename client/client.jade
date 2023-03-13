@@ -208,7 +208,7 @@ template(name='shortcut_modal')
 
 template(name='footer')
     .ui.padded.inverted.grid.segment
-        .three.column.row
+        .one.column.row
             .column
                 if current_user.admin_mode
                     +print_this
@@ -216,30 +216,27 @@ template(name='footer')
                     +print_this
                     if is_dev
                         +boolean_edit key='admin_mode' label='admin mode'  
-                .ui.inverted.header 
+                .ui.inverted.inline.header 
                     i.users.icon
                     |#{user_docs.count} users 
                 each user_docs 
-                    // .item
                     a.ui.image.inverted.black.basic.label(href="/user/#{username}")
                         img.ui.avatar.image(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
                         |#{username}
                     if current_user.admin_mode
                         +print_this
-            .column
-                .ui.inverted.header 
+                div
+                .ui.inverted.inline.header 
                     i.blog.icon
                     |#{doc_docs.count} docs 
-                // .ui.animated.large.link.inverted.list.smallscroll
                 each doc_docs
-                    a.ui.zoomer.image.inverted.black.basic.label(href="/#{model}/#{_id}")
+                    a.ui.image.inverted.black.basic.label(href="/#{model}/#{_id}")
                         img.ui.avatar.image(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
                         |#{title} 
                         .ui.inverted.basic.label #{model}
-            .column
-                .ui.inverted.header 
+                div
+                .ui.inverted.inline.header 
                     i.tag.icon
-                    |results 
-                .ui.animated.large.link.inverted.list.smallscroll
-                    each result_docs
-                        .ui.label #{name}: #{model}
+                    |#{result_docs.count} results 
+                each result_docs
+                    .ui.inverted.basic.label #{name}: #{model}
