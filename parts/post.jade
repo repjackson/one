@@ -70,18 +70,22 @@ template(name='set_view_mode_post')
 
 
 template(name='post_card')
-    .ui.link.fluid.card.view_post.pointer.fly_right
-        img.ui.fluid.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+    .ui.fluid.card
+        if youtube_id
+            +youtube_view key='youtube_id'
+        img.ui.fluid.rounded.image.view_post.fly_right(src="{{c.url image_id height=300 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .content
-            a.ui.header.zoomer(href="/post/#{_id}") #{title}
+            a.ui.header.zoomer.view_post.fly_right(href="/post/#{_id}") #{title}
             if private 
                 i.large.lock.icon
-            .ui.small.grey.inline.header #{when}
-            | !{content}
-            // +comments_view_small
+            .ui.small.grey.inline.header #{_when}
+            .smallscroll
+                | !{content}
+            +comments_view_small
             +author_info
             if group_id     
                 +group_info
+            +voting_full
             
         
 template(name='post_item')
@@ -110,6 +114,7 @@ template(name='post_view')
                     if can_edit
                         a.ui.circular.icon.button.fly_down(href="/#{model}/#{_id}/edit" title='edit')
                             +i name='pencil'
+                    +print_this
                     .ui.segment
                         .ui.header 
                             small author
@@ -125,11 +130,14 @@ template(name='post_view')
                     +array_view key='location_tags' label='location_tags' direct=true
                     +visibility_settings
                     +group_widget
-                .twelve.wide.column.scrolling
+                .eight.wide.column.scrolling
                     .ui.header #{title}
+                    if youtube_id
+                        +youtube_view key='youtube_id' label='youtube' 
                     img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
+                    |!{body}
                     |!{content}
                     if watson 
                         +watson_view
@@ -137,11 +145,12 @@ template(name='post_view')
                     .spacer
                     .spacer
                     +comments
-                // .four.wide.column
-                
-                    //- .ui.fluid.green.button.submit
-                    //-     i.checkmark.icon
-                    //-     |submit
+                .four.wide.column
+                    .ui.header viewers 
+                    .ui.header bookmarks
+                    .ui.fluid.green.button.submit
+                        i.checkmark.icon
+                        |submit
 
 
 
@@ -171,9 +180,9 @@ template(name='post_edit')
                         i.checkmark.big.icon
                     +text_edit key='title' label='title' direct=true
                     
-                    +boolean_edit key='has_content' label='has content' icon='content' direct=true
-                    if has_content
-                        +html_edit key='content' label='content' direct=true
+                    // +boolean_edit key='has_content' label='has content' icon='content' direct=true
+                    // if has_content
+                    +html_edit key='content' label='content' direct=true
                 .column.scrolling
                     i.large.link.red.remove.icon.delete_post
                     if is_dev
@@ -182,9 +191,9 @@ template(name='post_edit')
                         .ui.header 
                             small author
                             |#{_author.username}
-                    +boolean_edit key='has_image' label='has image' icon='content' direct=true
-                    if has_image
-                        +image_edit key='image_id' label='image' direct=true
+                    // +boolean_edit key='has_image' label='has image' icon='content' direct=true
+                    // if has_image
+                    +image_edit key='image_id' label='image' direct=true
                     div 
                     +array_edit key='tags' label='tags' direct=true icon='tags'
                     +boolean_edit key='published' icon='visible' direct=true
@@ -202,6 +211,7 @@ template(name='post_edit')
                     .ui.header
                         |audience
                     +boolean_edit key='private' label='private' 
+                    +youtube_edit key='youtube_id' label='youtube' 
                     if private 
                         +multi_user_edit key='access_user_ids' label='user picker' direct=true
                     +group_picker

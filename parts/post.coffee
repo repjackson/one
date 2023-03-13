@@ -39,13 +39,13 @@ if Meteor.isClient
 
         @autorun => @subscribe 'post_results',
             picked_tags.array()
-            Session.get('group_title_search')
-            Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
-            Session.get('view_delivery')
-            Session.get('view_pickup')
-            Session.get('view_open')
+            Session.get('group_title_search')
+            Session.get('limit')
+            # Session.get('view_delivery')
+            # Session.get('view_pickup')
+            # Session.get('view_open')
 
     Template.post_view.onCreated ->
         @autorun => @subscribe 'related_groups',Router.current().params.doc_id, ->
@@ -90,13 +90,13 @@ if Meteor.isClient
         'click .view_post': ->
             Router.go "/post/#{@_id}"
 
-    Template.post_view.events
-        'click .add_post_recipe': ->
-            new_id = 
-                Docs.insert 
-                    model:'recipe'
-                    post_ids:[@_id]
-            Router.go "/recipe/#{new_id}/edit"
+    # Template.post_view.events
+    #     'click .add_post_recipe': ->
+    #         new_id = 
+    #             Docs.insert 
+    #                 model:'recipe'
+    #                 post_ids:[@_id]
+    #         Router.go "/recipe/#{new_id}/edit"
 
     Template.favorite_icon_toggle.helpers
         icon_class: ->
@@ -194,6 +194,8 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'post_results', (
         picked_tags=[]
+        sort_key='_timestamp'
+        sort_direction=-1
         )->
         # console.log picked_ingredients
         # if doc_limit
@@ -242,7 +244,7 @@ if Meteor.isServer
         unless Meteor.userId()
             match.private = $ne:true
         Docs.find match,
-            # sort:"#{sort_key}":sort_direction
+            sort:"#{sort_key}":sort_direction
             # sort:_timestamp:-1
             limit: 42
             
