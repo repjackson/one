@@ -207,13 +207,15 @@ Meteor.publish 'order_count', (
     match = {model:'order', app:'nf'}
     Counts.publish this, 'order_count', Docs.find(match)
     return undefined
-Meteor.publish 'ingredient_count', (
+Meteor.publish 'model_count', (
+    model=null
     )->
     @unblock()
-    self = @
-    match = {model:'ingredient', app:'nf'}
-    Counts.publish this, 'ingredient_count', Docs.find(match)
-    return undefined
+    if model
+        self = @
+        match = {model:model}
+        Counts.publish this, 'model_counter', Docs.find(match)
+        return undefined
 Meteor.publish 'product_count', (
     )->
     @unblock()

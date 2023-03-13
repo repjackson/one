@@ -127,6 +127,7 @@ template(name='nav')
                 span.mobile.hidden groups
             a.icon.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
                 // i.large.blog.icon
+                |#{post_counter}
                 +i name='blog'
                 span.mobile.hidden posts
             a.icon.item.fly_right(href="/transfers" class="{{isActiveRoute 'transfers'}}" title='transfers')

@@ -4,7 +4,7 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'all_users'
         # @autorun => Meteor.subscribe 'models', ->
         
-        # @autorun => Meteor.subscribe 'my_cart'
+        @autorun => Meteor.subscribe 'model_count', 'post', ->
         # @autorun => Meteor.subscribe 'my_unread_messages'
         # @autorun => Meteor.subscribe 'global_stats'
         # @autorun => Meteor.subscribe 'my_cart_order'
@@ -84,6 +84,8 @@ if Meteor.isClient
     
     
     Template.nav.helpers
+        post_counter: ->
+            Counts.get('model_counter')
         model_docs: ->
             Docs.find 
                 model:'model'

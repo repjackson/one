@@ -89,7 +89,7 @@ template(name='post_card')
             
         
 template(name='post_item')
-    .ui.fluid.segment.view_post.pointer
+    .ui.fluid.segment.view_post
         a.ui.header(href="/post/#{_id}/view") #{title}
         img.ui.small.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         div

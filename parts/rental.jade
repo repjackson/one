@@ -2,7 +2,7 @@ template(name='rentals')
     .ui.stackable.padded.grid 
         .four.wide.column
             .ui.inline.header 
-                +i name='blog'
+                +i name='clock'
                 |rentals
                 if currentUser
                     .ui.icon.button.add_rental
@@ -143,9 +143,9 @@ template(name='rental_edit')
                         i.checkmark.big.icon
                     +text_edit key='title' label='title'  
                     
-                    +boolean_edit key='has_content' icon='content'  
-                    if has_content
-                        +html_edit key='content' label='content'  
+                    // +boolean_edit key='has_content' icon='content'  
+                    // if has_content
+                    +html_edit key='body' label='content'  
                 .column
                     i.large.link.red.remove.icon.delete_rental
                     .ui.header 
@@ -153,9 +153,9 @@ template(name='rental_edit')
                         |#{_author.username}
                     if is_dev
                         +single_user_edit key='_author_id' label='author'  
-                    +boolean_edit key='has_image' icon='content'  
-                    if has_image
-                        +image_edit key='image_id' label='image'  
+                    // +boolean_edit key='has_image' icon='content'  
+                    // if has_image
+                    +image_edit key='image_id' label='image'  
                     div 
                     +array_edit key='tags' label='tags'   icon='tags'
                     +boolean_edit key='published' icon='visible'  
