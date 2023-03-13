@@ -393,7 +393,14 @@ Template.text_edit.events
         else 
             Meteor.users.update parent._id,
                 $set:"#{@key}":val
-
+        $('body').toast(
+            showIcon: 'checkmark'
+            message: "saved"
+            # showProgress: 'bottom'
+            class: 'success'
+            # displayTime: 'auto',
+            position: "bottom right"
+        )
 
 # Template.textarea_view.onRendered ->
 #     Meteor.setTimeout ->
@@ -411,6 +418,14 @@ Template.number_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val
+        $('body').toast(
+            showIcon: 'checkmark'
+            message: "saved"
+            # showProgress: 'bottom'
+            class: 'success'
+            # displayTime: 'auto',
+            position: "bottom right"
+        )
 
 # Template.float_edit.events
 #     'blur .edit_float': (e,t)->
@@ -431,6 +446,14 @@ Template.slug_edit.events
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val
+        $('body').toast(
+            showIcon: 'checkmark'
+            message: "saved"
+            # showProgress: 'bottom'
+            class: 'success'
+            # displayTime: 'auto',
+            position: "bottom right"
+        )
 
 
 #     'click .slugify_title': (e,t)->
@@ -492,6 +515,15 @@ Template.boolean_edit.events
         else 
             Meteor.users.update parent._id,
                 $set:"#{@key}":!parent["#{@key}"]
+        $('body').toast(
+            showIcon: 'checkmark'
+            message: "saved"
+            # showProgress: 'bottom'
+            class: 'success'
+            # displayTime: 'auto',
+            position: "bottom right"
+        )
+
 Template.single_doc_view.onCreated ->
     # @autorun => Meteor.subscribe 'model_docs', @data.ref_model
 

@@ -188,7 +188,7 @@ template(name='transfer_edit')
                 .six.wide.column
                     +boolean_edit key='has_description' label='has description' icon='content'  
                     if has_description
-                        +html_edit key='description' label='description'  
+                        +html_edit key='body' label='description'  
                     +boolean_edit key='has_image' label='has image' icon='image'  
                     if has_image
                         +image_edit key='image_id' label='image'  
