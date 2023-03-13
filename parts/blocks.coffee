@@ -583,6 +583,7 @@ if Meteor.isClient
     
 if Meteor.isClient
     Template.group_picker.onCreated ->
+        Session.setDefault('group_search','')
         @autorun => @subscribe 'group_search_results', Session.get('group_search'), ->
         @autorun => @subscribe 'model_docs', 'group', ->
     Template.group_picker.helpers

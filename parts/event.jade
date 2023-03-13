@@ -12,31 +12,32 @@ template(name='events')
                     |events
                 if currentUser
                     .ui.circular.icon.button.add_event(title='add event')
-                        i.plus.big.icon
+                        // i.plus.big.icon
+                        +i name='plus'
                 .ui.compact.button.toggle_past
                     if viewing_past
                         i.undo.green.large.icon
                     else
                         i.circle.outline.large.icon
                     |past
-                .ui.compact.button.toggle_now(class=today_button_class)
-                    if viewing_today
-                        +i name='calendar'
-                    else
-                        +ios name='calendar'
-                    |now
-                .ui.compact.button.view_today(class=today_button_class)
-                    if viewing_today
-                        +i name='calendar'
-                    else
-                        +ios name='calendar'
-                    |today
-                .ui.compact.button.toggle_past(class=today_button_class)
-                    if viewing_today
-                        +i name='calendar'
-                    else
-                        +ios name='calendar'
-                    |this week
+                // .ui.compact.button.toggle_now(class=today_button_class)
+                //     if viewing_today
+                //         +i name='calendar'
+                //     else
+                //         +ios name='calendar'
+                //     |now
+                // .ui.compact.button.view_today(class=today_button_class)
+                //     if viewing_today
+                //         +i name='calendar'
+                //     else
+                //         +ios name='calendar'
+                //     |today
+                // .ui.compact.button.toggle_past(class=today_button_class)
+                //     if viewing_today
+                //         +i name='calendar'
+                //     else
+                //         +ios name='calendar'
+                //     |this week
                 .ui.compact.button.toggle_repeating(class=toggle_repeating_class)
                     i.refresh.icon
                     |repeating
@@ -52,7 +53,7 @@ template(name='events')
                 .ui.icon.input
                     i.search.icon
                     input.event_search(type='text' placeholder='search...' autofocus='')
-                +session_set key='view_mode' value='grid' icon='th'
+                +session_set key='view_mode' value='grid' icon='cards'
                 +session_set key='view_mode' value='list' icon='list'
                 +session_set key='view_attending' value='going' label='going' icon='checkmark'
                 +session_set key='view_attending' value='maybe' label='maybe' icon='question'
@@ -63,7 +64,7 @@ template(name='events')
                 .spacer
                 if subs_ready
                     if session_is 'view_mode' 'grid'
-                        if one_result
+                        if one_event_result
                             .ui.stackable.one.cards.scrolling
                                 each event_docs
                                     +event_card
@@ -469,15 +470,15 @@ template(name='event_view')
                     if can_edit
                         a.edit_event.fly_left(href="/event/#{_id}/edit" title='edit')
                             i.large.link.pencil.circular.icon
-                    if link 
-                        a.ui.button(href=link target="_window")
-                            i.globe.icon 
-                            |#{link}
+                    // if link 
+                    //     a.ui.small.compact.button(href=link target="_window")
+                    //         i.globe.icon 
+                    //         |#{link}
             .row
                 .four.wide.column.scrollin
                     +group_widget
                     if link 
-                        a.ui.big.black.basic.fluid.button(href=link target='_window' title=link)
+                        a.ui.big.basic.fluid.compact.button(href=link target='_window' title=link)
                             i.external.icon
                             // |#{link}
                             |link
@@ -494,7 +495,8 @@ template(name='event_view')
                     //         |#{event_room.title}
                     // if is_admin
                     .ui.dividing.header 
-                        i.pencil.icon
+                        // i.pencil.icon
+                        +i name='quill'
                         | author
                     a.ui.header.zoomer(href="/user/#{_author.username}") 
                         img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
@@ -566,15 +568,17 @@ template(name='event_edit')
         .ui.stackable.padded.grid
             .three.column.row 
                 .column
-                    a.ui.icon.green.big.button.fly_left(href="/event/#{_id}" title='save')
-                        i.checkmark.big.icon
+                    a.ui.green.big.compact.button.fly_left(href="/event/#{_id}" title='save')
+                        i.checkmark.icon
+                        |save
                     .ui.inline.header 
-                        i.large.calendar.icon
-                        // +icolor name='tear-off-calendar'
-                        |edit event
+                        // i.large.calendar.icon
+                        +icolor name='tear-off-calendar'
+                        |editing event
                     +boolean_edit key='published' label='published'  
-                    .ui.icon.circular.button.delete_item(title='delete')
+                    .ui.basic.small.compact.circular.button.delete_item(title='delete')
                         i.remove.red.icon
+                        |delete
                     +text_edit key='title' label='title'  
                     +image_edit key='image_id' label='image'  
                     .ui.header 
