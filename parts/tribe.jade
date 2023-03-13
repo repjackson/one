@@ -186,21 +186,17 @@ template(name='group_view')
                     +viewing
                     if in_dev 
                         +print_this
-                    +multi_user_view key='member_ids' label='members'
                 .twelve.wide.column
-                    .ui.three.column.grid 
+                    .ui.two.column.grid 
                         .column
-                            .title
+                            .ui.inline.header
                                 +i name='info'
                                 |about
                             .content
-                                +html_view key='description' icon='content' label='description'
+                                +html_view key='body' icon='content' label='description'
                                 if watson 
                                     +watson_view
                         .column
-                            .title
-                                +i name='groups'
-                                |people
                             .content
                                 if leaders_id
                                     .ui.inline.header 
@@ -211,9 +207,9 @@ template(name='group_view')
                                         +user_info
                                 div
                                 .ui.inline.header 
-                                    // +i name='groups'
-                                    i.users.icon
+                                    +i name='groups'
                                     |#{member_ids.length} members
+                                +multi_user_view key='member_ids' label='members'
                                 each member_ids
                                     +user_info
                                 // .ui.large.selection.animated.list
@@ -229,7 +225,7 @@ template(name='group_view')
                                         +i name='internal'
                                         |join
                         .column
-                            .title
+                            .ui.inline.header
                                 +i name='rss'
                                 |activity
                             .content
@@ -248,15 +244,13 @@ template(name='group_view')
                                     // .item #{total_credit_exchanged} credits exchanged
                                 +comments
                         .column
-                            .title
-                                .ui.inline.header
-                                    +i name='calendar' 
-                                    |events
-                                i.dropdown.icon
+                            .ui.inline.header
+                                +i name='calendar' 
+                                |events
+                            if currentUser 
+                                .ui.icon.button.add_group_event(title='add group event')
+                                    i.plus.icon
                             .content
-                                if currentUser 
-                                    .ui.icon.button.add_group_event(title='add group event')
-                                        i.plus.icon
                                 .ui.link.animated.list
                                     each group_events
                                         a.item(href="/event/#{_id}") 
@@ -270,10 +264,9 @@ template(name='group_view')
                                                     if start_datetime
                                                         |{{from_now start_datetime}}
                         .column
-                            .title
-                                .ui.inline.header
-                                    i.large.blog.icon
-                                    |group posts
+                            .ui.inline.header
+                                +i name='blog'
+                                |group posts
                             .content
                                 if currentUser 
                                     .ui.icon.button.add_group_post(title='add group post')
@@ -284,18 +277,22 @@ template(name='group_view')
                                             img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
                                             |#{title}
                             if has_shop
-                                .title
-                                    i.large.shop.icon
-                                    |shop
-                                    i.dropdown.icon
-                                .content
-                                    +group_shop
+                                +group_shop
+                        .column 
+                            +qr_code
+                            
+                            
+template(name='qr_code')
+    .ui.button.make_qr
+        |make qr code
+    #qrcode
                                     
                                     
                                 
                                 
 template(name='group_shop')
-    .ui.header 
+    .ui.inline.header 
+        +i name='shopping-cart'
         |shop
     if currentUser
         .ui.button.add_product  

@@ -27,6 +27,8 @@ head
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
     script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js')
     
+    
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
     script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
     script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
     script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/en.js")
@@ -121,7 +123,7 @@ template(name='nav')
             a.icon.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
                 // i.large.fire.icon
                 +i name='campfire'
-                span.mobile.hidden groups
+                span.mobile.hidden tribes
             a.icon.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
                 // i.large.blog.icon
                 |#{post_counter}

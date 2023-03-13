@@ -1,4 +1,17 @@
 if Meteor.isClient
+    Template.qr_code.events 
+        'click .make_qr': ->
+            new QRCode(document.getElementById("qrcode"), "https://www.loom.gratis");
+            # or
+            # qrcode = new QRCode("test", {
+            #  text: "http://www.geeksforgeeks.org",
+            #  width: 256,
+            #  height: 256,
+            #  colorDark : "#000000",
+            #  colorLight : "#ffffff",
+            #  correctLevel : QRCode.CorrectLevel.H
+            # });
+
     Template.tip_button.events 
         'click .tip': ->
             new_transfer = {model:'transfer'}
