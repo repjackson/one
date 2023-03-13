@@ -125,8 +125,8 @@ if Meteor.isClient
                 read_ids:$nin:[Meteor.userId()]
             ).count()
     Template.nav.events
-        'mouseenter .item': (e,t)-> $(e.currentTarget).closest('.item').transition('pulse', '1000')
-        'mouseenter .item': (e,t)-> $(e.currentTarget).closest('.item').transition('pulse', '1000')
+        'mouseenter a': (e,t)-> $(e.currentTarget).closest('a').transition('pulse', '1000')
+        'mouseenter a': (e,t)-> $(e.currentTarget).closest('a').transition('pulse', '1000')
     # Template.secnav.events
     #     'mouseenter .item': (e,t)-> $(e.currentTarget).closest('.item').transition('pulse', '1000')
     #     'click .menu_dropdown': ->

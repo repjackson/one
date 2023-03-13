@@ -205,14 +205,15 @@ if Meteor.isServer
 if Meteor.isServer
     Meteor.publish 'user_event_tickets', (username)->
         user = Meteor.users.findOne username:username
-        Docs.find({
-            model:'transaction'
-            transaction_type:'ticket_purchase'
-            _author_id:user._id
-        },{
-            limit:20
-            sort: _timestamp:-1
-        })
+        if user
+            Docs.find({
+                model:'transaction'
+                transaction_type:'ticket_purchase'
+                _author_id:user._id
+            },{
+                limit:20
+                sort: _timestamp:-1
+            })
         
         
         

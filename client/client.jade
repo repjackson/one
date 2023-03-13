@@ -47,6 +47,7 @@ template(name='nav')
         // else 
         a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" )
             +i name='knitting-ball'
+            span.mobile.hidden loom
         a.icon.item.fly_right(href="/events" class="{{isActiveRoute 'events'}}" title='events')
             // i.large.calendar.icon
             +i name='calendar'
@@ -55,10 +56,6 @@ template(name='nav')
             // i.large.users.icon
             +i name='groups'
             .mobile.hidden users 
-        a.icon.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
-            // i.large.users.icon
-            +i name='shop'
-            .mobile.hidden products 
         a.icon.item.invert_toggle(title='dark mode')
             +i name='moon'
         // // .icon.item 
@@ -116,7 +113,7 @@ template(name='nav')
                     // i.sign.in.large.icon
                     +i name='internal'
                     span.mobile.hidden login
-    .ui.attached.borderless.menu.hscroll
+    .ui.attached.borderless.six.item.menu.hscroll
             // each model_docs
             //     a.item.zoomer.reset(href='/m/#{slug}' class="{{isActivePath '/delta'}}")
             //         +i name=icon
@@ -142,6 +139,11 @@ template(name='nav')
                 // i.large.exchange.icon
                 +i name='clock'
                 span.mobile.hidden rentals
+            a.icon.item.fly_right(href="/products" class="{{isActiveRoute 'products'}}" title='products')
+                // i.large.users.icon
+                +i name='shop'
+                .mobile.hidden products 
+                
     
 template(name='full')
     // img.ui.fluid.image.(src="{{c.url 'cafe'}}")

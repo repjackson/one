@@ -1,10 +1,10 @@
 if Meteor.isClient
     Template.inbox.onCreated ->
         # @autorun -> Meteor.subscribe 'user_model_docs', 'message', Template.parentData().username
-        @autorun => Meteor.subscribe 'my_received_messages'
-        @autorun => Meteor.subscribe 'my_sent_messages'
+        @autorun => Meteor.subscribe 'my_received_messages', ->
+        @autorun => Meteor.subscribe 'my_sent_messages', ->
         # @autorun => Meteor.subscribe 'inbox', Template.parentData().username
-        @autorun => Meteor.subscribe 'model_docs', 'stat'
+        @autorun => Meteor.subscribe 'model_docs', 'stat', ->
 
     Template.inbox.events
         'click .add_message': ->

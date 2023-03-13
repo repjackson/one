@@ -7,11 +7,11 @@ template(name='profile')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column.scrolling
-                    +account_finance
-                    a.ui.fluid.large.circular.button.fly_left(href='/users' title='back to users')
+                    // +account_finance
+                    a.ui.fluid.large.circular.compact.button.fly_left(href='/users' title='back to users')
                         i.chevron.left.icon
                         +i name='groups'
-                        // |users
+                        |players
                     // a.item(href="/user/#{current_user.username}")
                     .ui.center.aligned.header
                         // strong #{name}
