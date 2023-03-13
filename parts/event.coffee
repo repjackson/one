@@ -252,6 +252,7 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'groups_by_event_id', (event_id)->
+        @unblock()
         event = Docs.findOne event_id
         if event
             Docs.find {
@@ -260,6 +261,7 @@ if Meteor.isServer
             }
             
     Meteor.publish 'related_groups', (doc_id)->
+        @unblock()
         doc = Docs.findOne doc_id
         if doc
             Docs.find {
@@ -270,6 +272,7 @@ if Meteor.isServer
             
             
     Meteor.publish 'future_events', ()->
+        @unblock()
         console.log moment().subtract(1,'days').format("YYYY-MM-DD")
         Docs.find {
             model:'event'
@@ -283,6 +286,7 @@ if Meteor.isServer
         viewing_past
         viewing_published
         )->
+        @unblock()
             
         match = {model:'event'}
         if viewing_room_id
@@ -298,6 +302,7 @@ if Meteor.isServer
             
             
     Meteor.publish 'event_tags', (picked_tags)->
+        @unblock()
         # user = Meteor.users.findOne @userId
         # current_herd = user.profile.current_herd
     
