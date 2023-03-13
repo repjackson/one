@@ -140,11 +140,18 @@ Template.link_edit.events
         )
             
 
+Template.datetime_edit.onRendered ->
+    $('#standard_calendar').calendar()
 Template.datetime_edit.events
+    # 'blur .edit_datetime2': (e,t)->
+    #     val = $('#standard_calendar').calendar('get date'))
+    #     parent = Template.parentData()
+    #     Docs.update({_id:parent._id},{$set:"#{@key}":val})
     'blur .edit_datetime': (e,t)->
         val = t.$('.edit_datetime').val()
         parent = Template.parentData()
         doc = Docs.findOne parent._id
+        # doc = Docs.findOne parent._id
         if doc
             Docs.update parent._id,
                 $set:"#{@key}":val

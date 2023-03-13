@@ -486,7 +486,11 @@ template(name='time_view')
         .ui.inline.header &nbsp; #{field_value}
 
 template(name='datetime_edit')
-    .ui.form
+    // #standard_calendar.ui.calendar 
+    //     .ui.fluid.left.icon.input
+    //         i.calendar.icon
+    //         input.edit_datetime2(type='text' placeholder=label)
+    .ui.big.form
         .field
             label 
                 +i name='calendar'                

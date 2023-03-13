@@ -64,7 +64,9 @@ if Meteor.isClient
                 Meteor.users.update Meteor.userId(),
                     $addToSet:'roles':'admin'
         'click .invert_toggle': ->
-            console.log 'hi'
+            # console.log 'hi'
+            $('.item').transition('pulse', '1000')
+            # $('.menu').transition('pulse', '1000')
             $('body').toggleClass('invert')
             Meteor.users.update Meteor.userId(),
                 $set:admin_mode:!Meteor.user().admin_mode
@@ -121,8 +123,8 @@ if Meteor.isClient
                 read_ids:$nin:[Meteor.userId()]
             ).count()
     Template.nav.events
-        # 'mouseenter .item': (e,t)-> $(e.currentTarget).closest('.item').transition('pulse', '1000')
-        # 'mouseenter .item': (e,t)-> $(e.currentTarget).closest('.item').transition('pulse', '1000')
+        'mouseenter .item': (e,t)-> $(e.currentTarget).closest('.item').transition('pulse', '1000')
+        'mouseenter .item': (e,t)-> $(e.currentTarget).closest('.item').transition('pulse', '1000')
     # Template.secnav.events
     #     'mouseenter .item': (e,t)-> $(e.currentTarget).closest('.item').transition('pulse', '1000')
     #     'click .menu_dropdown': ->
