@@ -131,26 +131,26 @@ template(name='group_edit')
                     a.ui.big.icon.fluid.green.button.fly_up(href="/group/#{_id}" title='save')
                         i.checkmark.large.icon
                     +remove_button
-                    +image_edit key='image_id' label='image' direct=true
+                    +image_edit key='image_id' label='image'
                 .column 
-                    +text_edit key='title' direct=true
-                    +html_edit key='description' label='content' icon='content' direct=true
+                    +text_edit key='title'
+                    +html_edit key='body' label='body' icon='content'
                 .column
-                    // +single_user_edit key='leader_id' label='leader' icon='crown' direct=true
-                    +multi_user_edit key='leader_ids' label='leaders' icon='crown' direct=true
-                    +array_edit key='tags' label='tags' icon='tags' direct=true
-                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
-                    +text_edit key='contact_info' label='contact info' icon='info' direct=true
-                    +multi_user_edit key='member_ids' label='members' direct=true
-                    +boolean_edit key='private' label='private' direct=true
-                    +link_edit key='link' label='link' direct=true
+                    // +single_user_edit key='leader_id' label='leader' icon='crown'
+                    +multi_user_edit key='leader_ids' label='leaders' icon='crown'
+                    +array_edit key='tags' label='tags' icon='tags'
+                    +array_edit key='location_tags' label='location tags' icon='marker'
+                    +text_edit key='contact_info' label='contact info' icon='info'
+                    +multi_user_edit key='member_ids' label='members'
+                    +boolean_edit key='private' label='private'
+                    +link_edit key='link' label='link'
                 .column
                     .ui.header 
                         i.cubes.icon
                         |modules
-                    +boolean_edit key='has_checkin' label='checkin' icon='clock' direct=true
-                    +boolean_edit key='has_shop' label='shop' icon='shop' direct=true
-                    +boolean_edit key='has_posts' label='posts' icon='blog' direct=true
+                    +boolean_edit key='has_checkin' label='checkin' icon='clock'
+                    +boolean_edit key='has_shop' label='shop' icon='shop'
+                    +boolean_edit key='has_posts' label='posts' icon='blog'
                     
                     
 template(name='group_view')
@@ -186,7 +186,7 @@ template(name='group_view')
                     +viewing
                     if in_dev 
                         +print_this
-                    +multi_user_view key='member_ids' label='members' direct=true
+                    +multi_user_view key='member_ids' label='members'
                 .twelve.wide.column
                     .ui.styled.fluid.active.accordion
                         .title

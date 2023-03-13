@@ -167,7 +167,7 @@ Meteor.methods
         #     parameters.clean = false
         #     console.log 'calling image'
         # else 
-        parameters.html = doc.content
+        parameters.html = doc.body
         parameters.returnAnalyzedText = true
         # switch mode
         #     when 'html'
@@ -255,9 +255,6 @@ Meteor.methods
                         watson_keywords: keyword_array
                         doc_sentiment_score: response.sentiment.document.score
                         doc_sentiment_label: response.sentiment.document.label
-
-
-
                 adding_tags = []
                 if response.categories
                     for category in response.categories

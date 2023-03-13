@@ -1,5 +1,5 @@
 head
-    title one
+    title loom
     meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
     meta(name='apple-mobile-web-app-capable', content='yes')
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
@@ -16,7 +16,7 @@ head
     
     
     
-    link(rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.css')
+    link(rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.css')
     // link(href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet")
     link(href="https://fonts.googleapis.com/css?family=Ubuntu:300,400&display=swap" rel="stylesheet")
     link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
@@ -25,7 +25,7 @@ head
     link(rel="manifest" href="/site.webmanifest")
     link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
-    script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.js')
+    script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js')
     
     script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
     script(src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js")
@@ -46,7 +46,7 @@ template(name='nav')
         //         i.big.loading.grey.refresh.icon.cancel
         // else 
         a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" )
-            +i name='yin-yang'
+            +i name='knitting-ball'
         a.icon.item.fly_right(href="/events" class="{{isActiveRoute 'events'}}" title='events')
             // i.large.calendar.icon
             +i name='calendar'
@@ -215,7 +215,7 @@ template(name='footer')
                     +print_this
                 with currentUser
                     +print_this
-                    +boolean_edit key='admin_mode' label='admin mode' direct=true
+                    +boolean_edit key='admin_mode' label='admin mode'  
                 .ui.inverted.header 
                     i.users.icon
                     |users 

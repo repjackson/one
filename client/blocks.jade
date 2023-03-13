@@ -108,7 +108,7 @@ template(name='doc_comment')
             if can_edit 
                 +session_boolean_toggle key='editing_mode' icon='pencil' 
                 if session_is 'editing_mode' true
-                    +text_edit key='body' direct=true
+                    +text_edit key='body'  
             .meta #{when}
                 |by 
                 if anon 
@@ -121,9 +121,9 @@ template(name='doc_comment')
                     +voting_small
                 if can_edit
                     +remove_button
-                    +boolean_edit key='anon' icon='private' label='anon' direct=true
+                    +boolean_edit key='anon' icon='private' label='anon'  
                 if currentUser.admin_mode 
-                    +single_user_edit key='_author_id' direct=true
+                    +single_user_edit key='_author_id'  
                                 
                             
                             
@@ -328,10 +328,10 @@ template(name='big_user_card')
                 a.header(href="/user/#{username}")
                      |#{first_name} #{last_name} 
                     //- .meta @#{username}
-                    //- +array_view key='tags' label='Tags' direct=true
+                    //- +array_view key='tags' label='Tags'  
             if is_staff
                 .content
-                    +array_view key='roles' direct=true
+                    +array_view key='roles'  
                         
 template(name='user_button')
     a.ui.compact.button(href="/user/#{user.username}/")

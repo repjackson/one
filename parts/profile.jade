@@ -53,11 +53,11 @@ template(name='profile')
                     //         // i.shield.icon
                     //         // |admin
                     div
-                    +array_view key='roles' label='roles' direct=true icon='shield'
+                    +array_view key='roles' label='roles'   icon='shield'
                     div
-                    +array_view key='tags' label='tags' direct=true icon='tags'
+                    +array_view key='tags' label='tags'   icon='tags'
                     div
-                    +array_view key='skills' label='skills' icon='wrench' direct=true
+                    +array_view key='skills' label='skills' icon='wrench'  
 
                     .spacer
                     if is_current_user
@@ -70,8 +70,8 @@ template(name='profile')
                             i.external.icon
                             |link
                     if is_current_user
-                        +boolean_edit key='online' label='online' direct=true
-                        +text_edit key='current_status' label='status' icon='clock' direct=true
+                        +boolean_edit key='online' label='online'  
+                        +text_edit key='current_status' label='status' icon='clock'  
                     else 
                         if online 
                             .ui.green.large.label 
@@ -91,9 +91,9 @@ template(name='profile')
                     +user_posts
                     +user_groups
                     +user_points
-                    +array_view key='allergens' label='allergens' icon='no-milk' direct=true
-                    +array_view key='food_dislikes' label='food dislikes' icon='disgusting' direct=true
-                    +link_view key='profile_link' label='profile link' icon='link' direct=true
+                    +array_view key='allergens' label='allergens' icon='no-milk'  
+                    +array_view key='food_dislikes' label='food dislikes' icon='disgusting'  
+                    +link_view key='profile_link' label='profile link' icon='link'  
                     +user_comments
                     +user_friends
                     +user_tickets
@@ -296,7 +296,7 @@ template(name='user_friends')
             //     i.plus.icon
             //     input.search_friend(type='text' placeholder='add by username...')
             // if is_current_user
-            +multi_user_view key='friend_ids' label='friends' direct=true
+            +multi_user_view key='friend_ids' label='friends'  
             // each friend_search_results
             //     .ui.header #{username}
             // each user_friends
@@ -308,7 +308,7 @@ template(name='user_friends')
 template(name='profile_group_item')
     a.item.zoomer(href="/group/#{_id}")
         // .image
-        +image_view key='image_id' direct=true cl='ui tiny image'
+        +image_view key='image_id'   cl='ui tiny image'
         .content
             .ui.header #{title}
                 if private 

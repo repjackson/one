@@ -125,9 +125,9 @@ template(name='post_view')
                         .item #{views} views
                     each viewers
                         .ui.label #{username
-                    +array_view key='tags' label='tags' direct=true
+                    +array_view key='tags' label='tags'  
                     +voting_full
-                    +array_view key='location_tags' label='location_tags' direct=true
+                    +array_view key='location_tags' label='location_tags'  
                     +visibility_settings
                     +group_widget
                 .eight.wide.column.scrolling
@@ -177,29 +177,29 @@ template(name='post_edit')
                         |edit post
                     a.ui.icon.green.big.button(href="/#{model}/#{_id}/view" title='save')
                         i.checkmark.big.icon
-                    +text_edit key='title' label='title' direct=true
+                    +text_edit key='title' label='title'  
                     
-                    // +boolean_edit key='has_content' label='has content' icon='content' direct=true
+                    // +boolean_edit key='has_content' label='has content' icon='content'  
                     // if has_content
-                    +html_edit key='body' label='body' direct=true
+                    +html_edit key='body' label='body'  
                 .column.scrolling
                     i.large.link.red.remove.icon.delete_post
                     if is_dev
-                        +single_user_edit key='_author_id' label='author' direct=true
+                        +single_user_edit key='_author_id' label='author'  
                     else 
                         .ui.header 
                             small author
                             |#{_author.username}
-                    // +boolean_edit key='has_image' label='has image' icon='content' direct=true
+                    // +boolean_edit key='has_image' label='has image' icon='content'  
                     // if has_image
-                    +image_edit key='image_id' label='image' direct=true
+                    +image_edit key='image_id' label='image'  
                     div 
-                    +array_edit key='tags' label='tags' direct=true icon='tags'
-                    +boolean_edit key='published' icon='visible' direct=true
+                    +array_edit key='tags' label='tags'   icon='tags'
+                    +boolean_edit key='published' icon='visible'  
                     if is_dev 
-                        +text_edit key='model' label='model' direct=true
+                        +text_edit key='model' label='model'  
                 .column.scrolling
-                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker'  
                     unless published
                         a.ui.fluid.green.button.submit
                             i.checkmark.icon
@@ -212,5 +212,5 @@ template(name='post_edit')
                     +boolean_edit key='private' label='private' 
                     +youtube_edit key='youtube_id' label='youtube' 
                     if private 
-                        +multi_user_edit key='access_user_ids' label='user picker' direct=true
+                        +multi_user_edit key='access_user_ids' label='user picker'  
                     +group_picker

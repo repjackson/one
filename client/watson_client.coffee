@@ -141,7 +141,7 @@ Template.call_watson.events
         
         doc = Template.parentData()
         # Meteor.call 'call_watson', Template.parentData()._id, parent.key, @mode, ->
-        Meteor.call 'call_watson', Router.current().params.doc_id, 'content', @mode, ->
+        Meteor.call 'call_watson', Router.current().params.doc_id, 'body', @mode, ->
         # Meteor.call 'call_watson', doc._id, @key, @mode, ->
 
 

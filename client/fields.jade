@@ -88,7 +88,7 @@ template(name='html_edit')
         .field.testsun
             textarea#sample.sun-editor-editable
                 |#{field_value}
-    +call_watson mode='html' key=key
+    +call_watson mode='html' key='body'
     //- div
     //- //- +tone mode='html'
     if watson
@@ -582,7 +582,7 @@ template(name='array_view')
             .ui.inline.small.grey.header.say_body(title=title)
                 |#{label}
         each field_value
-            .ui.large.label.say_body #{this}
+            .ui.large.basic.circular.label.say_body #{this}
 
 
 // template(name='children_edit')
