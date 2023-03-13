@@ -28,6 +28,10 @@ if Meteor.isClient
         @layout 'layout'
         @render 'event_view'
         ), name:'event_view'
+    Router.route '/ticket/:doc_id', (->
+        @layout 'layout'
+        @render 'ticket_view'
+        ), name:'ticket_view'
         
     Router.route '/events', (->
         @layout 'layout'

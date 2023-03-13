@@ -208,25 +208,23 @@ template(name='footer')
     .ui.padded.inverted.grid.segment
         .three.column.row
             .column
-                .ui.inverted.large.header 
-                    i.shield.icon
-                    |footer 
-                with current_doc 
+                if current_user.admin_mode
                     +print_this
                 with currentUser
                     +print_this
-                    +boolean_edit key='admin_mode' label='admin mode'  
+                    if is_dev
+                        +boolean_edit key='admin_mode' label='admin mode'  
                 .ui.inverted.header 
                     i.users.icon
                     |users 
                 .ui.list.smallscroll
                     each user_docs 
-                        .item
+                        // .item
+                        a.ui.image.label(href="/user/#{username}")
+                            img.ui.avatar.image(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
                             |#{username}
+                        if current_user.admin_mode
                             +print_this
-                            a.ui.icon.button(href="/profile/#{username}")
-                                img.ui.avatar.image(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
-                                i.chevron.right.icon
             .column
                 .ui.inverted.header 
                     i.blog.icon
