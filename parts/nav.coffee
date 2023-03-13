@@ -63,6 +63,11 @@ if Meteor.isClient
             else
                 Meteor.users.update Meteor.userId(),
                     $addToSet:'roles':'admin'
+        'click .invert_toggle': ->
+            console.log 'hi'
+            $('body').toggleClass('invert')
+            Meteor.users.update Meteor.userId(),
+                $set:admin_mode:!Meteor.user().admin_mode
         'click .toggle_dev': ->
             if 'dev' in Meteor.user().roles
                 Meteor.users.update Meteor.userId(),

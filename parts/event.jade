@@ -566,9 +566,9 @@ template(name='group_widget')
 template(name='event_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .three.column.row 
+            .two.column.row 
                 .column
-                    a.ui.green.big.compact.button.fly_left(href="/event/#{_id}" title='save')
+                    a.ui.green.big.compact.button.fly_up(href="/event/#{_id}" title='save')
                         i.checkmark.icon
                         |save
                     .ui.inline.header 
@@ -620,6 +620,7 @@ template(name='event_edit')
                     if has_support
                         +single_user_edit key='support_id' label='support' icon='chess queen'  
                     div 
+                .column
                     +array_edit key='tags' label='tags' icon='tags'  
                     .ui.segment
                         +boolean_edit key='has_tickets' label='has tickets' icon='ticket'  
