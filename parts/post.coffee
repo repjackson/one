@@ -301,16 +301,18 @@ if Meteor.isServer
         #     # match.tags_string = {$regex:"#{query}", $options: 'i'}
         if picked_tags.length > 0
             match.tags = $all: picked_tags
-        # # console.log 'match for tags', match
+        result_count = Docs.find(match).count()
+        console.log 'match for tags', match, 'count:',result_count
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: picked_tags }
+            { $match: count: $lt: result_count }
             # { $match: _id: {$regex:"#{post_query}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 15 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true

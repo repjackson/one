@@ -84,21 +84,31 @@ template(name='profile')
                             .ui.small.header(title='status' )
                                 i.grey.clock.icon
                                 |!{current_status}
-                    // if is_dev
-                    //     .ui.small.inline.header #{_id}
-                .twelve.wide.column.scrolling
-                    // +profile_nav_link icon='blog' label='posts' route='posts'
-                    +user_posts
-                    +user_groups
-                    +user_points
                     +array_view key='allergens' label='allergens' icon='no-milk'  
                     +array_view key='food_dislikes' label='food dislikes' icon='disgusting'  
+                    // if is_dev
+                    //     .ui.small.inline.header #{_id}
                     +link_view key='profile_link' label='profile link' icon='link'  
-                    +user_comments
-                    +user_friends
-                    +user_tickets
-                    |!{description}
-                    +user_events
+                .twelve.wide.column.scrolling
+                    .ui.two.column.grid 
+                        // .column
+                            // +profile_nav_link icon='blog' label='posts' route='posts'
+                        .column
+                            +user_posts
+                        .column
+                            +user_groups
+                        .column
+                            +user_points
+                        .column
+                            +user_comments
+                        .column
+                            +user_friends
+                        .column
+                            +user_tickets
+                        .column
+                            |!{body}
+                        .column
+                            +user_events
 
 template(name='account_finance')
     .ui.button.add_five_credits

@@ -302,7 +302,13 @@ Template.image_edit.events
 
 
 
-
+Template.array_view.events
+    'click .pick_item':->
+        cd = Docs.findOne Router.current().params.doc_id
+        if cd
+            if cd.model is 'post'
+                picked_tags.push @valueOf()
+                Router.go '/posts'
 
 Template.array_edit.events
     'click .touch_element': (e,t)->

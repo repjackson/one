@@ -2,7 +2,6 @@ if Meteor.isClient
     Template.tip_button.events 
         'click .tip': ->
             new_transfer = {model:'transfer'}
-            console.log @
             doc = Docs.findOne @_id
             user = Meteor.users.findOne @_id
             if doc 
@@ -15,7 +14,6 @@ if Meteor.isClient
             Router.go "/transfer/#{new_id}/edit"
     Template.friend_button.events 
         'click .friend': ->
-            # console.log @
             Meteor.users.update Meteor.userId(),
                 $addToSet: 
                     friend_ids:@_id
@@ -29,7 +27,6 @@ if Meteor.isClient
                 position: "bottom right"
             )
         'click .unfriend': ->
-            # console.log @
             Meteor.users.update Meteor.userId(),
                 $pull: 
                     friend_ids:@_id
@@ -74,7 +71,6 @@ if Meteor.isClient
    
     Template.print_this.events
         'click .print': ->
-            console.log @
    
     Template.bookmark_button.helpers
         is_bookmarked: ->
@@ -117,7 +113,6 @@ if Meteor.isClient
         # if Router.current().params.doc_id
         #     parent = Docs.findOne Router.current().params.doc_id
         # else
-        console.log @
         # parent = Docs.findOne Template.parentData()._id
         if parent
             @autorun => Meteor.subscribe 'children', 'comment', @data._id, ->
@@ -167,7 +162,6 @@ if Meteor.isClient
 
     # Template.set_limit.events
     #     'click .set_limit': ->
-    #         console.log @
     #         Session.set('limit', @amount)
 
     Template.set_sort_key.helpers
@@ -175,7 +169,6 @@ if Meteor.isClient
             if Session.equals('sort_key', @key) then 'blue' else 'basic compact'
     Template.set_sort_key.events
         'click .set_sort': ->
-            console.log @
             Session.set('sort_key', @key)
             Session.set('post_sort_label', @label)
             Session.set('post_sort_icon', @icon)
@@ -216,8 +209,6 @@ if Meteor.isClient
     # Template.call_watson.events
     #     'click .autotag': ->
     #         doc = Docs.findOne Router.current().params.doc_id
-    #         console.log doc
-    #         console.log @
     #
     #         Meteor.call 'call_watson', doc._id, @key, @mode
 
@@ -276,13 +267,6 @@ if Meteor.isClient
 
     Template.toggle_edit.events
         'click .toggle_edit': ->
-            console.log @
-            console.log Template.currentData()
-            console.log Template.parentData()
-            console.log Template.parentData(1)
-            console.log Template.parentData(2)
-            console.log Template.parentData(3)
-            console.log Template.parentData(4)
 
 
 
@@ -292,7 +276,6 @@ if Meteor.isClient
 
     # Template.user_list_info.helpers
     #     user: ->
-    #         console.log @
     #         Meteor.users.findOne @valueOf()
 
 
@@ -348,7 +331,6 @@ if Meteor.isClient
 
 
     Template.add_button.onCreated ->
-        # console.log @
         Meteor.subscribe 'model_from_slug', @data.model
     Template.add_button.helpers
         model: ->
@@ -395,8 +377,6 @@ if Meteor.isClient
 
     Template.session_set.events
         'click .set_session_value': ->
-            # console.log @key
-            # console.log @value
             if Session.equals(@key, @value)
                 Session.set(@key,null)
             else
@@ -405,14 +385,12 @@ if Meteor.isClient
     Template.session_set.helpers
         calculated_class: ->
             res = ''
-            # console.log @
             if @cl
                 res += @cl
             if Session.equals(@key,@value)
                 res += ' blue'
             else 
                 res += ' '
-            # console.log res
             res
 
     
@@ -421,8 +399,6 @@ if Meteor.isClient
 
     Template.key_value_edit.events
         'click .set_key_value': ->
-            # console.log @key
-            # console.log @value
             # Docs.update Router.current().params.doc_id,
             context = Template.parentData()
             if context
@@ -437,7 +413,6 @@ if Meteor.isClient
             # doc = Docs.findOne Router.current().params.doc_id
             doc = Template.parentData()
             
-            # console.log @
             if @cl
                 res += @cl
             # if Session.equals(@key,@value)
@@ -445,7 +420,6 @@ if Meteor.isClient
                 res += ' black'
             else 
                 res += ' basic'
-            # console.log res
             res
 
 
@@ -454,13 +428,11 @@ if Meteor.isClient
 
     Template.session_boolean_toggle.events
         'click .toggle_session_key': ->
-            console.log @key
             Session.set(@key, !Session.get(@key))
 
     Template.session_boolean_toggle.helpers
         calculated_class: ->
             res = ''
-            # console.log @
             if @cl
                 res += @cl
             if Session.get(@key)
@@ -468,7 +440,6 @@ if Meteor.isClient
             else
                 res += ' basic'
 
-            # console.log res
             res
 
 if Meteor.isServer
@@ -486,8 +457,6 @@ if Meteor.isServer
 
 
     Meteor.publish 'children', (model, parent_id, limit)->
-        # console.log model
-        # console.log parent_id
         limit = if limit then limit else 10
         Docs.find {
             model:model
@@ -527,7 +496,6 @@ if Meteor.isClient
     #     'keyup .find_friend': (e,t)->
     #         search_value = $(e.currentTarget).closest('.find_friend').val().trim()
     #         if search_value.length > 1
-    #             console.log 'searching', search_value
     #             Meteor.call 'lookup_user', search_value, @role_filter, (err,res)=>
     #                 if err then console.error err
     #                 else
@@ -537,13 +505,6 @@ if Meteor.isClient
     #         page_doc = Docs.findOne Router.current().params.doc_id
     #         field = Template.currentData()
     
-    #         # console.log @
-    #         # console.log Template.currentData()
-    #         # console.log Template.parentData()
-    #         # console.log Template.parentData(1)
-    #         # console.log Template.parentData(2)
-    #         # console.log Template.parentData(3)
-    #         # console.log Template.parentData(4)
     
     
     #         val = t.$('.edit_text').val()
@@ -624,7 +585,6 @@ if Meteor.isClient
         'keyup .group_search': (e,t)->
             # if e.which is '13'
             val = t.$('.group_search').val()
-            console.log val
             Session.set('group_search', val)
 
         'click .create_group': ->

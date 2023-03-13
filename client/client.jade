@@ -218,25 +218,24 @@ template(name='footer')
                         +boolean_edit key='admin_mode' label='admin mode'  
                 .ui.inverted.header 
                     i.users.icon
-                    |users 
-                .ui.list.smallscroll
-                    each user_docs 
-                        // .item
-                        a.ui.image.label(href="/user/#{username}")
-                            img.ui.avatar.image(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
-                            |#{username}
-                        if current_user.admin_mode
-                            +print_this
+                    |#{user_docs.count} users 
+                each user_docs 
+                    // .item
+                    a.ui.image.inverted.black.basic.label(href="/user/#{username}")
+                        img.ui.avatar.image(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
+                        |#{username}
+                    if current_user.admin_mode
+                        +print_this
             .column
                 .ui.inverted.header 
                     i.blog.icon
-                    |docs 
-                .ui.animated.large.link.inverted.list.smallscroll
-                    each doc_docs
-                        a.zoomer.item(href="/#{model}/#{_id}")
-                            img.ui.avatar.image(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
-                            |#{title} 
-                            .ui.label #{model}
+                    |#{doc_docs.count} docs 
+                // .ui.animated.large.link.inverted.list.smallscroll
+                each doc_docs
+                    a.ui.zoomer.image.inverted.black.basic.label(href="/#{model}/#{_id}")
+                        img.ui.avatar.image(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
+                        |#{title} 
+                        .ui.inverted.basic.label #{model}
             .column
                 .ui.inverted.header 
                     i.tag.icon
