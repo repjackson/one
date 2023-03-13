@@ -1,6 +1,6 @@
 template(name='posts')
     .ui.stackable.padded.grid 
-        .six.wide.column
+        .four.wide.column
             .ui.inline.header 
                 +i name='blog'
                 |posts
@@ -21,7 +21,7 @@ template(name='posts')
                 a.ui.compact.button.pick_post_tag
                     |#{name} 
                     // small.ui.grey.text #{count}
-        .ten.wide.column
+        .twelve.wide.column
             +session_set key='view_mode' value='grid' icon='th'
             +session_set key='view_mode' value='list' icon='list'
             i.large.sort.icon
@@ -30,7 +30,7 @@ template(name='posts')
             .scrolling
                 if subs_ready
                     if session_is 'view_mode' 'grid'
-                        .ui.centered.stackable.fluid.cards
+                        .ui.centered.stackable.cards
                             each post_docs 
                                 +post_card
                     else
@@ -70,7 +70,7 @@ template(name='set_view_mode_post')
 
 
 template(name='post_card')
-    .ui.fluid.card
+    .ui.card
         if youtube_id
             +youtube_view key='youtube_id'
         img.ui.fluid.rounded.image.view_post.fly_right(src="{{c.url image_id height=300 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
@@ -80,8 +80,8 @@ template(name='post_card')
                 i.large.lock.icon
             .ui.small.grey.inline.header #{_when}
             .smallscroll
-                | !{content}
-            +comments_view_small
+                | !{body}
+            +comments
             +author_info
             if group_id     
                 +group_info
@@ -95,7 +95,7 @@ template(name='post_item')
         div
         .ui.small.grey.inline.header #{when}
         .smallscroll
-            | !{content}
+            | !{body}
         each seven_tags 
             .ui.basic.small.label #{this}
         
@@ -138,7 +138,6 @@ template(name='post_view')
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
                     |!{body}
-                    |!{content}
                     if watson 
                         +watson_view
                     div 
@@ -182,7 +181,7 @@ template(name='post_edit')
                     
                     // +boolean_edit key='has_content' label='has content' icon='content' direct=true
                     // if has_content
-                    +html_edit key='content' label='content' direct=true
+                    +html_edit key='body' label='body' direct=true
                 .column.scrolling
                     i.large.link.red.remove.icon.delete_post
                     if is_dev

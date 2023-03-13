@@ -114,18 +114,19 @@ if Meteor.isClient
             $('.accordion').accordion()
         , 1000
     Template.comments.onCreated ->
-        if Router.current().params.doc_id
-            parent = Docs.findOne Router.current().params.doc_id
+        # if Router.current().params.doc_id
+        #     parent = Docs.findOne Router.current().params.doc_id
         # else
-        #     parent = Docs.findOne Template.parentData()._id
+        console.log @
+        # parent = Docs.findOne Template.parentData()._id
         if parent
-            @autorun => Meteor.subscribe 'children', 'comment', parent._id
+            @autorun => Meteor.subscribe 'children', 'comment', @data._id, ->
     Template.comments.helpers
         doc_comments: ->
-            if Router.current().params.doc_id
-                parent = Docs.findOne Router.current().params.doc_id
-            else
-                parent = Docs.findOne Template.parentData()._id
+            # if Router.current().params.doc_id
+            #     parent = Docs.findOne Router.current().params.doc_id
+            # else
+            parent = Template.currentData()
             Docs.find
                 parent_id:parent._id
                 model:'comment'
@@ -134,10 +135,10 @@ if Meteor.isClient
     Template.comments.events
         'keyup .add_comment': (e,t)->
             if e.which is 13
-                if Router.current().params.doc_id
-                    parent = Docs.findOne Router.current().params.doc_id
-                else
-                    parent = Docs.findOne Template.parentData()._id
+                # if Router.current().params.doc_id
+                #     parent = Docs.findOne Router.current().params.doc_id
+                # else
+                parent = Template.currentData()
                 # parent = Docs.findOne Router.current().params.doc_id
                 comment = t.$('.add_comment').val()
                 Docs.insert
@@ -586,9 +587,10 @@ if Meteor.isClient
         @autorun => @subscribe 'model_docs', 'group', ->
     Template.group_picker.helpers
         group_results: ->
-            Docs.find 
-                model:'group'
-                title: {$regex:"#{Session.get('group_search')}",$options:'i'}
+            if Session.get('group_search').length > 1
+                Docs.find 
+                    model:'group'
+                    title: {$regex:"#{Session.get('group_search')}",$options:'i'}
                 
         product_groups: ->
             product = Docs.findOne Router.current().params.doc_id
