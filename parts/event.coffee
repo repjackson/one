@@ -120,23 +120,29 @@ if Meteor.isClient
         @autorun => @subscribe 'groups_by_event_id',Router.current().params.doc_id, ->
         @autorun => @subscribe 'group_members',Router.current().params.doc_id, ->
         @autorun => @subscribe 'related_groups',Router.current().params.doc_id, ->
-        # @autorun => @subscribe 'all_users'
-    Template.event_view.events
+    Template.rsvp.onCreated ->
+        @autorun => @subscribe 'event_tickets',Router.current().params.doc_id, ->
+if Meteor.isServer  
+    Meteor.publish 'event_tickets', (event_id)->
+        Docs.find 
+            model:'order'
+            event_id:event_id
+
+if Meteor.isClient  
+    Template.rsvp.events
         'click .buy_ticket': ->
+            alert 'hi'
             Docs.insert 
                 model:'order'
                 ticket:true
                 event_id:@_id
                 ticket_price: @point_price
         
-    Template.event_view.helpers
+    Template.rsvp.helpers
         event_ticket_docs: ->
             Docs.find
                 model:'order'
-                ticket:true
                 event_id:@_id
-                ticket_price: @point_price
-        picked_tags: -> picked_tags.array()
 
     Template.session_icon_button.helpers
         session_icon_button_class: ->

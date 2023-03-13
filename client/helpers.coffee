@@ -7,10 +7,6 @@ Template.registerHelper 'parent_doc', () ->
     # Template.parentData()
 
 Template.registerHelper 'is_in_past', () ->
-    # console.log moment().subtract(1,'days').format("YYYY-MM-DD")
-    # console.log moment().subtract(1,'days').format()
-    # console.log moment(@start_datetime).format()
-    # console.log moment(@start_datetime).isSameOrAfter(moment())
     moment().isSameOrAfter(moment(@start_datetime))
 
 
@@ -25,7 +21,6 @@ Template.registerHelper 'user_bookmark_docs', (model) ->
         _id:$in:Meteor.user().bookmark_ids
 
 Template.registerHelper 'model_docs_helper', (model) ->
-    console.log model
     Docs.find 
         model:model
 Template.registerHelper 'subs_ready', () -> 
@@ -56,7 +51,6 @@ Template.registerHelper 'cart_subtotal', () ->
         for product in Docs.find(_id:$in:store_session_document.cart_product_ids).fetch()
             if product.price_usd
                 subtotal += product.price_usd
-                # console.log 'product', product
         subtotal
     
 # Template.registerHelper 'my_cart_subtotal', () ->
@@ -64,14 +58,10 @@ Template.registerHelper 'cart_subtotal', () ->
 #     subtotal = 0
 #     for item in Docs.find(model:'thing',_author_id:Meteor.userId(),status:'cart').fetch()
 #         # product = Docs.findOne(item.product_id)
-#         # console.log product
 #         subtotal += item.product_price
 #         # if product
 #         #     if product.price_usd
 #         # if product.price_usd
-#         #     console.log product.price_usd
-#             # console.log 'product', product
-#     # console.log subtotal
 #     subtotal.toFixed(2)
     
     
@@ -171,21 +161,12 @@ Template.registerHelper 'session_is', (key, value)->
     Session.equals(key, value)
 
 Template.registerHelper 'key_value_is', (key, value)->
-    # console.log 'key', key
-    # console.log 'value', value
-    # console.log 'this', this
     @["#{key}"] is value
 
 Template.registerHelper 'is', (key, value)->
-    # console.log 'key', key
-    # console.log 'value', value
-    # console.log 'this', this
     key is value
 
 Template.registerHelper 'parent_key_value_is', (key, value)->
-    # console.log 'key', key
-    # console.log 'value', value
-    # console.log 'this', this
     @["#{key}"] is value
 
 
@@ -214,7 +195,6 @@ Template.registerHelper 'parent_key_value_is', (key, value)->
 # Template.registerHelper 'checkin_guest_docs', () ->
 #     Docs.findOne Router.current().params.doc_id
 #     session_document = Docs.findOne Router.current().params.doc_id
-#     # console.log session_document.guest_ids
 #     Docs.find
 #         _id:$in:session_document.guest_ids
 
@@ -224,11 +204,9 @@ Template.registerHelper 'recipient', () ->
     if @recipient_id
         Meteor.users.findOne @recipient_id
 Template.registerHelper 'is_text', () ->
-    # console.log @field_type
     @field_type is 'text'
 
 Template.registerHelper 'template_parent', () ->
-    # console.log Template.parentData()
     Template.parentData()
 
 Template.registerHelper 'fields', () ->
@@ -241,10 +219,8 @@ Template.registerHelper 'fields', () ->
         #     match.view_roles = $in:Meteor.user().roles
         match.model = 'field'
         match.parent_id = model._id
-        # console.log model
         cur = Docs.find match,
             sort:rank:1
-        # console.log cur.fetch()
         cur
 
 Template.registerHelper 'edit_fields', () ->
@@ -363,7 +339,6 @@ Template.registerHelper 'order_product', ->
         model:'product'
         _id:@product_id
 Template.registerHelper 'related_groups', ->
-    console.log @
     Docs.find
         model:'group'
         _id:$in:@group_ids
@@ -389,21 +364,17 @@ Template.registerHelper 'ingredient_products', () ->
 Template.registerHelper 'current_doc', ->
     doc = Docs.findOne Router.current().params.doc_id
     # user = Meteor.users.findOne Router.current().params.doc_id
-    # console.log doc
-    # console.log user
     # if doc then doc else if user then user
     if doc then doc
 
 
 # Template.registerHelper 'current_user', () ->
 #     found = Meteor.users.findOne username:Router.current().params.username
-#     # console.log found
 #     if found
 #         found
 #     else 
 #         Meteor.user()
 Template.registerHelper 'field_value', () ->
-    # console.log @
     parent = Template.parentData()
     parent5 = Template.parentData(5)
     parent6 = Template.parentData(6)
@@ -422,7 +393,6 @@ Template.registerHelper 'field_value', () ->
 
 
 Template.registerHelper 'sorted_field_values', () ->
-    # console.log @
     parent = Template.parentData()
     parent5 = Template.parentData(5)
     parent6 = Template.parentData(6)
@@ -446,11 +416,7 @@ Template.registerHelper 'sorted_field_values', () ->
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
 
 Template.registerHelper 'calculated_size', (metric) ->
-    # console.log metric
-    # console.log typeof parseFloat(@relevance)
-    # console.log typeof (@relevance*100).toFixed()
     whole = parseInt(@["#{metric}"]*10)
-    # console.log whole
 
     if whole is 2 then 'f2'
     else if whole is 3 then 'f3'
@@ -477,8 +443,5 @@ Template.registerHelper 'group_leader', () ->
 
 
 # Template.registerHelper 'delta_key_value_is', (key, value)->
-#     # console.log 'key', key
-#     # console.log 'value', value
-#     # console.log 'this', this
 #     delta = Docs.findOne model:'delta'
 #     delta["#{key}"] is value

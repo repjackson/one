@@ -136,7 +136,7 @@ Template.link_edit.events
             # showProgress: 'bottom'
             class: 'success'
             # displayTime: 'auto',
-            position: "bottom right"
+            position: "bottom center"
         )
             
 
@@ -157,7 +157,7 @@ Template.datetime_edit.events
             # showProgress: 'bottom'
             class: 'success'
             # displayTime: 'auto',
-            position: "bottom right"
+            position: "bottom center"
         )
 Template.time_edit.events
     'blur .edit_time': (e,t)->
@@ -176,7 +176,7 @@ Template.time_edit.events
             # showProgress: 'bottom'
             class: 'success'
             # displayTime: 'auto',
-            position: "bottom right"
+            position: "bottom center"
         )
 
 
@@ -399,7 +399,7 @@ Template.text_edit.events
             # showProgress: 'bottom'
             class: 'success'
             # displayTime: 'auto',
-            position: "bottom right"
+            position: "bottom center"
         )
 
 # Template.textarea_view.onRendered ->
@@ -424,7 +424,7 @@ Template.number_edit.events
             # showProgress: 'bottom'
             class: 'success'
             # displayTime: 'auto',
-            position: "bottom right"
+            position: "bottom center"
         )
 
 # Template.float_edit.events
@@ -452,7 +452,7 @@ Template.slug_edit.events
             # showProgress: 'bottom'
             class: 'success'
             # displayTime: 'auto',
-            position: "bottom right"
+            position: "bottom center"
         )
 
 
@@ -521,7 +521,7 @@ Template.boolean_edit.events
             # showProgress: 'bottom'
             class: 'success'
             # displayTime: 'auto',
-            position: "bottom right"
+            position: "bottom center"
         )
 
 Template.single_doc_view.onCreated ->
@@ -585,7 +585,14 @@ Template.single_doc_edit.events
             if doc
                 Docs.update parent._id,
                     $set: "#{ref_field.key}": @slug
-
+        $('body').toast(
+            showIcon: 'checkmark'
+            message: "saved"
+            # showProgress: 'bottom'
+            class: 'success'
+            # displayTime: 'auto',
+            position: "bottom center"
+        )
 
 Template.multi_doc_view.onCreated ->
     @autorun => Meteor.subscribe 'model_docs', @data.ref_model
