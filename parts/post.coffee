@@ -144,7 +144,7 @@ if Meteor.isClient
                         showConfirmButton: false,
                         timer: 1500
                     )
-                    Router.go "/post"
+                    Router.go "/posts"
             )
 
         'click .publish': ->
@@ -196,12 +196,12 @@ if Meteor.isServer
         picked_tags=[]
         sort_key='_timestamp'
         sort_direction=-1
+        limit=25
         )->
         # console.log picked_ingredients
         # if doc_limit
         #     limit = doc_limit
         # else
-        limit = 42
         # if doc_sort_key
         #     sort_key = doc_sort_key
         # if doc_sort_direction
@@ -246,7 +246,7 @@ if Meteor.isServer
         Docs.find match,
             sort:"#{sort_key}":sort_direction
             # sort:_timestamp:-1
-            limit: 42
+            limit: limit
             
             
     Meteor.publish 'post_count', (

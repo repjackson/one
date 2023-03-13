@@ -1,5 +1,5 @@
 template(name='cal')
-    .ui.header calendar
+    // .ui.header calendar
     #cal
 
 template(name='events')
@@ -7,8 +7,8 @@ template(name='events')
         .row
             .four.wide.column
                 .ui.inline.header
-                    i.calendar.large.icon
-                    // +i name='calendar'
+                    // i.calendar.large.icon
+                    +i name='calendar'
                     |events
                 if currentUser
                     .ui.circular.icon.button.add_event(title='add event')
@@ -49,7 +49,6 @@ template(name='events')
                     .ui.compact.button.pick_tag #{title}
                 div
             .twelve.wide.column
-                +cal
                 .ui.icon.input
                     i.search.icon
                     input.event_search(type='text' placeholder='search...' autofocus='')
@@ -69,7 +68,7 @@ template(name='events')
                                 each event_docs
                                     +event_card
                         else
-                            .ui.stackable.three.cards.scrolling
+                            .ui.stackable.cards.scrolling
                                 each event_docs
                                     +event_card
                     if session_is 'view_mode' 'list'
@@ -77,7 +76,9 @@ template(name='events')
                             each event_docs 
                                 +event_item
                 else 
-                    i.massive.loading.yin.yang.icon
+                    .ui.center.aligned.basic.segment
+                        i.massive.loading.calendar.grey.icon
+                +cal
 
 template(name='session_icon_button')
     .ui.icon.circular.button.set_session_value(class=session_icon_button_class)
@@ -152,8 +153,6 @@ template(name='event_card')
                 +print_this
             +voting
             +favorite_icon_toggle
-        
-
 
 template(name='event_item')
     .ui.item
@@ -208,8 +207,6 @@ template(name='event_item')
                 +print_this
             +voting
             +favorite_icon_toggle
-        
-
 
 template(name='gcal_button')
     a.ui.circular.circular.large.button(href="http://www.google.com/calendar/event?action=TEMPLATE&text=#{title}&dates=#{start_datetime}/#{end_datetime}&details=#{description}&location=#{location}" target="_window")
@@ -232,8 +229,6 @@ template(name='reserve_button')
         //     .ui.green.button.request_slot request for points
         // else
         .ui.green.button.reserve_slot reserve slot #{slot}
-        
-        
         
 template(name='rsvp')
     div
@@ -398,12 +393,13 @@ template(name='ticket_view')
                             |cancel reservation
                 .eight.wide.column
                     .ui.header
-                        i.ticket.icon
+                        // i.ticket.icon
+                        +i name='ticket'
                         |#{ticket_point_price}
                         | points ticket
                     .ui.small.header
                         i.clock.icon
-                        | #{when}
+                        | #{_when}
                     .ui.segment
                         .ui.inline.header 
                             i.user.outline.icon
@@ -438,19 +434,17 @@ template(name='ticket_view')
                     //-     i.checkmark.icon
                     //-     |submit
 
-
-
 template(name='event_view')
-    if image_id
-        img.ui.fluid.image.checkin_banner(src="{{c.url image_id width=1000 height=1000 crop='crop'}}")    
     with current_doc
+        if image_id
+            img.ui.fluid.image.checkin_banner(src="{{c.url image_id width=1000 height=1000 crop='crop'}}")    
         .ui.stackable.padded.grid
             .middle.aligned.row 
                 .sixteen.wide.column
-                    a.ui.circular.big.icon.button.fly_left(href="/events")
+                    a.ui.circular.big.basic.button.fly_left(href="/events")
                         i.chevron.left.large.icon
-                        // +i name='calendar'
-                        i.big.calendar.icon
+                        +i name='calendar'
+                        // i.big.calendar.icon
                     .ui.inline.header #{title}
                     if is_repeating
                         .ui.inline.grey.header
@@ -552,12 +546,8 @@ template(name='event_view')
                         +voting_full
                     +array_view key='location_tags' label='location tags' icon='marker'  
 
-
-
 template(name='location_map')
     iframe(width='100%' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src="https://maps.google.com/maps?&amp;q=#{location}&amp;output=embed")
-
-
 
 template(name='group_widget')
     if current_doc.group_ids.length
@@ -570,7 +560,6 @@ template(name='group_widget')
                 .content
                     .ui.header 
                         |#{title}
-
 
 template(name='event_edit')
     with current_doc
