@@ -104,9 +104,15 @@ Meteor.publish 'model_fields_from_child_id', (child_id)->
         parent_id:model._id
 
 Meteor.publish 'all_users', ()->
-    Meteor.users.find {},
-        limit:200
-    
+    Meteor.users.find {}, {
+        fields:
+            username:1
+            image_id:1
+            tags:1
+            first_name:1
+            last_name:1
+    }
+            
     
 Meteor.publish 'model_docs', (model,limit)->
     match = {}

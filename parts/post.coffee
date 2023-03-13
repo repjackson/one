@@ -20,9 +20,9 @@ if Meteor.isClient
     # Template.posts.onCreated ->
     #     @autorun => Meteor.subscribe 'model_docs', 'post', ->
     Template.posts.onCreated ->
-        Session.setDefault 'view_mode', 'list'
-        Session.setDefault 'sort_key', 'member_count'
-        Session.setDefault 'sort_label', 'available'
+        Session.setDefault 'view_mode', 'cards'
+        Session.setDefault 'sort_key', '_timestamp'
+        Session.setDefault 'sort_label', 'added'
         Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
 
@@ -198,6 +198,8 @@ if Meteor.isServer
         sort_direction=-1
         limit=25
         )->
+        @unblock()
+
         # console.log picked_ingredients
         # if doc_limit
         #     limit = doc_limit
@@ -288,6 +290,7 @@ if Meteor.isServer
         doc_sort_key
         doc_sort_direction
         )->
+        @unblock()
         # console.log 'dummy', dummy
         # console.log 'query', query
 
@@ -332,9 +335,6 @@ if Meteor.isServer
         self.ready()
 
 
-
-
-
 if Meteor.isClient
     Template.post_card.onCreated ->
         # @autorun => Meteor.subscribe 'model_docs', 'food'
@@ -364,6 +364,9 @@ if Meteor.isClient
 
     Template.post_card.helpers
         post_card_class: ->
+            count = Docs.find(model:'post').count()
+            if count is 1
+                'fluid'
             # if Session.get('quickbuying_id')
             #     if Session.equals('quickbuying_id', @_id)
             #         'raised'
