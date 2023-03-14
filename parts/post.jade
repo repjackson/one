@@ -1,6 +1,6 @@
 template(name='posts')
     .ui.stackable.padded.grid 
-        .four.wide.column
+        .sixteen.wide.column
             .ui.inline.header 
                 +i name='blog'
                 |posts
@@ -18,10 +18,10 @@ template(name='posts')
                     |#{this}
             each tag_results
                 // if title
-                a.ui.compact.button.pick_post_tag
+                a.ui.compact.basic.circular.button.pick_post_tag
                     |#{name} 
                     // small.ui.grey.text #{count}
-        .twelve.wide.column
+        .sixteen.wide.column
             +session_set key='view_mode' value='cards' icon='cards'
             +session_set key='view_mode' value='list' icon='list'
             i.large.sort.icon

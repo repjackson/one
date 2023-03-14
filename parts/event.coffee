@@ -419,7 +419,7 @@ if Meteor.isServer
         )->
         # console.log 'dummy', dummy
         # console.log 'query', query
-        console.log 'selected tags', picked_tags
+        # console.log 'selected tags', picked_tags
 
         self = @
         match = {}
@@ -469,7 +469,7 @@ if Meteor.isServer
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $limit: 15 }
             { $project: _id: 0, title: '$_id', count: 1 }
         ], {
             allowDiskUse: true

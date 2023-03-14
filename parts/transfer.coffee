@@ -252,7 +252,7 @@ if Meteor.isServer
         )->
         # console.log 'dummy', dummy
         # console.log 'query', query
-        console.log 'selected tags', picked_tags
+        # console.log 'selected tags', picked_tags
 
         self = @
         match = {}
