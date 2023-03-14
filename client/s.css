@@ -35,6 +35,10 @@ body {
     filter: invert(1) !important;
     background-color: black !important; 
 }
+.invert img,.embed{
+    filter: invert(1) !important;
+    background-color: black !important; 
+}
 
 .checkin_banner {
     background-attachment: fixed !important;

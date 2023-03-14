@@ -42,7 +42,7 @@ head
         gtag('config', 'G-GLYPPRGJFQ');
 template(name='nav')
     // https://fomantic-ui.com/elements/icon.html#/icon
-    #topnav.topnav.ui.attached.borderless.big.menu.hscroll
+    #topnav.topnav.ui.attached.borderless.menu.hscroll
         // if is_loading
         //     .icon.item
         //         i.big.loading.grey.refresh.icon.cancel
@@ -56,7 +56,7 @@ template(name='nav')
             span.mobile.hidden events
         a.icon.item.fly_right(href="/users" class="{{isActiveRoute 'users'}}" title='users')
             // i.large.users.icon
-            +i name='customer'
+            +i name='gender-neutral-user'
             .mobile.hidden users 
         a.icon.item.invert_toggle(title='dark mode')
             +i name='moon'
@@ -74,20 +74,20 @@ template(name='nav')
                 a.icon.item.add_post(title='add post')
                     // i.large.plus.icon
                     +i name='plus'
-                a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}" )
+                a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}" title='inbox')
                     // i.large.inbox.icon
                     +i name='inbox'
-                a.icon.item(href="/chat" class="{{isActiveRoute 'view_chats'}}" )
+                a.icon.item(href="/chat" class="{{isActiveRoute 'view_chats'}}" title='chat')
                     // i.large.inbox.icon
                     +i name='chat'
-                a.icon.item(href="/coin" class="{{isActiveRoute 'coin'}}" )
+                a.icon.item(href="/coin" class="{{isActiveRoute 'coin'}}" title='bank')
                     // i.large.inbox.icon
                     +i name='coins'
                     strong #{currentUser.coins}c
-                a.item.toggle_topbar.mobile.hidden(title='alerts')
-                    // i.wallet.icon
-                    // .ui.avatar.image.bell
-                    +i name='bell'
+                // a.item.toggle_topbar.mobile.hidden(title='alerts' title='alerts')
+                //     // i.wallet.icon
+                //     // .ui.avatar.image.bell
+                //     +i name='bell'
                 // a.item(href='/user/#{currentUser.username}/credit' class="{{isActiveRoute 'user_credit'}}" title='current wallet balance')
                 // a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
                 a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute 'profile'}}" title='profile')

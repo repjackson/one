@@ -79,7 +79,7 @@ template(name='events')
                 else 
                     .ui.center.aligned.basic.segment
                         i.massive.loading.calendar.grey.icon
-                +cal
+                // +cal
 
 template(name='session_icon_button')
     .ui.icon.circular.button.set_session_value(class=session_icon_button_class)
@@ -476,7 +476,7 @@ template(name='event_view')
                     //         i.globe.icon 
                     //         |#{link}
             .row
-                .eight.wide.column.scrolling
+                .eight.wide.column.scrollin
                     a(href="{{c.url image_id }}" target='_window')
                         img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
