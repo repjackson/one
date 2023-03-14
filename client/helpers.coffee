@@ -1,6 +1,3 @@
-Template.registerHelper 'from_now', (input)-> moment(input).fromNow()
-Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
-
 Template.registerHelper 'parent', () -> Template.parentData()
 Template.registerHelper 'parent_doc', () ->
     Docs.findOne @parent_id
@@ -10,7 +7,8 @@ Template.registerHelper 'is_in_past', () ->
     moment().isSameOrAfter(moment(@start_datetime))
 
 
-
+Template.registerHelper 'cut', (input)->
+    input[..10]
 
 Template.registerHelper 'host', () ->
     Meteor.users.findOne @host_id
@@ -31,15 +29,15 @@ Template.registerHelper 'order_things',->
         model:'thing'
         order_id:@_id
 
-Template.registerHelper 'order_count',-> Counts.get('order_count')
-Template.registerHelper 'product_count',-> Counts.get('product_count')
-Template.registerHelper 'ingredient_count',-> Counts.get('ingredient_count')
-Template.registerHelper 'subscription_count',-> Counts.get('subscription_count')
-Template.registerHelper 'source_count',-> Counts.get('source_count')
-# Template.registerHelper 'giftcard_count',-> Counts.get('giftcard_count')
-Template.registerHelper 'user_count',-> Counts.get('user_count')
-Template.registerHelper 'staff_count',-> Counts.get('staff_count')
-Template.registerHelper 'customer_count',-> Counts.get('customer_count')
+# Template.registerHelper 'order_count',-> Counts.get('order_count')
+# Template.registerHelper 'product_count',-> Counts.get('product_count')
+# Template.registerHelper 'ingredient_count',-> Counts.get('ingredient_count')
+# Template.registerHelper 'subscription_count',-> Counts.get('subscription_count')
+# Template.registerHelper 'source_count',-> Counts.get('source_count')
+# # Template.registerHelper 'giftcard_count',-> Counts.get('giftcard_count')
+# Template.registerHelper 'user_count',-> Counts.get('user_count')
+# Template.registerHelper 'staff_count',-> Counts.get('staff_count')
+# Template.registerHelper 'customer_count',-> Counts.get('customer_count')
 
 
 Template.registerHelper 'cart_subtotal', () -> 
@@ -209,41 +207,6 @@ Template.registerHelper 'is_text', () ->
 Template.registerHelper 'template_parent', () ->
     Template.parentData()
 
-Template.registerHelper 'fields', () ->
-    model = Docs.findOne
-        model:'model'
-        slug:Router.current().params.model_slug
-    if model
-        match = {}
-        # if Meteor.user()
-        #     match.view_roles = $in:Meteor.user().roles
-        match.model = 'field'
-        match.parent_id = model._id
-        cur = Docs.find match,
-            sort:rank:1
-        cur
-
-Template.registerHelper 'edit_fields', () ->
-    model = Docs.findOne
-        model:'model'
-        slug:Router.current().params.model_slug
-    if model
-        Docs.find {
-            model:'field'
-            parent_id:model._id
-            # edit_roles:$in:Meteor.user().roles
-        }, sort:rank:1
-
-Template.registerHelper 'sortable_fields', () ->
-    model = Docs.findOne
-        model:'model'
-        slug:Router.current().params.model_slug
-    if model
-        Docs.find {
-            model:'field'
-            parent_id:model._id
-            sortable:true
-        }, sort:rank:1
 
 # Template.registerHelper 'current_user', (input) ->
 #     Meteor.user() and Meteor.user().username is Router.current().params.username
@@ -272,12 +235,6 @@ Template.registerHelper 'in_list', (key) ->
 Template.registerHelper 'product_orders', () ->
     Docs.find {
         model:'order'
-        product_id:@_id
-    }, 
-        sort:_timestamp:-1
-Template.registerHelper 'product_subs', () ->
-    Docs.find {
-        model:'sub'
         product_id:@_id
     }, 
         sort:_timestamp:-1
@@ -376,18 +333,6 @@ Template.registerHelper 'current_doc', ->
 #         Meteor.user()
 Template.registerHelper 'field_value', () ->
     parent = Template.parentData()
-    parent5 = Template.parentData(5)
-    parent6 = Template.parentData(6)
-
-
-    if @direct
-        parent = Template.parentData()
-    else if parent5
-        if parent5._id
-            parent = Template.parentData(5)
-    else if parent6
-        if parent6._id
-            parent = Template.parentData(6)
     if parent
         parent["#{@key}"]
 

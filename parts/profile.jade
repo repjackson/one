@@ -34,37 +34,33 @@ template(name='profile')
                     if is_current_user
                         a.ui.circular.icon.compact.large.button(href="/user/#{current_user.username}/edit" title='profile settings')
                             i.cog.icon
-                            // |edit profile
+                            |edit profile
                     else if is_admin
                         a.ui.circular.icon.compact.large.button(href="/user/#{current_user.username}/edit" title='profile settings')
+                            i.shield.icon
                             +i name='settings' cl='ui avatar image'
                             // |edit profile
-                    // unless is_current_user
-                    //     +friend_button
+                    unless is_current_user
+                        +friend_button
                     if is_current_user
                         .ui.large.compact.button.logout
                             // i.sign.out.alternate.icon
                             // i.sign.out.alternate.icon
                             +i name='exit'
-                            // |log out
+                            |log out
                     // if currentUser.admin
                     //     .ui.header
                     //         +i name='shield'
                     //         // i.shield.icon
                     //         // |admin
                     div
-                    +array_view key='roles' label='roles'   icon='shield'
+                    +array_view key='roles' label='roles' icon='shield'
                     div
-                    +array_view key='tags' label='tags'   icon='tags'
+                    +array_view key='tags' label='tags' icon='tags'
                     div
                     +array_view key='skills' label='skills' icon='wrench'  
 
                     .spacer
-                    if is_current_user
-                        a.ui.button.logout_other_clients(href="#" title='logout other clients')
-                            // i.globe.icon
-                            +i name='globe'
-                            |log out other clients
                     if link 
                         a.ui.button(href=link target='_window')
                             i.external.icon

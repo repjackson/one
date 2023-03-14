@@ -281,73 +281,73 @@ if Meteor.isServer
         }, 
             sort:date:1
     
-    Meteor.publish 'events', (
-        viewing_room_id
-        viewing_past
-        viewing_published
-        )->
-        @unblock()
+    # Meteor.publish 'events', (
+    #     viewing_room_id
+    #     viewing_past
+    #     viewing_published
+    #     )->
+    #     @unblock()
             
-        match = {model:'event'}
-        if viewing_room_id
-            match.room_id = viewing_room_id
-        if viewing_past
-            match.date = $gt:moment().subtract(1,'days').format("YYYY-MM-DD")
+    #     match = {model:'event'}
+    #     if viewing_room_id
+    #         match.room_id = viewing_room_id
+    #     if viewing_past
+    #         match.date = $gt:moment().subtract(1,'days').format("YYYY-MM-DD")
             
-        match.published = viewing_published    
+    #     match.published = viewing_published    
             
-        console.log moment().subtract(1,'days').format("YYYY-MM-DD")
-        Docs.find match, 
-            sort:date:1
+    #     console.log moment().subtract(1,'days').format("YYYY-MM-DD")
+    #     Docs.find match, 
+    #         sort:date:1
             
             
-    Meteor.publish 'event_tags', (picked_tags)->
-        @unblock()
-        # user = Meteor.users.findOne @userId
-        # current_herd = user.profile.current_herd
+    # Meteor.publish 'event_tags', (picked_tags)->
+    #     @unblock()
+    #     # user = Meteor.users.findOne @userId
+    #     # current_herd = user.profile.current_herd
     
-        self = @
-        match = {model:'event'}
+    #     self = @
+    #     match = {model:'event'}
     
-        # picked_tags.push current_herd
-        if picked_tags.length > 0
-            match.tags = $all: picked_tags
+    #     # picked_tags.push current_herd
+    #     if picked_tags.length > 0
+    #         match.tags = $all: picked_tags
     
-        tag_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: tags: 1 }
-            { $unwind: "$tags" }
-            { $group: _id: '$tags', count: $sum: 1 }
-            { $match: _id: $nin: picked_tags }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-        tag_cloud.forEach (tag, i) ->
-            self.added 'results', Random.id(),
-                name: tag.name
-                count: tag.count
-                model:'event_tag'
-                index: i
+    #     tag_cloud = Docs.aggregate [
+    #         { $match: match }
+    #         { $project: tags: 1 }
+    #         { $unwind: "$tags" }
+    #         { $group: _id: '$tags', count: $sum: 1 }
+    #         { $match: _id: $nin: picked_tags }
+    #         { $sort: count: -1, _id: 1 }
+    #         { $limit: 10 }
+    #         { $project: _id: 0, name: '$_id', count: 1 }
+    #         ]
+    #     tag_cloud.forEach (tag, i) ->
+    #         self.added 'results', Random.id(),
+    #             name: tag.name
+    #             count: tag.count
+    #             model:'event_tag'
+    #             index: i
                 
-        group_cloud = Docs.aggregate [
-            { $match: match }
-            { $project: group_title: 1 }
-            # { $unwind: "$group_title" }
-            { $group: _id: '$group_title', count: $sum: 1 }
-            { $match: _id: $nin: picked_tags }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-        group_cloud.forEach (tag, i) ->
-            self.added 'results', Random.id(),
-                name: tag.name
-                count: tag.count
-                model:'group_tag'
-                index: i
+    #     group_cloud = Docs.aggregate [
+    #         { $match: match }
+    #         { $project: group_title: 1 }
+    #         # { $unwind: "$group_title" }
+    #         { $group: _id: '$group_title', count: $sum: 1 }
+    #         { $match: _id: $nin: picked_tags }
+    #         { $sort: count: -1, _id: 1 }
+    #         { $limit: 20 }
+    #         { $project: _id: 0, name: '$_id', count: 1 }
+    #         ]
+    #     group_cloud.forEach (tag, i) ->
+    #         self.added 'results', Random.id(),
+    #             name: tag.name
+    #             count: tag.count
+    #             model:'group_tag'
+    #             index: i
     
-        self.ready()
+    #     self.ready()
 
     Meteor.publish 'event_results', (
         picked_tags
@@ -434,33 +434,6 @@ if Meteor.isServer
         if picked_tags.length > 0 then match.tags = $all: picked_tags
         if event_search.length > 0
             match.title = {$regex: "#{event_search}", $options: 'i'}
-        # else
-        # unless query and query.length > 2
-        # if picked_tags.length > 0 then match.tags = $all: picked_tags
-        # # match.tags = $all: picked_tags
-        # # console.log 'match for tags', match
-        # tag_cloud = Docs.aggregate [
-        #     { $match: match }
-        #     { $project: "tags": 1 }
-        #     { $unwind: "$tags" }
-        #     { $group: _id: "$tags", count: $sum: 1 }
-        #     { $match: _id: $nin: picked_tags }
-        #     # { $match: _id: {$regex:"#{event_search}", $options: 'i'} }
-        #     { $sort: count: -1, _id: 1 }
-        #     { $limit: 20 }
-        #     { $project: _id: 0, name: '$_id', count: 1 }
-        # ], {
-        #     allowDiskUse: true
-        # }
-        #
-        # tag_cloud.forEach (tag, i) =>
-        #     # console.log 'queried tag ', tag
-        #     # console.log 'key', key
-        #     self.added 'tags', Random.id(),
-        #         title: tag.name
-        #         count: tag.count
-        #         # category:key
-        #         # index: i
         event_count = Docs.find(match).count()
         console.log event_count, 'count'
         
@@ -472,6 +445,7 @@ if Meteor.isServer
             { $group: _id: "$tags", count: $sum: 1 }
             { $match: _id: $nin: picked_tags }
             { $match: count: $lt: event_count }
+            # { $match: _id: {$regex:"#{event_search}", $options: 'i'} }
             { $sort: count: -1, _id: 1 }
             { $limit: 15 }
             { $project: _id: 0, title: '$_id', count: 1 }
@@ -545,14 +519,10 @@ if Meteor.isServer
     Template.registerHelper 'ticket_event', () ->
         Docs.findOne @event_id
 
-
-
     Template.ticket_view.onCreated ->
         @autorun => Meteor.subscribe 'event_from_ticket_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
-        
-    Template.ticket_view.onRendered ->
 
     Template.ticket_view.events
         'click .cancel_reservation': ->
@@ -742,7 +712,7 @@ if Meteor.isClient
                     # Session.set('topup_amount',5)
                     # Template.instance().checkout.open
                     instance.checkout.open
-                        name: 'One Boulder One'
+                        name: 'dao'
                         # email:Meteor.user().emails[0].address
                         description: "#{@title} ticket purchase"
                         amount: Session.get('usd_paying')*100
