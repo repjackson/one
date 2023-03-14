@@ -22,6 +22,7 @@ if Meteor.isClient
     Template.posts.onCreated ->
         Session.setDefault 'view_mode', 'cards'
         Session.setDefault 'sort_key', '_timestamp'
+        Session.setDefault 'sort_direction', -1
         Session.setDefault 'sort_label', 'added'
         Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
@@ -64,7 +65,7 @@ if Meteor.isClient
         post_docs: ->
             Docs.find {
                 model:'post'
-            }, sort:_timestamp:-1
+            }, sort:"#{Session.get('sort_key')}":Session.get('sort_direction')
         tag_results: ->
             Results.find 
                 model:'post_tag'
@@ -218,7 +219,7 @@ if Meteor.isServer
             # sort = 'price_per_serving'
         # else
             # match.tags = $nin: ['wikipedia']
-        sort = '_timestamp'
+        # sort = '_timestamp'
         # match.published = true
             # match.source = $ne:'wikipedia'
         # if view_vegan
