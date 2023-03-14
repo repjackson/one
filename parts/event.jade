@@ -38,9 +38,9 @@ template(name='events')
                 //     else
                 //         +ios name='calendar'
                 //     |this week
-                .ui.compact.button.toggle_repeating(class=toggle_repeating_class)
-                    i.refresh.icon
-                    |repeating
+                // .ui.compact.button.toggle_repeating(class=toggle_repeating_class)
+                //     i.refresh.icon
+                //     |repeating
                 // div
                 +ismall name='tag'
                 each picked_event_tags 
@@ -476,6 +476,18 @@ template(name='event_view')
                     //         i.globe.icon 
                     //         |#{link}
             .row
+                .eight.wide.column.scrolling
+                    a(href="{{c.url image_id }}" target='_window')
+                        img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                    // a.ui.header(href="/user/#{target.username}")
+                    //     |#{target.username}
+                    // .scrolling
+                    |!{body}
+                    if watson
+                        +watson_view
+                    // div 
+                    // .spacer
+                    // .spacer
                 .four.wide.column.scrollin
                     +group_widget
                     if link 
@@ -517,18 +529,6 @@ template(name='event_view')
                             img.ui.avatar.image(src="{{c.url support.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                             |#{support.name}
                     +comments
-                .eight.wide.column.scrolling
-                    a(href="{{c.url image_id }}" target='_window')
-                        img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-                    // a.ui.header(href="/user/#{target.username}")
-                    //     |#{target.username}
-                    // .scrolling
-                    |!{body}
-                    if watson
-                        +watson_view
-                    // div 
-                    // .spacer
-                    // .spacer
                 .four.wide.column.scrolling
                     +rsvp
                     if max_attendees

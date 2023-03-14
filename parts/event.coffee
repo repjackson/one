@@ -461,13 +461,17 @@ if Meteor.isServer
         #         count: tag.count
         #         # category:key
         #         # index: i
-
+        event_count = Docs.find(match).count()
+        console.log event_count, 'count'
+        
 
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
+            { $match: _id: $nin: picked_tags }
+            { $match: count: $lt: event_count }
             { $sort: count: -1, _id: 1 }
             { $limit: 15 }
             { $project: _id: 0, title: '$_id', count: 1 }
@@ -547,7 +551,6 @@ if Meteor.isServer
         @autorun => Meteor.subscribe 'event_from_ticket_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'all_users'
         
     Template.ticket_view.onRendered ->
 
@@ -758,34 +761,8 @@ if Meteor.isClient
 
     
     Template.attendance.events
-        'click .mark_maybe': ->
-            event = Docs.findOne Router.current().params.doc_id
-            # console.log 'hi'
-            # Meteor.call 'mark_maybe', Router.current().params.doc_id, ->
-            # event = Docs.findOne event_id
-            if event.maybe_user_ids
-                if Meteor.userId() in event.maybe_user_ids
-                    Docs.update event._id,
-                        $pull:
-                            maybe_user_ids: Meteor.userId()
-                else
-                    Docs.update event._id,
-                        $addToSet:
-                            maybe_user_ids: Meteor.userId()
-                        $pull:
-                            going_user_ids: Meteor.userId()
-                            not_user_ids: Meteor.userId()
-            else
-                Docs.update event._id,
-                    $addToSet:
-                        maybe_user_ids: Meteor.userId()
-                    $pull:
-                        going_user_ids: Meteor.userId()
-                        not_user_ids: Meteor.userId()
-
-        'click .mark_not': ->
-            event = Docs.findOne Router.current().params.doc_id
-            Meteor.call 'mark_not', Router.current().params.doc_id, ->
+        'click .mark_maybe': -> Meteor.call 'mark_maybe', @_id, ->
+        'click .mark_not': -> Meteor.call 'mark_not', @_id, ->
         'click .mark_going': -> Meteor.call 'mark_going', @_id, ->
 
     Template.event_card.events
