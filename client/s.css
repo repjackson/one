@@ -41,7 +41,7 @@ body {
     position: absolute !important;
     height: 100% !important;
     /* max-height: 1000px !important; */
-    /*width: 100% !important;*/
+    width: 100% !important;
     /* top:0px; */
     background-repeat: no-repeat;
     /*filter: invert(1);*/

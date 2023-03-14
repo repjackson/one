@@ -5,7 +5,7 @@ template(name='cal')
 template(name='events')
     .ui.stackable.padded.grid 
         .row
-            .four.wide.column
+            .sixteen.wide.column
                 .ui.inline.header
                     // i.calendar.large.icon
                     +i name='calendar'
@@ -41,15 +41,15 @@ template(name='events')
                 .ui.compact.button.toggle_repeating(class=toggle_repeating_class)
                     i.refresh.icon
                     |repeating
-                div
-                i.large.tag.icon
+                // div
+                +ismall name='tag'
                 each picked_event_tags 
                     .ui.blue.button.unpick_tag
                         |#{this}
                 each event_tags 
-                    .ui.compact.button.pick_tag #{title}
+                    .ui.compact.basic.circular.button.pick_tag #{title}
                 div
-            .twelve.wide.column
+            .sixteen.wide.column
                 .ui.icon.input
                     i.search.icon
                     input.event_search(type='text' placeholder='search...' autofocus='')
@@ -91,6 +91,7 @@ template(name='event_card')
             a.ui.inline.header.fly_right(href="/event/#{_id}") #{title} 
             div
             if is_in_past
+                +ismall name='clock'
                 i.big.undo.icon 
                 |in past
             if start_datetime

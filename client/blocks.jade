@@ -186,16 +186,16 @@ template(name='session_boolean_toggle')
                 |#{value}
 
 template(name='session_set')
-    .ui.compact.icon.button.set_session_value(class=calculated_class)
+    .ui.big.image.circular.label.set_session_value.pointer(class=calculated_class title=)
         if icon
             // i.large.icon(class=icon)
-            +i name=icon cl='ui mini inline image'
+            +i name=icon cl='ui image'
         // if icon_view 
         // else 
         if label
             |#{label}
-        // else 
-        //     |#{value}
+        else 
+            |#{value}
                 
                 
                 
