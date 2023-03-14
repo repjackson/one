@@ -83,7 +83,7 @@ if Meteor.isClient
             if Session.get(@key) then 'active' else 'basic'
    
     Template.print_this.events
-        'click .print': ->
+        'click .print': -> console.log @
    
     Template.bookmark_button.helpers
         is_bookmarked: ->

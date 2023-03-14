@@ -184,7 +184,7 @@ template(name='post_edit')
                     +html_edit key='body' label='body'  
                 .column.scrolling
                     i.large.link.red.remove.icon.delete_post
-                    if is_dev
+                    if in_dev
                         +single_user_edit key='_author_id' label='author'  
                     else 
                         .ui.header 
@@ -196,17 +196,19 @@ template(name='post_edit')
                     div 
                     +array_edit key='tags' label='tags'   icon='tags'
                     +boolean_edit key='published' icon='visible' label='published'
-                    if is_dev 
+                    if in_dev 
                         +text_edit key='model' label='model' icon='shield'
                 .column.scrolling
                     +array_edit key='location_tags' label='location tags' icon='marker'  
-                    unless published
-                        a.ui.fluid.green.button.submit
-                            i.checkmark.icon
-                            |publish
-                    else
-                        .ui.basic.button.unpublish 
-                            |unpublish
+                    // unless published
+                    //     a.ui.fluid.green.button.submit
+                    //         i.checkmark.icon
+                    //         |publish
+                    // else
+                    //     .ui.basic.button.unpublish 
+                    //         |unpublish
+                    if currentUser.admin_mode 
+                        +print_this
                 .column.scrolling
                     .ui.header
                         |audience

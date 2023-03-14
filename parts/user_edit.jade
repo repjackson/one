@@ -36,7 +36,7 @@ template(name='user_edit')
                         // +emails_edit
                         .ui.hidden.divider
                         +phone_edit key='phone' label='phone' icon='phone'  
-                        +html_edit key='body' label='description'  
+                        +html_edit key='body' label='body'  
                 .six.wide.column
                     +date_edit key='birthday' label='birthday' icon='birthday'
                     +array_edit key='allergens' label='allergens' icon='no-milk'  
@@ -113,7 +113,7 @@ template(name='password_edit')
     //-     input#password(type='password', placeholder='old password')
     .ui.fluid.icon.input
         input#new_password(type='password', placeholder='new password')
-    if is_dev
+    if in_dev
         .ui.fluid.button.send_enrollment_email
             |send enrollment email
     if is_admin
@@ -202,7 +202,7 @@ template(name='emails_edit')
 //     //-     input#password(type='password', placeholder='old password')
 //     .ui.fluid.icon.input
 //         input#new_password(type='password', placeholder='new password')
-//     if is_dev
+//     if in_dev
 //         .ui.fluid.button.send_enrollment_email
 //             |send enrollment email
 //     if is_admin
@@ -273,7 +273,7 @@ template(name='user_edit_account')
                 i.envelope.outline.icon
                 |emails
             +emails_edit
-            if is_dev
+            if in_dev
                 .ui.segment
                     i.code.icon
                     +username_edit

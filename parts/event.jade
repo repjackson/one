@@ -69,7 +69,7 @@ template(name='events')
                                 each event_docs
                                     +event_card
                         else
-                            .ui.stackable.cards.scrolling
+                            .ui.stackable.centered.cards.scrolling
                                 each event_docs
                                     +event_card
                     if session_is 'view_mode' 'list'
@@ -151,7 +151,7 @@ template(name='event_card')
                         i.grey.chat.outline.icon
                         img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=user_class)
                         |#{body}
-            if is_dev
+            if in_dev
                 +print_this
             +voting
             +favorite_icon_toggle
@@ -205,7 +205,7 @@ template(name='event_item')
                         i.grey.chat.outline.icon
                         img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=user_class)
                         |#{body}
-            if is_dev
+            if in_dev
                 +print_this
             +voting
             +favorite_icon_toggle

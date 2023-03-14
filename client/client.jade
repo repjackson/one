@@ -214,7 +214,7 @@ template(name='footer')
                     +print_this
                 with currentUser
                     +print_this
-                    if is_dev
+                    if in_dev
                         +boolean_edit key='admin_mode' label='admin mode'  
                 .ui.inverted.inline.header 
                     i.user.icon

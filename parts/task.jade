@@ -154,7 +154,7 @@ template(name='task_edit')
                     .ui.header 
                         small author
                         |#{_author.username}
-                    if is_dev
+                    if in_dev
                         +single_user_edit key='_author_id' label='author'  
                     +boolean_edit key='has_image' icon='image'  
                     if has_image
@@ -162,7 +162,7 @@ template(name='task_edit')
                     div 
                     +array_edit key='tags' label='tags'   icon='tags'
                     +boolean_edit key='published' icon='visible'  
-                    if is_dev 
+                    if in_dev 
                         +text_edit key='model' label='model'  
                 .column
                     +array_edit key='location_tags' label='location tags' icon='marker'  

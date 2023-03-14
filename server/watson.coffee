@@ -169,7 +169,7 @@ Meteor.methods
         #     console.log 'calling image'
         # else 
         parameters.html = doc.body
-        parameters.returnAnalyzedText = true
+        # parameters.returnAnalyzedText = false
         # switch mode
         #     when 'html'
         #         # parameters.html = doc["#{key}"]
@@ -198,17 +198,18 @@ Meteor.methods
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response)=>
             if err
-                console.log 'watson error for', parameters.content
+                console.log 'watson error for', err
                 # console.log err
-                if err.code is 400
-                    console.log 'crawl rejected by server'
-                unless err.code is 403
-                    Docs.update doc_id,
-                        $set:skip_watson:false
-                    console.log 'not html, flaggged doc for future skip', parameters.url
-                else
-                    console.log '403 error api key'
+                # if err.code is 400
+                #     console.log 'crawl rejected by server'
+                # unless err.code is 403
+                #     Docs.update doc_id,
+                #         $set:skip_watson:false
+                #     console.log 'not html, flaggged doc for future skip', parameters.url
+                # else
+                #     console.log '403 error api key'
             else
+                console.log 'no error', response
                 # console.log 'analy text', response.analyzed_text
                 # console.log(JSON.stringify(response, null, 2));
                 # console.log 'adding watson info', doc.title
@@ -299,7 +300,7 @@ Meteor.methods
                 # if mode is 'url'
                 #     # if doc.model is 'wikipedia'
                 #     Meteor.call 'call_tone', doc_id, 'body', 'text', ->
-                Meteor.call 'clear_blocklist_doc', doc_id, ->
+                # Meteor.call 'clear_blocklist_doc', doc_id, ->
                 
                 # Meteor.call 'log_doc_terms', doc_id, ->
                 # if Meteor.isDevelopment

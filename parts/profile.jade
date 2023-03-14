@@ -43,7 +43,7 @@ template(name='profile')
                     unless is_current_user
                         +friend_button
                     if is_current_user
-                        .ui.large.compact.button.logout
+                        a.ui.big.image.label.button.logout
                             // i.sign.out.alternate.icon
                             // i.sign.out.alternate.icon
                             +i name='exit'
@@ -82,7 +82,7 @@ template(name='profile')
                                 |!{current_status}
                     +array_view key='allergens' label='allergens' icon='no-milk'  
                     +array_view key='food_dislikes' label='food dislikes' icon='disgusting'  
-                    // if is_dev
+                    // if in_dev
                     //     .ui.small.inline.header #{_id}
                     +link_view key='profile_link' label='profile link' icon='link'  
                 .twelve.wide.column.scrolling
