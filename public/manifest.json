@@ -1,9 +1,9 @@
 {
- "name": "Loom",
-  "short_name": "loom",
+ "name": "dao",
+  "short_name": "dao",
   "description": "i am because we are",
-  "theme_color": "#ffffff",
-  "background_color": "#ff8c00",
+  "theme_color": "#000000",
+  "background_color": "#000000",
   "display": "standalone"
 
  "icons": [

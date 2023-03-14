@@ -1,5 +1,5 @@
 head
-    title loom
+    title dao
     meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
     meta(name='apple-mobile-web-app-capable', content='yes')
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
@@ -48,8 +48,8 @@ template(name='nav')
         //         i.big.loading.grey.refresh.icon.cancel
         // else 
         a.header.item.zoomer(href='/' class="{{isActivePath '/'}}" )
-            +i name='knitting-ball'
-            span.mobile.hidden loom
+            +i name='yin-yang'
+            span.mobile.hidden dao
         a.icon.item.fly_right(href="/events" class="{{isActiveRoute 'events'}}" title='events')
             // i.large.calendar.icon
             +i name='calendar'
@@ -72,7 +72,8 @@ template(name='nav')
         .right.menu
             if currentUser
                 a.icon.item.add_post(title='add post')
-                    i.large.plus.icon
+                    // i.large.plus.icon
+                    +i name='plus'
                 a.icon.item(href="/inbox" class="{{isActiveRoute 'inbox'}}" )
                     // i.large.inbox.icon
                     +i name='inbox'

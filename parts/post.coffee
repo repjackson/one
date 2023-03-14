@@ -249,6 +249,15 @@ if Meteor.isServer
             sort:"#{sort_key}":sort_direction
             # sort:_timestamp:-1
             limit: limit
+            fields:
+                title:1
+                model:1
+                image_id:1
+                body:1
+                _author_id:1
+                youtube_id:1
+                tags:1
+                _timestamp:1
             
             
     Meteor.publish 'post_count', (
