@@ -50,8 +50,8 @@ if Meteor.isClient
 
     Template.post_view.onCreated ->
         @autorun => @subscribe 'related_groups',Router.current().params.doc_id, ->
-
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'author_by_doc_id', Router.current().params.doc_id, ->
     Template.post_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.post_card.onCreated ->

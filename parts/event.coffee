@@ -469,17 +469,17 @@ if Meteor.isServer
     #     Docs.find
     #         slug:slug
             
-    # Meteor.publish 'author_by_doc_id', (doc_id)->
-    #     doc_by_id =
-    #         Docs.findOne doc_id
-    #     doc_by_slug =
-    #         Docs.findOne slug:doc_id
-    #     if doc_by_id
-    #         Meteor.users.findOne 
-    #             _id:doc_by_id._author_id
-    #     else
-    #         Meteor.users.findOne 
-    #             _id:doc_by_slug._author_id
+    Meteor.publish 'author_by_doc_id', (doc_id)->
+        doc_by_id =
+            Docs.findOne doc_id
+        doc_by_slug =
+            Docs.findOne slug:doc_id
+        if doc_by_id
+            Meteor.users.findOne 
+                _id:doc_by_id._author_id
+        else
+            Meteor.users.findOne 
+                _id:doc_by_slug._author_id
             
             
     # Meteor.publish 'author_by_doc_slug', (slug)->

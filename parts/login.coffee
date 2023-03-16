@@ -208,6 +208,7 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.methods
         set_user_password: (user, password)->
+            console.log 'setting password',user, password
             result = Accounts.setPassword(user._id, password)
             console.log result
             result

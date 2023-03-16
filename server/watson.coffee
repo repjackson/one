@@ -270,7 +270,6 @@ Meteor.methods
                 Docs.update { _id: doc_id },
                     $addToSet:
                         tags:$each:adding_tags
-                
                 if response.entities and response.entities.length > 0
                     for entity in response.entities
                         # console.log entity.type, entity.text
