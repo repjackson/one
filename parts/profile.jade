@@ -244,7 +244,7 @@ template(name='user_events')
 template(name='user_groups')
     a.ui.inline.header.zoomer(href="/groups")
         +icolor name='campfire'
-        |groups
+        |tribes
     if user_leader_groups.count
         .ui.header
             i.king.icon
@@ -256,20 +256,17 @@ template(name='user_groups')
                 if is_current_user
                     +enter_group
     if user_member_groups.count
-        a.ui.header.toggle_group_members.zoomer.pointer(title='toggle group members')
-            // +i name='groups'
-            i.large.fire.icon
+        a.ui.small.header.toggle_group_members.zoomer.pointer(title='toggle group members')
             |member of 
             |#{user_member_groups.count}
-            |groups
-            if session_is 'view_group_members' true
-                i.chevron.down.icon
-            else                                    
-                i.chevron.right.icon
-        if session_is 'view_group_members' true
-            .ui.large.selection.link.list
-                each user_member_groups
-                    +profile_group_item
+            // if session_is 'view_group_members' true
+            //     i.chevron.down.icon
+            // else                                    
+            //     i.chevron.right.icon
+        // if session_is 'view_group_members' true
+        .ui.large.selection.link.list
+            each user_member_groups
+                +profile_group_item
 
 
 template(name='user_tickets')

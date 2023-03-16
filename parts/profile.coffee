@@ -7,9 +7,7 @@ if Meteor.isClient
 
 
     Template.profile.onCreated ->
-        Session.setDefault 'view_group_members', true
-        @autorun -> Meteor.subscribe 'user_member_groups', Router.current().params.username, ->
-        @autorun -> Meteor.subscribe 'user_leader_groups', Router.current().params.username, ->
+    Template.profile.onCreated ->
         @autorun -> Meteor.subscribe 'user_hosted_events', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_going_events', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_comments', Router.current().params.username, ->
@@ -67,24 +65,12 @@ if Meteor.isClient
                 sort: _timestamp:-1
                 limit: 10
 
-
-        user_member_groups: ->
-            user = Meteor.users.findOne username:@username
-            Docs.find
-                model:'group'
-                member_ids:$in:[user._id]
-            
         user_post_docs: ->
             user = Meteor.users.findOne username:@username
             Docs.find
                 model:'post'
                 _author_id:user._id
             
-        user_leader_groups: ->
-            user = Meteor.users.findOne username:@username
-            Docs.find
-                model:'group'
-                group_leader_ids:$in:[user._id]
 
 
         user_going_events: ->
@@ -98,6 +84,27 @@ if Meteor.isClient
             Docs.find
                 model:'event'
                 host_id:user._id
+
+    Template.user_groups.onCreated ->
+        Session.setDefault 'view_group_members', true
+        @autorun -> Meteor.subscribe 'user_member_groups', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_leader_groups', Router.current().params.username, ->
+
+
+    Template.user_groups.helpers 
+        user_member_groups: ->
+            user = Meteor.users.findOne username:@username
+            Docs.find
+                model:'group'
+                member_ids:$in:[user._id]
+            
+        user_leader_groups: ->
+            user = Meteor.users.findOne username:@username
+            Docs.find
+                model:'group'
+                group_leader_ids:$in:[user._id]
+
+
 
 if Meteor.isServer 
     Meteor.publish 'user_bookmark_docs', ->
