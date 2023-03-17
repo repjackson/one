@@ -245,10 +245,11 @@ template(name='user_groups')
     a.ui.inline.header.zoomer(href="/groups")
         +icolor name='campfire'
         |tribes
+    div
     if user_leader_groups.count
         .ui.header
-            i.king.icon
-            // +i name='king'
+            // i.king.icon
+            +i name='king'
             |group leader of
         each user_leader_groups
             .ui.segment

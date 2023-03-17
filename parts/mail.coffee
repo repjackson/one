@@ -43,7 +43,3 @@ if Meteor.isClient
         'click .mark_unread': ->
             Meteor.call 'mark_unread', @_id, ->
             
-if Meteor.isServer
-    Meteor.publish 'inbox', (username)->
-        Docs.find
-            model:'offer'

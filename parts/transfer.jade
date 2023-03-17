@@ -118,7 +118,7 @@ template(name='transfer_view')
                 .five.wide.column
                     .ui.huge.center.aligned.header
                         |#{amount}pts
-                    if in_dev
+                    if currentUser.admin_mode
                         +remove_button
                     .f14
                         |!{description}
@@ -165,10 +165,10 @@ template(name='transfer_edit')
                                 img.ui.tiny.inline.image(src="{{c.url profile_image_id height=400 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
                                 .ui.inline.header #{name}
                                 .ui.small.grey.inline.header #{points}
-                        unless recipient
-                            .ui.divider
+                        +single_user_edit key='recipient_id' label='search member' icon='user plus'  
+                        // unless recipient
+                        //     .ui.divider
                             // i.large.user.plus.icon
-                            +single_user_edit key='recipient_id' label='search member' icon='user plus'  
                             // .ui.icon.input
                             //     i.search.icon
                             //     input.search_username(type='text' placeholder='username')
@@ -230,7 +230,7 @@ template(name='transfer_edit')
                     +key_value_edit key='amount' value=50
                     .spacer
                     .ui.center.aligned.basic.segment
-                        if can_submit
+                        if can_send
                             .ui.green.huge.circular.button.submit
                                 i.big.send.icon
                                 |send

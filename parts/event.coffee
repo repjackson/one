@@ -751,12 +751,12 @@ if Meteor.isClient
 
 
 
-if Meteor.isServer
-    Meteor.publish 'event_tickets', (event_id)->
-        Docs.find
-            model:'transaction'
-            transaction_type:'ticket_purchase'
-            event_id:event_id
+# if Meteor.isServer
+#     Meteor.publish 'event_tickets', (event_id)->
+#         Docs.find
+#             model:'transaction'
+#             transaction_type:'ticket_purchase'
+#             event_id:event_id
 
 
     Meteor.methods

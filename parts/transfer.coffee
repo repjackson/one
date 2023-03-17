@@ -300,10 +300,12 @@ if Meteor.isClient
         ), name:'transfer_view'
 
     Template.transfer_view.onCreated ->
+        @autorun => Meteor.subscribe 'recipient_from_transfer_id', Router.current().params.doc_id, ->
+
         @autorun => Meteor.subscribe 'product_from_transfer_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'author_from_doc_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'all_users'
+        # @autorun => Meteor.subscribe 'all_users'
         
     Template.transfer_view.onRendered ->
 
@@ -322,7 +324,6 @@ if Meteor.isClient
         
         
     Template.transfer_edit.onCreated ->
-        @autorun => Meteor.subscribe 'all_users', ->
         @autorun => Meteor.subscribe 'recipient_from_transfer_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'author_from_doc_id, ->', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
@@ -368,7 +369,7 @@ if Meteor.isClient
         can_send: ->
             transfer = Docs.findOne Router.current().params.doc_id
             transfer.amount and transfer.recipient_id
-            Meteor.user().coins > tranfer.amount
+            Meteor.user().coins > transfer.amount
     Template.transfer_edit.events
         'click .add_recipient': ->
             Docs.update Router.current().params.doc_id,
@@ -485,7 +486,7 @@ if Meteor.isServer
     Meteor.publish 'recipient_from_transfer_id', (transfer_id)->
         transfer = Docs.findOne transfer_id
         if transfer
-            Meteor.users.findOne transfer.recipient_id
+            Meteor.users.find transfer.recipient_id
     Meteor.methods
         send_transfer: (transfer_id)->
             transfer = Docs.findOne transfer_id
