@@ -1,159 +1,159 @@
-Router.route '/group/:doc_id', (->
+Router.route '/tribe/:doc_id', (->
     @layout 'layout'
-    @render 'group_view'
-    ), name:'group_view'
+    @render 'tribe_view'
+    ), name:'tribe_view'
 
 
 if Meteor.isClient
-    Template.group_view.onCreated ->
+    Template.tribe_view.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-        # @autorun => Meteor.subscribe 'children', 'group_update', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'group_leaders', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'group_events', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'group_posts', Router.current().params.doc_id, ->
-        @autorun => Meteor.subscribe 'group_products', Router.current().params.doc_id, ->
-    Template.group_view.onRendered ->
+        # @autorun => Meteor.subscribe 'children', 'tribe_update', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'tribe_members', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'tribe_leaders', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'tribe_events', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'tribe_posts', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'tribe_products', Router.current().params.doc_id, ->
+    Template.tribe_view.onRendered ->
         Meteor.call 'log_view', Router.current().params.doc_id, ->
     
-    Template.group_edit.onCreated ->
+    Template.tribe_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
 
 
-    # Template.groups_small.onCreated ->
-    #     @autorun => Meteor.subscribe 'model_docs', 'group', Sesion.get('group_search'),->
-    # Template.groups_small.helpers
-    #     group_docs: ->
+    # Template.tribes_small.onCreated ->
+    #     @autorun => Meteor.subscribe 'model_docs', 'tribe', Sesion.get('tribe_search'),->
+    # Template.tribes_small.helpers
+    #     tribe_docs: ->
     #         Docs.find   
-    #             model:'group'
+    #             model:'tribe'
                 
                 
                 
-    Template.group_view.helpers
-        group_events: ->
+    Template.tribe_view.helpers
+        tribe_events: ->
             Docs.find 
                 model:'event'
-                group_ids:$in:[Router.current().params.doc_id]
-        group_posts: ->
+                tribe_ids:$in:[Router.current().params.doc_id]
+        tribe_posts: ->
             Docs.find 
                 model:'post'
-                # group_ids:$in:[Router.current().params.doc_id]
-        # current_group: ->
+                # tribe_ids:$in:[Router.current().params.doc_id]
+        # current_tribe: ->
         #     Docs.findOne
-        #         model:'group'
+        #         model:'tribe'
         #         slug: Router.current().params.doc_id
 
-    Template.group_shop.events
+    Template.tribe_shop.events
         'click .add_product': ->
             new_id = 
                 Docs.insert 
                     model:'product'
-                    group_id:Router.current().params.doc_id
+                    tribe_id:Router.current().params.doc_id
                     
             Router.go "/product/#{new_id}/edit"
             
-    Template.group_view.events
-        'click .refresh_group_stats': ->
-            Meteor.call 'calc_group_stats', Router.current().params.doc_id, ->
-        'click .add_group_event': ->
+    Template.tribe_view.events
+        'click .refresh_tribe_stats': ->
+            Meteor.call 'calc_tribe_stats', Router.current().params.doc_id, ->
+        'click .add_tribe_event': ->
             new_id = 
                 Docs.insert 
                     model:'event'
-                    group_ids:[Router.current().params.doc_id]
+                    tribe_ids:[Router.current().params.doc_id]
             Router.go "/event/#{new_id}/edit"
-        'click .add_group_post': ->
+        'click .add_tribe_post': ->
             new_id = 
                 Docs.insert 
                     model:'post'
-                    group_ids:[Router.current().params.doc_id]
+                    tribe_ids:[Router.current().params.doc_id]
             Router.go "/post/#{new_id}/edit"
         # 'click .join': ->
         #     Docs.update
-        #         model:'group'
+        #         model:'tribe'
         #         _author_id: Meteor.userId()
-        # 'click .group_leave': ->
-        #     my_group = Docs.findOne
-        #         model:'group'
+        # 'click .tribe_leave': ->
+        #     my_tribe = Docs.findOne
+        #         model:'tribe'
         #         _author_id: Meteor.userId()
         #         ballot_id: Router.current().params.doc_id
-        #     if my_group
-        #         Docs.update my_group._id,
+        #     if my_tribe
+        #         Docs.update my_tribe._id,
         #             $set:value:'no'
         #     else
         #         Docs.insert
-        #             model:'group'
+        #             model:'tribe'
         #             ballot_id: Router.current().params.doc_id
         #             value:'no'
 
 
 if Meteor.isServer
-    Meteor.publish 'group_events', (group_id)->
-        # group = Docs.findOne
-        #     model:'group'
-        #     _id:group_id
+    Meteor.publish 'tribe_events', (tribe_id)->
+        # tribe = Docs.findOne
+        #     model:'tribe'
+        #     _id:tribe_id
         Docs.find
             model:'event'
-            group_ids:$in: [group_id]
+            tribe_ids:$in: [tribe_id]
 
-    Meteor.publish 'group_posts', (group_id)->
-        # group = Docs.findOne
-        #     model:'group'
-        #     _id:group_id
+    Meteor.publish 'tribe_posts', (tribe_id)->
+        # tribe = Docs.findOne
+        #     model:'tribe'
+        #     _id:tribe_id
         Docs.find
             model:'post'
-            group_ids:$in: [group_id]
+            tribe_ids:$in: [tribe_id]
 
 
-    Meteor.publish 'group_leaders', (group_id)->
-        group = Docs.findOne group_id
-        if group.leader_ids
+    Meteor.publish 'tribe_leaders', (tribe_id)->
+        tribe = Docs.findOne tribe_id
+        if tribe.leader_ids
             Meteor.users.find
-                _id: $in: group.leader_ids
+                _id: $in: tribe.leader_ids
 
-    Meteor.publish 'group_members', (group_id)->
-        group = Docs.findOne group_id
+    Meteor.publish 'tribe_members', (tribe_id)->
+        tribe = Docs.findOne tribe_id
         Meteor.users.find
-            _id: $in: group.member_ids
+            _id: $in: tribe.member_ids
 
 
 
 
-Router.route '/group/:doc_id/edit', -> @render 'group_edit'
+Router.route '/tribe/:doc_id/edit', -> @render 'tribe_edit'
 
 
-# group edit
+# tribe edit
 if Meteor.isClient
-    Template.group_edit.onCreated ->
+    Template.tribe_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
-        # @autorun => Meteor.subscribe 'group_options', Router.current().params.doc_id
-    Template.group_edit.events
+        # @autorun => Meteor.subscribe 'tribe_options', Router.current().params.doc_id
+    Template.tribe_edit.events
         'click .add_option': ->
             Docs.insert
-                model:'group_option'
+                model:'tribe_option'
                 ballot_id: Router.current().params.doc_id
-    Template.group_edit.helpers
+    Template.tribe_edit.helpers
         options: ->
             Docs.find
-                model:'group_option'
+                model:'tribe_option'
 
 
-# groups
+# tribes
 if Meteor.isClient
-    Router.route '/groups', (->
+    Router.route '/tribes', (->
         @layout 'layout'
-        @render 'groups'
-        ), name:'groups'
+        @render 'tribes'
+        ), name:'tribes'
 
 
-    Template.groups.onCreated ->
+    Template.tribes.onCreated ->
         Session.setDefault 'view_mode', 'list'
         Session.setDefault 'sort_key', 'member_count'
         Session.setDefault 'sort_label', 'available'
         Session.setDefault 'limit', 20
         Session.setDefault 'view_open', true
 
-    Template.groups.onCreated ->
-        @autorun => @subscribe 'group_facets',
+    Template.tribes.onCreated ->
+        @autorun => @subscribe 'tribe_facets',
             picked_tags.array()
             Session.get('limit')
             Session.get('sort_key')
@@ -162,9 +162,9 @@ if Meteor.isClient
             Session.get('view_pickup')
             Session.get('view_open')
 
-        @autorun => @subscribe 'group_results',
+        @autorun => @subscribe 'tribe_results',
             picked_tags.array()
-            Session.get('group_title_search')
+            Session.get('tribe_title_search')
             Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
@@ -173,25 +173,25 @@ if Meteor.isClient
             Session.get('view_open')
 
 
-    Template.groups.events
-        'click .add_group': ->
+    Template.tribes.events
+        'click .add_tribe': ->
             new_id =
                 Docs.insert
-                    model:'group'
-            Router.go("/group/#{new_id}/edit")
-        'keyup .search_group': _.throttle((e,t)->
-            query = $('.search_group').val()
-            Session.set('group_title_search', query)
+                    model:'tribe'
+            Router.go("/tribe/#{new_id}/edit")
+        'keyup .search_tribe': _.throttle((e,t)->
+            query = $('.search_tribe').val()
+            Session.set('tribe_title_search', query)
             
-            console.log Session.get('group_title_search')
+            console.log Session.get('tribe_title_search')
             if e.which is 13
-                search = $('.search_group').val().trim().toLowerCase()
+                search = $('.search_tribe').val().trim().toLowerCase()
                 if search.length > 0
                     picked_tags.push search
                     console.log 'search', search
                     # Meteor.call 'log_term', search, ->
-                    $('.search_group').val('')
-                    Session.set('group_title_search', null)
+                    $('.search_tribe').val('')
+                    Session.set('tribe_title_search', null)
                     # # $( "p" ).blur();
                     # Meteor.setTimeout ->
                     #     Session.set('dummy', !Session.get('dummy'))
@@ -214,13 +214,13 @@ if Meteor.isClient
                 # Meteor.call 'search_reddit', picked_tags.array(), ->
 
         'click .clear_picked_tags': ->
-            Session.set('current_group_search',null)
+            Session.set('current_tribe_search',null)
             picked_tags.clear()
 
         'keyup #search': _.throttle((e,t)->
             query = $('#search').val()
-            Session.set('current_group_search', query)
-            # console.log Session.get('current_group_search')
+            Session.set('current_tribe_search', query)
+            # console.log Session.get('current_tribe_search')
             if e.which is 13
                 search = $('#search').val().trim().toLowerCase()
                 if search.length > 0
@@ -228,7 +228,7 @@ if Meteor.isClient
                     console.log 'search', search
                     # Meteor.call 'log_term', search, ->
                     $('#search').val('')
-                    Session.set('current_group_search', null)
+                    Session.set('current_tribe_search', null)
                     # # $('#search').val('').blur()
                     # # $( "p" ).blur();
                     # Meteor.setTimeout ->
@@ -236,8 +236,8 @@ if Meteor.isClient
                     # , 10000
         , 1000)
 
-        'click .calc_group_count': ->
-            Meteor.call 'calc_group_count', ->
+        'click .calc_tribe_count': ->
+            Meteor.call 'calc_tribe_count', ->
 
         # 'keydown #search': _.throttle((e,t)->
         #     if e.which is 8
@@ -255,14 +255,14 @@ if Meteor.isClient
 
 
         'click .set_sort_direction': ->
-            if Session.get('group_sort_direction') is -1
-                Session.set('group_sort_direction', 1)
+            if Session.get('tribe_sort_direction') is -1
+                Session.set('tribe_sort_direction', 1)
             else
-                Session.set('group_sort_direction', -1)
+                Session.set('tribe_sort_direction', -1)
 
 
-    Template.groups.helpers
-        sorting_up: -> parseInt(Session.get('group_sort_direction')) is 1
+    Template.tribes.helpers
+        sorting_up: -> parseInt(Session.get('tribe_sort_direction')) is 1
 
         # toggle_open_class: -> if Session.get('view_open') then 'blue' else ''
         # connection: ->
@@ -270,18 +270,18 @@ if Meteor.isClient
         #     Meteor.status()
         # connected: ->
         #     Meteor.status().connected
-        group_tag_results: ->
-            # if Session.get('current_group_search') and Session.get('current_group_search').length > 1
+        tribe_tag_results: ->
+            # if Session.get('current_tribe_search') and Session.get('current_tribe_search').length > 1
             #     Terms.find({}, sort:count:-1)
             # else
-            group_count = Docs.find().count()
-            # console.log 'group count', group_count
-            # if group_count < 3
-            #     Results.find({count: $lt: group_count})
+            tribe_count = Docs.find().count()
+            # console.log 'tribe count', tribe_count
+            # if tribe_count < 3
+            #     Results.find({count: $lt: tribe_count})
             # else
             Results.find()
 
-        current_group_search: -> Session.get('current_group_search')
+        current_tribe_search: -> Session.get('current_tribe_search')
 
         result_class: ->
             if Template.instance().subscriptionsReady()
@@ -295,13 +295,13 @@ if Meteor.isClient
 
         one_post: ->
             Docs.find().count() is 1
-        group_docs: ->
+        tribe_docs: ->
             # if picked_tags.array().length > 0
             Docs.find {
-                model:'group'
+                model:'tribe'
             },
-                sort: "#{Session.get('group_sort_key')}":parseInt(Session.get('group_sort_direction'))
-                # limit:Session.get('group_limit')
+                sort: "#{Session.get('tribe_sort_key')}":parseInt(Session.get('tribe_sort_direction'))
+                # limit:Session.get('tribe_limit')
 
         home_subs_ready: ->
             Template.instance().subscriptionsReady()
@@ -321,15 +321,15 @@ if Meteor.isClient
         #         sort: count:-1
         #         # limit:1
 
-        group_limit: ->
-            Session.get('group_limit')
+        tribe_limit: ->
+            Session.get('tribe_limit')
 
-        current_group_sort_label: ->
-            Session.get('group_sort_label')
+        current_tribe_sort_label: ->
+            Session.get('tribe_sort_label')
 
 
 if Meteor.isServer
-    Meteor.publish 'group_results', (
+    Meteor.publish 'tribe_results', (
         picked_tags
         title_search=''
         doc_limit
@@ -340,7 +340,7 @@ if Meteor.isServer
         view_open
         )->
         # console.log picked_tags
-        match = {model:'group'}
+        match = {model:'tribe'}
         if doc_limit
             limit = doc_limit
         else
@@ -380,7 +380,7 @@ if Meteor.isServer
         #         match["#{key}"] = $all: key_array
             # console.log 'current facet filter array', current_facet_filter_array
 
-        console.log 'group match', match
+        console.log 'tribe match', match
         console.log 'sort key', sort_key
         console.log 'sort direction', sort_direction
         Docs.find match,
@@ -388,7 +388,7 @@ if Meteor.isServer
             sort:_timestamp:-1
             limit: limit
 
-    Meteor.publish 'group_facets', (
+    Meteor.publish 'tribe_facets', (
         picked_tags=[]
         picked_timestamp_tags
         query
@@ -405,7 +405,7 @@ if Meteor.isServer
 
         self = @
         match = {}
-        match.model = 'group'
+        match.model = 'tribe'
         # if view_open
         #     match.open = $ne:false
 
@@ -414,13 +414,13 @@ if Meteor.isServer
         # if view_pickup
         #     match.pickup = $ne:false
         if picked_tags.length > 0 then match.tags = $all: picked_tags
-            # match.$regex:"#{current_group_search}", $options: 'i'}
+            # match.$regex:"#{current_tribe_search}", $options: 'i'}
 
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
             { $unwind: "$tags" }
-            { $group: _id: "$tags", count: $sum: 1 }
+            { $tribe: _id: "$tags", count: $sum: 1 }
             { $sort: count: -1, _id: 1 }
             { $limit: 10 }
             { $project: _id: 0, name: '$_id', count: 1 }
@@ -429,11 +429,11 @@ if Meteor.isServer
         }
 
         tag_cloud.forEach (tag, i) =>
-            # console.log 'group tag result ', tag
+            # console.log 'tribe tag result ', tag
             self.added 'results', Random.id(),
                 name: tag.name
                 count: tag.count
-                model:'group_tag'
+                model:'tribe_tag'
                 # category:key
                 # index: i
 
@@ -441,59 +441,59 @@ if Meteor.isServer
         self.ready()
 
 
-# Router.route '/group/:doc_id/', (->
-#     @render 'group_view'
-#     ), name:'group_view'
-# Router.route '/group/:doc_id/edit', (->
-#     @render 'group_edit'
-#     ), name:'group_edit'
+# Router.route '/tribe/:doc_id/', (->
+#     @render 'tribe_view'
+#     ), name:'tribe_view'
+# Router.route '/tribe/:doc_id/edit', (->
+#     @render 'tribe_edit'
+#     ), name:'tribe_edit'
 
 
 if Meteor.isClient
     Meteor.methods
-        calc_group_stats: ->
-            group_stat_doc = Docs.findOne(model:'group_stats')
-            unless group_stat_doc
+        calc_tribe_stats: ->
+            tribe_stat_doc = Docs.findOne(model:'tribe_stats')
+            unless tribe_stat_doc
                 new_id = Docs.insert
-                    model:'group_stats'
-                group_stat_doc = Docs.findOne(model:'group_stats')
-            console.log group_stat_doc
-            total_count = Docs.find(model:'group').count()
-            complete_count = Docs.find(model:'group', complete:true).count()
-            incomplete_count = Docs.find(model:'group', complete:$ne:true).count()
-            Docs.update group_stat_doc._id,
+                    model:'tribe_stats'
+                tribe_stat_doc = Docs.findOne(model:'tribe_stats')
+            console.log tribe_stat_doc
+            total_count = Docs.find(model:'tribe').count()
+            complete_count = Docs.find(model:'tribe', complete:true).count()
+            incomplete_count = Docs.find(model:'tribe', complete:$ne:true).count()
+            Docs.update tribe_stat_doc._id,
                 $set:
                     total_count:total_count
                     complete_count:complete_count
                     incomplete_count:incomplete_count
 
 if Meteor.isServer
-    Meteor.publish 'user_groups', (username)->
+    Meteor.publish 'user_tribes', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
-            model:'group'
+            model:'tribe'
             _author_id: user._id
 
-    Meteor.publish 'group_by_slug', (group_slug)->
+    Meteor.publish 'tribe_by_slug', (tribe_slug)->
         Docs.find
-            model:'group'
-            slug:group_slug
+            model:'tribe'
+            slug:tribe_slug
     Meteor.methods
-        calc_group_stats: (group_slug)->
-            group = Docs.findOne
-                model:'group'
-                slug: group_slug
+        calc_tribe_stats: (tribe_slug)->
+            tribe = Docs.findOne
+                model:'tribe'
+                slug: tribe_slug
 
             member_count =
-                group.member_ids.length
+                tribe.member_ids.length
 
-            group_members =
+            tribe_members =
                 Meteor.users.find
-                    _id: $in: group.member_ids
+                    _id: $in: tribe.member_ids
 
             dish_count = 0
             dish_ids = []
-            for member in group_members.fetch()
+            for member in tribe_members.fetch()
                 member_dishes =
                     Docs.find(
                         model:'dish'
@@ -506,37 +506,37 @@ if Meteor.isServer
             # dish_count =
             #     Docs.find(
             #         model:'dish'
-            #         group_id:group._id
+            #         tribe_id:tribe._id
             #     ).count()
-            group_count =
+            tribe_count =
                 Docs.find(
-                    model:'group'
-                    group_id:group._id
+                    model:'tribe'
+                    tribe_id:tribe._id
                 ).count()
 
             order_cursor =
                 Docs.find(
                     model:'order'
-                    group_id:group._id
+                    tribe_id:tribe._id
                 )
             order_count = order_cursor.count()
             total_credit_exchanged = 0
             for order in order_cursor.fetch()
                 if order.order_price
                     total_credit_exchanged += order.order_price
-            group_groups =
+            tribe_tribes =
                 Docs.find(
-                    model:'group'
-                    group_id:group._id
+                    model:'tribe'
+                    tribe_id:tribe._id
                 ).fetch()
 
             console.log 'total_credit_exchanged', total_credit_exchanged
 
 
-            Docs.update group._id,
+            Docs.update tribe._id,
                 $set:
                     member_count:member_count
-                    group_count:group_count
+                    tribe_count:tribe_count
                     dish_count:dish_count
                     total_credit_exchanged:total_credit_exchanged
                     dish_ids:dish_ids

@@ -67,10 +67,15 @@ template(name='transfer_card')
             a.image.zoomer.fly_right(href="/transfer/#{_id}")
                 img.ui.image(src="{{c.url image_id width=600 height=600}}")
         .content
+            +author_info
+            +creation_info
             each tags
                 .ui.label #{this}
             .smallscroll
                 |!{description}
+            .ui.header #{amount}c
+            with recipient 
+                +user_info
             //+ismall name='tags' cl='ui inline image'
             a.ui.icon.button.zoomer(href="/transfer/#{_id}")
                 i.chevron.right.icon

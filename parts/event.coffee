@@ -773,8 +773,6 @@ if Meteor.isClient
                     $pull:
                         going_user_ids: Meteor.userId()
                         maybe_user_ids: Meteor.userId()
-    
-            
         'mark_maybe': (event_id)->
             event = Docs.findOne event_id
             if event.maybe_user_ids and Meteor.userId() in event.maybe_user_ids
@@ -801,4 +799,3 @@ if Meteor.isClient
                     $pull:
                         maybe_user_ids: Meteor.userId()
                         not_user_ids: Meteor.userId()
-                
