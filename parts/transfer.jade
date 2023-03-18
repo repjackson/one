@@ -2,8 +2,8 @@ template(name='transfers')
     .ui.stackable.padded.grid
         .four.wide.column
             .ui.inline.header 
-                // +i name='transfers'
-                i.fire.large.icon
+                +i name='exchange'
+                // i.fire.large.icon
                 |#{transfer_docs.count}
                 |transfers
             if currentUser
@@ -16,11 +16,11 @@ template(name='transfers')
             //     .ui.icon.circular.black.compact.button.clear_picked_tags
             //         i.remove.icon
             each picked_transfer_tags
-                button.ui.blue.compact.circular.small.button.unpick_tag(tabindex='0')
+                button.ui.blue.compact.circular.small.button.unpick_transfer_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}
             each transfer_tag_results
-                button.ui.circular.compact.small.button.pick_transfer_tag(tabindex="0" class=result_class title=count)
+                button.ui.circular.compact.small.basic.button.zoomer.pick_transfer_tag(tabindex="0" class=result_class title=count)
                     |#{name}
                     //- small #{count}
         .twelve.wide.column

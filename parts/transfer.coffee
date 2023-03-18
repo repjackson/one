@@ -53,19 +53,14 @@ if Meteor.isClient
         , 500)
 
 
-        'click .toggle_delivery': -> Session.set('view_delivery', !Session.get('view_delivery'))
-        'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
-        'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
+        'click .pick_transfer_tag': -> picked_tags.push @name
+        'click .unpick_transfer_tag': -> picked_tags.remove @valueOf()
+        # console.log picked_tags.array()
+        # if picked_tags.array().length is 1
+            # Meteor.call 'call_wiki', search, ->
 
-        'click .tag_result': -> picked_tags.push @title
-        'click .unselect_tag': ->
-            picked_tags.remove @valueOf()
-            # console.log picked_tags.array()
-            # if picked_tags.array().length is 1
-                # Meteor.call 'call_wiki', search, ->
-
-            # if picked_tags.array().length > 0
-                # Meteor.call 'search_reddit', picked_tags.array(), ->
+        # if picked_tags.array().length > 0
+            # Meteor.call 'search_reddit', picked_tags.array(), ->
 
         'click .clear_picked_tags': ->
             Session.set('current_transfer_search',null)
@@ -141,8 +136,8 @@ if Meteor.isClient
             else
                 'disabled'
 
-        picked_tags: -> picked_tags.array()
-        picked_tags_plural: -> picked_tags.array().length > 1
+        picked_transfer_tags: -> picked_tags.array()
+        # picked_tags_plural: -> picked_tags.array().length > 1
         searching: -> Session.get('searching')
 
         one_post: ->
@@ -266,12 +261,13 @@ if Meteor.isServer
         #     match.pickup = $ne:false
         if picked_tags.length > 0 then match.tags = $all: picked_tags
             # match.$regex:"#{current_transfer_search}", $options: 'i'}
-
+        total_count = Docs.find(match).count()
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
             { $unwind: "$tags" }
             { $group: _id: "$tags", count: $sum: 1 }
+            { $match: count: $lt: total_count }
             { $sort: count: -1, _id: 1 }
             { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }

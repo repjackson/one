@@ -1,30 +1,28 @@
 template(name='users')
     .ui.padded.stackable.grid
-        .four.wide.column
+        .sixteen.wide.column
             .ui.inline.header
-                +i name='groups'
+                +i name='gender-neutral-user'
                 |#{user_docs.length}
                 |users
-            if currentUser.admin
+            if currentUser.admin_mode
                 .ui.icon.button.add_user
                     i.plus.large.icon
-            div
             if currentUser
                 a.ui.button.toggle_friends(class=toggle_friends_class)
                     +i name='friends'
                     |friends
                 
             +i name='campfire'
-            if picked_user_groups
-                #clear_groups.ui.primary.icon.compact.button
+            if picked_user_tribes
+                #clear_tribes.ui.primary.icon.compact.button
                     i.remove.icon
-                each picked_user_groups
-                    .unselect_group.ui.primary.compact.button
+                each picked_user_tribes
+                    .unselect_tribe.ui.primary.compact.button
                         strong #{this}
-            each all_groups
-                .ui.compact.basic.button.select_group(class=cloud_tag_class) 
+            each all_tribes
+                .ui.compact.basic.button.select_tribe(class=cloud_tag_class) 
                     strong #{this.name}
-            div
             // i.tags.large.icon
             +i name='tag'
             if picked_user_tags
@@ -36,7 +34,7 @@ template(name='users')
             each all_user_tags
                 .ui.compact.button.pick_user_tag(class=cloud_tag_class) 
                     strong #{this.name}
-        .twelve.wide.column
+        .sixteen.wide.column
             +session_icon_button key='view_mode' value='grid' icon='grid' 
             +session_icon_button key='view_mode' value='list' icon='list'
             +session_set key='sort_users_direction' value='-1' icon='chevron down'
