@@ -220,7 +220,7 @@ Meteor.publish 'model_count', (
     if model
         self = @
         match = {model:model}
-        Counts.publish this, 'model_counter', Docs.find(match)
+        Counts.publish this, "#{model}_counter", Docs.find(match)
         return undefined
 Meteor.publish 'product_count', (
     )->

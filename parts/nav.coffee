@@ -5,6 +5,12 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'models', ->
         
         @autorun => Meteor.subscribe 'model_count', 'post', ->
+        @autorun => Meteor.subscribe 'model_count', 'task', ->
+        @autorun => Meteor.subscribe 'model_count', 'rental', ->
+        @autorun => Meteor.subscribe 'model_count', 'product', ->
+        @autorun => Meteor.subscribe 'model_count', 'tribe', ->
+        @autorun => Meteor.subscribe 'model_count', 'event', ->
+        @autorun => Meteor.subscribe 'model_count', 'transfer', ->
         # @autorun => Meteor.subscribe 'my_unread_messages'
         # @autorun => Meteor.subscribe 'global_stats'
         # @autorun => Meteor.subscribe 'my_cart_order'
@@ -84,11 +90,15 @@ if Meteor.isClient
     
     
     Template.nav.helpers
-        post_counter: ->
-            Counts.get('model_counter')
-        model_docs: ->
-            Docs.find 
-                model:'model'
+        event_counter: -> Counts.get('event_counter')
+        post_counter: -> Counts.get('post_counter')
+        user_counter: -> Counts.get('user_counter')
+        tribe_counter: -> Counts.get('tribe_counter')
+        task_counter: -> Counts.get('task_counter')
+        transfer_counter: -> Counts.get('transfer_counter')
+        rental_counter: -> Counts.get('rental_counter')
+        product_counter: -> Counts.get('product_counter')
+        
         current_product_search: -> Session.get('product_query')
         unread_count: ->
             unread_count = Docs.find({
