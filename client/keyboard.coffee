@@ -34,10 +34,26 @@ globalHotkeys.add
             gstate_set "/model/edit/#{model._id}"
 
 globalHotkeys.add
-	combo: "d s"
-	callback: ->
-        model = Docs.findOne Meteor.user()._model
-        gstate_set "/m/#{model.slug}"
+	combo: "g t"
+	callback: -> Router.go "/transfers"
+globalHotkeys.add
+	combo: "g e"
+	callback: -> Router.go "/events"
+globalHotkeys.add
+	combo: "g g"
+	callback: -> Router.go "/tribes"
+globalHotkeys.add
+	combo: "g s"
+	callback: -> Router.go "/products"
+globalHotkeys.add
+	combo: "g r"
+	callback: -> Router.go "/rentals"
+globalHotkeys.add
+	combo: "g u"
+	callback: -> Router.go "/users"
+globalHotkeys.add
+	combo: "g p"
+	callback: -> Router.go "/posts"
 
 globalHotkeys.add
 	combo: "d e"

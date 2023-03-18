@@ -2,7 +2,7 @@ template(name='products')
     .ui.stackable.padded.grid 
         .four.wide.column
             .ui.inline.header 
-                +i name='blog'
+                +i name='shop'
                 |products
                 // if currentUser
                 .ui.icon.button.add_product
@@ -11,7 +11,7 @@ template(name='products')
             each picked_tags
                 a.ui.blue.button.unpick_product_tag
                     |#{this}
-            each tag_results
+            each product_tag_results
                 // if title
                 a.ui.compact.button.pick_product_tag
                     |#{title} 
@@ -22,9 +22,6 @@ template(name='products')
                 each product_docs 
                     +product_card
                     
-
-
-
 
 template(name='product_view')
     with current_doc
@@ -128,9 +125,6 @@ template(name='product_view')
                         |related products
                     each related_products
                         a.ui.header(href="/product/#{_id}") #{title}
-                            
-        
-        
             
 template(name='product_inventory')      
     .ui.inline.header 
@@ -260,8 +254,6 @@ template(name='product_order_card')
                 i.remove.red.icon
                 |cancel
 
-
-
 template(name='order_button')
     // if servings_left
     .ui.green.large.button.order_product
@@ -276,9 +268,6 @@ template(name='order_button')
         //-     i.clock.large.icon
         //-     |join wait list
 
-
-
-
 template(name='product_edit')
     with current_doc
         .ui.stackable.padded.three.column.grid
@@ -289,10 +278,11 @@ template(name='product_edit')
                         | #{title}
                         small product
                     .ui.large.icon.fluid.green.button.save_product.fly_right(title='save product')
-                        i.checkmark.large.icon   
+                        i.checkmark.large.icon 
                     +text_edit key='title' label='title' icon='header'  
-                    +text_edit key='slug' label='slug' icon='slug'  
-                    +print_this
+                    if currentUser.admin_mode
+                        +text_edit key='slug' label='slug' icon='slug'  
+                        +print_this
                 .column
                     +image_edit key='image_id' label='image'  
                     +image_edit key='image_id2' label='alt image'  
@@ -301,7 +291,7 @@ template(name='product_edit')
                     +float_edit key='price_usd' label='$ price'  
                     +array_edit key='tags' label='tags'  
                     +number_edit key='price_points' label='point price' icon='coins'  
-                    +group_picker
+                    +tribe_picker
                 // .four.wide.column
                 //     .ui.inline.header 
                 //         +i name='category'
