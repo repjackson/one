@@ -8,19 +8,19 @@ template(name='profile')
             .row
                 .four.wide.column.scrolling
                     // +account_finance
-                    a.ui.fluid.large.circular.compact.button.fly_left(href='/users' title='back to users')
+                    a.ui.large.circular.compact.button.fly_left(href='/users' title='back to users')
                         i.chevron.left.icon
-                        +i name='groups'
-                        |players
+                        +i name='gender-neutral-user'
                     // a.item(href="/user/#{current_user.username}")
-                    .ui.center.aligned.header
+                    .ui.center.aligned.inline.header
                         // strong #{name}
                         strong #{first_name} #{last_name}
                         | @#{username}        
                         // .ui.inline.header
                         //     strong #{name}
                         //     //- small @#{user.username}  
-                    img.ui.circular.centered.image.pointer.boop(src="{{c.url image_id height=400 width=400 gravity='face' crop='fill'}}")
+                    img.ui.circular.centered.image.pointer.boop.mobile_hidden(src="{{c.url image_id height=600 width=600 gravity='face' crop='fill'}}")
+                    img.ui.circular.small.image.inline.pointer.boop.mobile.only(src="{{c.url image_id height=400 width=400 gravity='face' crop='fill'}}")
                     // .spacer
                     // a(href="/user/#{username}")
                     // if boops
@@ -29,13 +29,16 @@ template(name='profile')
                         |#{boops}
                     a.ui.inline.header(href="/user/#{username}/credit" title='credit')
                         +i name='coins'
+                        |#{coins}p
+                    .ui.inline.header(title='credit')
+                        +i name='star'
                         |#{points}p
                     // if points
                     if is_current_user
                         a.ui.circular.icon.compact.large.button(href="/user/#{current_user.username}/edit" title='profile settings')
                             i.cog.icon
                             |edit profile
-                    else if is_admin
+                    else if currentUser.admin_mode
                         a.ui.circular.icon.compact.large.button(href="/user/#{current_user.username}/edit" title='profile settings')
                             i.shield.icon
                             +i name='settings' cl='ui avatar image'
@@ -94,7 +97,7 @@ template(name='profile')
                         .column
                             +user_posts
                         .column
-                            +user_groups
+                            +user_tribes
                         .column
                             +user_points
                         .column
@@ -138,9 +141,6 @@ template(name='user_points')
         each received_transfers
             .item #{when} #{amount}
             
-
-
-
 
 template(name='user_posts')                    
     .ui.header 
@@ -241,33 +241,33 @@ template(name='user_events')
                 each user_going_events
                     +event_item_small
 
-template(name='user_groups')
-    a.ui.inline.header.zoomer(href="/groups")
+template(name='user_tribes')
+    a.ui.inline.header.zoomer(href="/tribes")
         +icolor name='campfire'
         |tribes
     div
-    if user_leader_groups.count
+    if user_leader_tribes.count
         .ui.header
             // i.king.icon
             +i name='king'
-            |group leader of
-        each user_leader_groups
+            |tribe leader of
+        each user_leader_tribes
             .ui.segment
-                a.ui.header(href="/m/group/#{_id}") #{title}
+                a.ui.header(href="/m/tribe/#{_id}") #{title}
                 if is_current_user
-                    +enter_group
-    if user_member_groups.count
-        a.ui.small.header.toggle_group_members.zoomer.pointer(title='toggle group members')
+                    +enter_tribe
+    if user_member_tribes.count
+        a.ui.small.header.toggle_tribe_members.zoomer.pointer(title='toggle tribe members')
             |member of 
-            |#{user_member_groups.count}
-            // if session_is 'view_group_members' true
+            |#{user_member_tribes.count}
+            // if session_is 'view_tribe_members' true
             //     i.chevron.down.icon
             // else                                    
             //     i.chevron.right.icon
-        // if session_is 'view_group_members' true
+        // if session_is 'view_tribe_members' true
         .ui.large.selection.link.list
-            each user_member_groups
-                +profile_group_item
+            each user_member_tribes
+                +profile_tribe_item
 
 
 template(name='user_tickets')
@@ -308,15 +308,13 @@ template(name='user_friends')
             // each user_friends
             //     .item #{username}
                     
-                                        
-                                            
                            
-template(name='profile_group_item')
-    a.item.zoomer(href="/group/#{_id}")
+template(name='profile_tribe_item')
+    a.item.zoomer(href="/tribe/#{_id}")
         // .image
-        +image_view key='image_id'   cl='ui tiny image'
+        img.ui.avatar.image(src="{{c.url image_id height=400 width=400 crop='fit'}}" class=currentUser.invert_class)
         .content
-            .ui.header #{title}
+            strong #{title}
                 if private 
                     i.large.lock.icon(title='private')
                        

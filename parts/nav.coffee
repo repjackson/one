@@ -11,6 +11,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_count', 'tribe', ->
         @autorun => Meteor.subscribe 'model_count', 'event', ->
         @autorun => Meteor.subscribe 'model_count', 'transfer', ->
+        @autorun => Meteor.subscribe 'user_count', ->
         # @autorun => Meteor.subscribe 'my_unread_messages'
         # @autorun => Meteor.subscribe 'global_stats'
         # @autorun => Meteor.subscribe 'my_cart_order'
@@ -92,7 +93,7 @@ if Meteor.isClient
     Template.nav.helpers
         event_counter: -> Counts.get('event_counter')
         post_counter: -> Counts.get('post_counter')
-        user_counter: -> Counts.get('user_counter')
+        user_counter: -> Counts.get('user_count')
         tribe_counter: -> Counts.get('tribe_counter')
         task_counter: -> Counts.get('task_counter')
         transfer_counter: -> Counts.get('transfer_counter')

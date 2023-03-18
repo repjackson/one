@@ -145,6 +145,7 @@ a:hover, .button:hover{
 
 @media only screen and (max-width: 767px) {
   .mobile.hidden,
+  .mobile_hidden,
   .tablet.only,
   .computer.only,
   .large.monitor.only,
@@ -206,7 +207,7 @@ a:hover, .button:hover{
 .scrolling{
 	overflow-y:scroll;
 	overflow-x:hidden;
-	max-height:95vh;
+	max-height:100vh;
 	/*max-height:85vh;*/
 	padding-top: 1em;
 	padding-left: 1em;

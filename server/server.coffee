@@ -206,60 +206,26 @@ Meteor.publish 'doc_tags', (picked_tags)->
 
 
 
-Meteor.publish 'order_count', (
+Meteor.publish 'user_count', (
     )->
     @unblock()
-    self = @
-    match = {model:'order', app:'nf'}
-    Counts.publish this, 'order_count', Docs.find(match)
+    Counts.publish this, 'user_count', Meteor.users.find({})
     return undefined
 Meteor.publish 'model_count', (
     model=null
     )->
     @unblock()
     if model
-        self = @
         match = {model:model}
         Counts.publish this, "#{model}_counter", Docs.find(match)
         return undefined
-Meteor.publish 'product_count', (
-    )->
-    @unblock()
-    self = @
-    match = {model:'product', app:'nf'}
-    Counts.publish this, 'product_count', Docs.find(match)
-    return undefined
-Meteor.publish 'source_count', (
-    )->
-    @unblock()
-    self = @
-    match = {model:'source', app:'nf'}
-    Counts.publish this, 'source_count', Docs.find(match)
-    return undefined
-Meteor.publish 'subscription_count', (
-    )->
-    @unblock()
-    self = @
-    match = {model:'product_subscription', app:'nf'}
-    Counts.publish this, 'subscription_count', Docs.find(match)
-    return undefined
-    
-    
-Meteor.publish 'giftcard_count', (
-    )->
-    @unblock()
-    self = @
-    match = {model:'giftcard', app:'nf'}
-    Counts.publish this, 'giftcard_count', Docs.find(match)
-    return undefined
-
 
 
 
 if Meteor.isServer
-    Meteor.startup () ->
+    # Meteor.startup () ->
         # Meteor.users.dropIndexes()
-        Meteor.users._ensureIndex({ "location": '2dsphere'});
+        # Meteor.users._ensureIndex({ "location": '2dsphere'});
     
     
     Meteor.methods

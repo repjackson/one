@@ -54,7 +54,7 @@ template(name='nav')
             +i name='calendar'
             span.mobile.hidden events
         a.icon.item.fly_right(href="/users" class="{{isActiveRoute 'users'}}" title='users')
-            |#{post_counter}
+            |#{user_counter}
             // i.large.users.icon
             +i name='gender-neutral-user'
             .mobile.hidden users 
@@ -126,7 +126,8 @@ template(name='nav')
                     else
                         i.user.icon
                     strong #{currentUser.name}
-                    strong #{currentUser.points}p
+                    +i name='star' cl='ui avatar image'
+                    | #{currentUser.points}p
                 // a.icon.item.toggle_rightbar.no_blink
                 //     // .ui.avatar.image
                 //     //     if currentUser.image_id
@@ -153,22 +154,9 @@ template(name='nav')
             //         span.mobile.hidden #{title}
                 
     
-template(name='full')
-    // img.ui.fluid.image.(src="{{c.url 'cafe'}}")
-    // +nav
-    // #man.ui.bottom.attached.pushable.segment
-    //     // +topbar
-    //     // +left_sidebar
-    //     // +right_sidebar
-    //     // +cartbar
-    //     // +walletbar
-    //     #ain_area.global_conainer.pusher
-    +yield
-    +footer
-    
 template(name='layout')
     // img.ui.fluid.image.(src="{{c.url 'cafe'}}")
-    img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")    
+    // img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")    
     +nav
     // #main.ui.bottom.segment.attached.pushable
         // +topbar
@@ -223,30 +211,31 @@ template(name='footer')
                     +print_this
                     if in_dev
                         +boolean_edit key='admin_mode' label='admin mode'  
-                .ui.inverted.inline.header 
-                    i.user.icon
-                    |#{user_docs.count} users 
-                each user_docs 
-                    a.ui.image.inverted.black.basic.label(href="/user/#{username}")
-                        img.ui.avatar.image.zoomer(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
-                        |#{username}
-                    if current_user.admin_mode
-                        +print_this
-                div
-                .ui.inverted.inline.header 
-                    i.blog.icon
-                    |#{doc_docs.count} docs 
-                each doc_docs
-                    a.ui.image.inverted.black.basic.label(href="/#{model}/#{_id}")
-                        img.ui.avatar.image.zoomer(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
-                        if title
-                            |{{{cut title}}}...
-                        else if body
-                            |{{{cut body}}}...
-                        small [#{model}]
-                div
-                .ui.inverted.inline.header 
-                    i.tag.icon
-                    |#{result_docs.count} results 
-                each result_docs
-                    .ui.inverted.basic.label #{name}: #{model}
+                if current_user.admin_mode
+                    .ui.inverted.inline.header 
+                        i.user.icon
+                        |#{user_docs.count} users 
+                    each user_docs 
+                        a.ui.image.inverted.black.basic.label(href="/user/#{username}")
+                            img.ui.avatar.image.zoomer(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
+                            |#{username}
+                        if current_user.admin_mode
+                            +print_this
+                    div
+                    .ui.inverted.inline.header 
+                        i.blog.icon
+                        |#{doc_docs.count} docs 
+                    each doc_docs
+                        a.ui.image.inverted.black.basic.label(href="/#{model}/#{_id}")
+                            img.ui.avatar.image.zoomer(src="{{c.url image_id width=300 height=300 crop='crop'}}")    
+                            if title
+                                |{{{cut title}}}...
+                            else if body
+                                |{{{cut body}}}...
+                            small [#{model}]
+                    div
+                    .ui.inverted.inline.header 
+                        i.tag.icon
+                        |#{result_docs.count} results 
+                    each result_docs
+                        .ui.inverted.basic.label #{name}: #{model}
