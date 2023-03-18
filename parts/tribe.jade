@@ -1,9 +1,8 @@
 template(name='tribes')
     .ui.stackable.padded.grid
-        .four.wide.column
+        .sixteen.wide.column
             .ui.inline.header 
-                // +i name='tribes'
-                i.fire.large.icon
+                +i name='campfire'
                 |#{tribe_docs.count}
                 |tribes
             if currentUser
@@ -16,14 +15,13 @@ template(name='tribes')
             //     .ui.icon.circular.black.compact.button.clear_picked_tags
             //         i.remove.icon
             each picked_tribe_tags
-                button.ui.blue.compact.circular.small.button.unpick_tag(tabindex='0')
+                button.ui.blue.compact.circular.small.button.unpick_tribe_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}
             each tribe_tag_results
-                button.ui.circular.compact.small.button.pick_tribe_tag(tabindex="0" class=result_class title=count)
+                button.ui.circular.compact.basic.small.button.zoomer.pick_tribe_tag(tabindex="0" class=result_class title=count)
                     |#{name}
                     //- small #{count}
-        .twelve.wide.column
             span.sorting_row
                 .ui.icon.input
                     i.search.icon
@@ -46,6 +44,7 @@ template(name='tribes')
                 |&nbsp;
             +session_set key='view_mode' value='grid' icon='th'
             +session_set key='view_mode' value='list' icon='list'
+        .sixteen.wide.column
             if session_is 'view_mode' 'grid'
                 if one_result
                     .ui.stackable.one.cards.scrolling
@@ -60,7 +59,6 @@ template(name='tribes')
                     each tribe_docs 
                         +tribe_item
         
-
 template(name='tribe_card')
     .ui.card.zoomer
         if image_id
@@ -74,7 +72,7 @@ template(name='tribe_card')
                 |!{description}
             //+ismall name='tags' cl='ui inline image'
             each seven_tags
-                .ui.label #{this}
+                a.ui.basic.small.link.label.pick_tribe_tag_flat.zoomer(title='pick tag') #{this}
             a.zoomer(href="/tribe/#{_id}")
                 i.chevron.right.large.circular.icon
             // if is_admin
@@ -85,32 +83,32 @@ template(name='tribe_card')
             +print_this
                     
 template(name='tribe_item')
-    a.item.zoomer(href="/tribe/#{_id}")
+    .item
         if image_id
-            img.ui.tiny.image(src="{{c.url image_id width=300 height=300}}")
-        //     a.image.zoomer.fly_right(href="/tribe/#{_id}")
-        .middle.aligned.content
-            a.ui.header.zoomer.fly_right(href="/tribe/#{_id}")
-                |#{title}
-            |#{member_ids.length} members
-            // .smallscroll
-            //     |!{description}
-            //+ismall name='tags' cl='ui inline image'
-        .middle.aligned.content
-            each seven_tags
-                .ui.label #{this}
-            if location 
-                i.red.marker.icon 
-                |#{location}
-            // a.zoomer(href="/tribe/#{_id}")
-            //     i.chevron.right.large.circular.icon
-            // if is_admin
-            //     .ui.small.header slug: #{slug}
-            // if can_edit
-            //     a.ui.circular.icon.button(href="/tribe/#{_id}/edit")
-            //         i.pencil.blue.icon
+            a.zoomer(href="/tribe/#{_id}")
+                img.ui.small.rounded.inline.image(src="{{c.url image_id width=300 height=300}}")
+        a.ui.inline.header.zoomer.fly_right(href="/tribe/#{_id}")
+            |#{title}
+        |#{member_ids.length} members
+        // .smallscroll
+        //     |!{description}
+        //+ismall name='tags' cl='ui inline image'
+        each seven_tags
+            a.ui.basic.small.label.pick_tribe_tag_flat #{this}
+        if location 
+            i.red.marker.icon 
+            |#{location}
+        // a.zoomer(href="/tribe/#{_id}")
+        //     i.chevron.right.large.circular.icon
+        // if is_admin
+        //     .ui.small.header slug: #{slug}
+        // if can_edit
+        //     a.ui.circular.icon.button(href="/tribe/#{_id}/edit")
+        //         i.pencil.blue.icon
+        if currentUser.admin_mode
             +print_this
-                    
+        a.ui.basic.icon.circular.button(href="/tribe/#{_id}")
+            i.chevron.right.large.icon                    
 
 
 template(name='tribe_info')

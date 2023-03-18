@@ -173,6 +173,13 @@ if Meteor.isClient
             Session.get('view_open')
 
 
+    Template.tribe_card.events
+        'click .pick_tribe_tag_flat': -> picked_tags.push @valueOf()
+    Template.tribe_item.events
+        'click .pick_tribe_tag_flat': -> picked_tags.push @valueOf()
+        # 'click .unpick_tribe_tag': ->
+        #     picked_tags.remove @valueOf()
+
     Template.tribes.events
         'click .add_tribe': ->
             new_id =
@@ -203,8 +210,8 @@ if Meteor.isClient
         'click .toggle_pickup': -> Session.set('view_pickup', !Session.get('view_pickup'))
         'click .toggle_open': -> Session.set('view_open', !Session.get('view_open'))
 
-        'click .tag_result': -> picked_tags.push @title
-        'click .unselect_tag': ->
+        'click .pick_tribe_tag': -> picked_tags.push @name
+        'click .unpick_tribe_tag': ->
             picked_tags.remove @valueOf()
             # console.log picked_tags.array()
             # if picked_tags.array().length is 1
@@ -289,7 +296,7 @@ if Meteor.isClient
             else
                 'disabled'
 
-        picked_tags: -> picked_tags.array()
+        picked_tribe_tags: -> picked_tags.array()
         picked_tags_plural: -> picked_tags.array().length > 1
         searching: -> Session.get('searching')
 
@@ -415,14 +422,15 @@ if Meteor.isServer
         #     match.pickup = $ne:false
         if picked_tags.length > 0 then match.tags = $all: picked_tags
             # match.$regex:"#{current_tribe_search}", $options: 'i'}
-
+        result_count = Docs.find(match).count()
         tag_cloud = Docs.aggregate [
             { $match: match }
             { $project: "tags": 1 }
             { $unwind: "$tags" }
-            { $tribe: _id: "$tags", count: $sum: 1 }
+            { $group: _id: "$tags", count: $sum: 1 }
+            { $match: count: $lt:result_count }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $limit: 20 }
             { $project: _id: 0, name: '$_id', count: 1 }
         ], {
             allowDiskUse: true
