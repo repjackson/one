@@ -6,7 +6,9 @@ Meteor.users.helpers
         if @nickname
             "#{@nickname}"
         else if @first_name
-            "#{@first_name} #{@last_name}"
+            "#{@first_name} "
+            if @last_name
+                "#{@last_name}"
         else
             "#{@username}"
     shortname: ->
@@ -287,7 +289,7 @@ Router.configure
 
 # Router.route '/user/:username', -> @render 'user'
 # Router.route '/verification_confirmation', -> @render 'verification_confirmation'
-Router.route '*', -> @render 'events'
+Router.route '*', -> @render 'not_found'
 
 # Router.route '/user/:username/m/:type', -> @render 'user_layout', 'user_section'
 # Router.route '/add_resident', (->
@@ -304,5 +306,6 @@ Router.route '*', -> @render 'events'
 
 # Router.route '/login', -> @render 'login'
 
-Router.route '/', -> @render 'events'
+# Router.route '/', -> @render 'events'
+Router.route '/', -> @redirect "/events"
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"

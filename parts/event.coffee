@@ -436,7 +436,6 @@ if Meteor.isServer
             match.title = {$regex: "#{event_search}", $options: 'i'}
         event_count = Docs.find(match).count()
         console.log event_count, 'count'
-        
 
         tag_cloud = Docs.aggregate [
             { $match: match }
@@ -475,10 +474,10 @@ if Meteor.isServer
         doc_by_slug =
             Docs.findOne slug:doc_id
         if doc_by_id
-            Meteor.users.findOne 
+            Meteor.users.find
                 _id:doc_by_id._author_id
         else
-            Meteor.users.findOne 
+            Meteor.users.find
                 _id:doc_by_slug._author_id
             
             

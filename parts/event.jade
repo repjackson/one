@@ -443,7 +443,7 @@ template(name='event_view')
         .ui.stackable.padded.grid
             .middle.aligned.row 
                 .sixteen.wide.column
-                    a.ui.circular.big.basic.button.fly_left(href="/events")
+                    a.ui.circular.compact.basic.button.fly_left(href="/events")
                         i.chevron.left.large.icon
                         +i name='calendar'
                         // i.big.calendar.icon
@@ -478,7 +478,8 @@ template(name='event_view')
             .row
                 .eight.wide.column.scrollin
                     a(href="{{c.url image_id }}" target='_window')
-                        img.ui.fluid.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                        img.ui.fluid.rounded.image.mobile_hidden(src="{{c.url image_id }}" class=currentUser.invert_class)
+                        img.ui.small.inline.rounded.image.mobile.only(src="{{c.url image_id }}" class=currentUser.invert_class)
                     // a.ui.header(href="/user/#{target.username}")
                     //     |#{target.username}
                     // .scrolling
@@ -489,7 +490,7 @@ template(name='event_view')
                     // .spacer
                     // .spacer
                 .four.wide.column.scrollin
-                    +group_widget
+                    +tribe_widget
                     if link 
                         a.ui.big.basic.fluid.compact.button(href=link target='_window' title=link)
                             i.external.icon
@@ -509,7 +510,7 @@ template(name='event_view')
                     // if is_admin
                     .ui.dividing.header 
                         // i.pencil.icon
-                        +i name='quill'
+                        +i name='poem'
                         | author
                     a.ui.header.zoomer(href="/user/#{_author.username}") 
                         img.ui.avatar.image(src="{{c.url _author.image_id height=200 width=200 gravity='face' crop='fill'}}" class=currentUser.invert_class)
@@ -552,13 +553,13 @@ template(name='event_view')
 template(name='location_map')
     iframe(width='100%' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src="https://maps.google.com/maps?&amp;q=#{location}&amp;output=embed")
 
-template(name='group_widget')
-    if current_doc.group_ids.length
+template(name='tribe_widget')
+    if current_doc.tribe_ids.length
         .ui.header 
             +i name='campfire'
-            |associated groups
-        each related_groups
-            a.ui.card.fly_right(href="/group/#{_id}")
+            |associated tribes
+        each related_tribes
+            a.ui.card.fly_right(href="/tribe/#{_id}")
                 img.ui.image(src="{{c.url image_id width=500 height=500}}")
                 .content
                     .ui.header 
@@ -614,12 +615,15 @@ template(name='event_edit')
                             div
                             +time_edit key='start_time' label='start time'  
                             +time_edit key='end_time' label='end time'  
-                    +boolean_edit key='has_host' label='has host' icon='king'  
-                    if has_host
-                        +single_user_edit key='host_id' label='host' icon='shield'  
-                    +boolean_edit key='has_support' label='has support' icon='king'  
-                    if has_support
-                        +single_user_edit key='support_id' label='support' icon='chess queen'  
+                    // +boolean_edit key='has_host' label='has host' icon='king'  
+                    // if has_host
+                    +single_user_edit key='host_id' label='host' icon='shield'  
+                    // +boolean_edit key='has_support' label='has support' icon='king'  
+                    // if has_support
+                    +single_user_edit key='support_id' label='support' icon='chess queen'  
+                    +multi_user_edit key='going_user_ids' label='going users' icon='event-accepted'  
+                    +multi_user_edit key='maybe_user_ids' label='maybe going' icon='event-accepted-tentatively'  
+                    +multi_user_edit key='not_user_ids' label='not going' icon='event-declined'  
                     div 
                 .column
                     +array_edit key='tags' label='tags' icon='tags'  
