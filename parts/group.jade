@@ -1,12 +1,12 @@
-template(name='tribes')
+template(name='groups')
     .ui.stackable.padded.grid
         .sixteen.wide.column
             .ui.inline.header 
                 +i name='campfire'
-                |#{tribe_docs.count}
-                |tribes
+                |#{group_docs.count}
+                |groups
             if currentUser
-                a.ui.icon.circular.button.add_tribe(title='add')
+                a.ui.icon.circular.button.add_group(title='add')
                     i.plus.green.large.icon
             // .ui.left.icon.search.small.input
             //     i.search.icon.refresh_tags
@@ -14,22 +14,22 @@ template(name='tribes')
             // if selected_tag_plural
             //     .ui.icon.circular.black.compact.button.clear_picked_tags
             //         i.remove.icon
-            each picked_tribe_tags
-                button.ui.blue.compact.circular.small.button.unpick_tribe_tag(tabindex='0')
+            each picked_group_tags
+                button.ui.blue.compact.circular.small.button.unpick_group_tag(tabindex='0')
                     //- i.remove.icon
                     | #{this}
-            each tribe_tag_results
-                button.ui.circular.compact.basic.small.button.zoomer.pick_tribe_tag(tabindex="0" class=result_class title=count)
+            each group_tag_results
+                button.ui.circular.compact.basic.small.button.zoomer.pick_group_tag(tabindex="0" class=result_class title=count)
                     |#{name}
                     //- small #{count}
             span.sorting_row
                 .ui.icon.input
                     i.search.icon
-                    input.search_tribe(type='text' placeholder='search...' value=current_tribe_search)
+                    input.search_group(type='text' placeholder='search...' value=current_group_search)
                 |sort by
                 .ui.compact.small.menu
                     .ui.simple.dropdown.item
-                        strong #{current_tribe_sort_label}
+                        strong #{current_group_sort_label}
                         i.dropdown.icon
                         .menu
                             +set_sort_key key='member_ids' label='$/serving' icon='money'
@@ -48,85 +48,85 @@ template(name='tribes')
             if session_is 'view_mode' 'grid'
                 if one_result
                     .ui.stackable.one.cards.scrolling
-                        each tribe_docs
-                            +tribe_card
+                        each group_docs
+                            +group_card
                 else
                     .ui.stackable.three.cards.scrolling
-                        each tribe_docs
-                            +tribe_card
+                        each group_docs
+                            +group_card
             if session_is 'view_mode' 'list'
                 .ui.selection.divided.animated.list.scrolling
-                    each tribe_docs 
-                        +tribe_item
+                    each group_docs 
+                        +group_item
         
-template(name='tribe_card')
+template(name='group_card')
     .ui.card.zoomer
         if image_id
-            a.image.zoomer.fly_right(href="/tribe/#{_id}")
+            a.image.zoomer.fly_right(href="/group/#{_id}")
                 img.ui.image(src="{{c.url image_id width=600 height=600}}")
         .content
-            a.ui.header.zoomer.fly_right(href="/tribe/#{_id}")
+            a.ui.header.zoomer.fly_right(href="/group/#{_id}")
                 |#{title}
             |#{member_ids.length} members
             .smallscroll
                 |!{description}
             //+ismall name='tags' cl='ui inline image'
             each seven_tags
-                a.ui.basic.small.link.label.pick_tribe_tag_flat.zoomer(title='pick tag') #{this}
-            a.zoomer(href="/tribe/#{_id}")
+                a.ui.basic.small.link.label.pick_group_tag_flat.zoomer(title='pick tag') #{this}
+            a.zoomer(href="/group/#{_id}")
                 i.chevron.right.large.circular.icon
             // if is_admin
             //     .ui.small.header slug: #{slug}
             if can_edit
-                a.ui.circular.icon.button(href="/tribe/#{_id}/edit")
+                a.ui.circular.icon.button(href="/group/#{_id}/edit")
                     i.pencil.blue.icon
             +print_this
                     
-template(name='tribe_item')
+template(name='group_item')
     .item
         if image_id
-            a.zoomer(href="/tribe/#{_id}")
+            a.zoomer(href="/group/#{_id}")
                 img.ui.small.rounded.inline.image(src="{{c.url image_id width=300 height=300}}")
-        a.ui.inline.header.zoomer.fly_right(href="/tribe/#{_id}")
+        a.ui.inline.header.zoomer.fly_right(href="/group/#{_id}")
             |#{title}
         |#{member_ids.length} members
         // .smallscroll
         //     |!{description}
         //+ismall name='tags' cl='ui inline image'
         each seven_tags
-            a.ui.basic.small.label.pick_tribe_tag_flat #{this}
+            a.ui.basic.small.label.pick_group_tag_flat #{this}
         if location 
             i.red.marker.icon 
             |#{location}
-        // a.zoomer(href="/tribe/#{_id}")
+        // a.zoomer(href="/group/#{_id}")
         //     i.chevron.right.large.circular.icon
         // if is_admin
         //     .ui.small.header slug: #{slug}
         // if can_edit
-        //     a.ui.circular.icon.button(href="/tribe/#{_id}/edit")
+        //     a.ui.circular.icon.button(href="/group/#{_id}/edit")
         //         i.pencil.blue.icon
         if currentUser.admin_mode
             +print_this
-        a.ui.basic.icon.circular.button(href="/tribe/#{_id}")
+        a.ui.basic.icon.circular.button(href="/group/#{_id}")
             i.chevron.right.large.icon                    
 
 
-template(name='tribe_info')
-    with tribe
+template(name='group_info')
+    with group
         .ui.large.image.label 
             img.ui.image(src="{{c.url image_id width=200 height=200}}")
             |#{title}
 
 
-template(name='tribe_edit')
+template(name='group_edit')
     with current_doc
         .ui.stackable.padded.grid
             .three.column.row
                 .column
                     .ui.header 
                         i.pencil.icon
-                        |edit tribe
-                    a.ui.big.icon.fluid.green.button.fly_up(href="/tribe/#{_id}" title='save')
+                        |edit group
+                    a.ui.big.icon.fluid.green.button.fly_up(href="/group/#{_id}" title='save')
                         i.checkmark.large.icon
                     +delete_button
                     +image_edit key='image_id' label='image'
@@ -151,7 +151,7 @@ template(name='tribe_edit')
                     +boolean_edit key='has_posts' label='posts' icon='blog'
                     
                     
-template(name='tribe_view')
+template(name='group_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
@@ -160,12 +160,12 @@ template(name='tribe_view')
                         if icon
                             +i name=icon
                         |#{title}
-                    a.ui.circular.button.fly_right(href="/tribes")
+                    a.ui.circular.button.fly_right(href="/groups")
                         i.left.chevron.icon
                         +i name='campfire' cl='ui mini inline image'
-                        |tribes
+                        |groups
                     if can_edit
-                        a.ui.circular.icon.button(href="/tribe/#{_id}/edit")
+                        a.ui.circular.icon.button(href="/group/#{_id}/edit")
                             i.setting.large.icon
                             +i name='settings'
                     +image_view key='image_id' icon='image' label='image'
@@ -205,13 +205,13 @@ template(name='tribe_view')
                                         +user_info
                                 div
                                 .ui.inline.header 
-                                    +i name='tribes'
+                                    +i name='groups'
                                     |#{member_ids.length} members
                                 +multi_user_view key='member_ids' label='members'
                                 each member_ids
                                     +user_info
                                 // .ui.large.selection.animated.list
-                                        // a.item(href="/tribe/#{_id}/#{username}")
+                                        // a.item(href="/group/#{_id}/#{username}")
                                         //     img.ui.mini.image(src="{{c.url image_id width=200 height=200}}")
                                         //     .content
                                         //         .header
@@ -233,7 +233,7 @@ template(name='tribe_view')
                                     // +i name='line-chart'
                                     i.large.line.chart.icon
                                     |stats
-                                i.refresh.link.icon.refresh_tribe_stats
+                                i.refresh.link.icon.refresh_group_stats
                                 .ui.large.list
                                     .item #{member_count} members
                                     .item #{events} events
@@ -246,11 +246,11 @@ template(name='tribe_view')
                                 +i name='calendar' 
                                 |events
                             if currentUser 
-                                .ui.icon.button.add_tribe_event(title='add tribe event')
+                                .ui.icon.button.add_group_event(title='add group event')
                                     i.plus.icon
                             .content
                                 .ui.link.animated.list
-                                    each tribe_events
+                                    each group_events
                                         a.item(href="/event/#{_id}") 
                                             img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
                                             .content
@@ -264,18 +264,18 @@ template(name='tribe_view')
                         .column
                             .ui.inline.header
                                 +i name='blog'
-                                |tribe posts
+                                |group posts
                             .content
                                 if currentUser 
-                                    .ui.icon.button.add_tribe_post(title='add tribe post')
+                                    .ui.icon.button.add_group_post(title='add group post')
                                         i.plus.icon
                                 .ui.large.link.animated.list
-                                    each tribe_posts
+                                    each group_posts
                                         a.item(href="/post/#{_id}")
                                             img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
                                             |#{title}
                             if has_shop
-                                +tribe_shop
+                                +group_shop
                         .column 
                             +qr_code
                             
@@ -288,14 +288,14 @@ template(name='qr_code')
                                     
                                 
                                 
-template(name='tribe_shop')
+template(name='group_shop')
     .ui.inline.header 
         +i name='shopping-cart'
         |shop
     if currentUser
         .ui.button.add_product  
             i.plus.icon
-    each tribe_products 
+    each group_products 
         a.item(href="/post/#{_id}")
             img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
             |#{title}
@@ -303,12 +303,12 @@ template(name='tribe_shop')
     
     
     
-template(name='tribes_small')
-    a.ui.header.zoomer(href="/tribes")
-        +i name='tribes'
-        |tribes
+template(name='groups_small')
+    a.ui.header.zoomer(href="/groups")
+        +i name='groups'
+        |groups
     .ui.selection.animated.list.smallscroll
-        each tribe_docs
-            a.item(href="/tribe/#{_id}")
+        each group_docs
+            a.item(href="/group/#{_id}")
                 img.ui.avatar.image(src="{{c.url image_id width=200 height=200}}")
                 |#{title}

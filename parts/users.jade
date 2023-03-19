@@ -13,14 +13,14 @@ template(name='users')
                     +i name='friends'
                     |friends
             +i name='campfire'
-            if picked_user_tribes
-                #clear_tribes.ui.primary.icon.compact.button
+            if picked_user_groups
+                #clear_groups.ui.primary.icon.compact.button
                     i.remove.icon
-                each picked_user_tribes
-                    .unselect_tribe.ui.primary.compact.button
+                each picked_user_groups
+                    .unselect_group.ui.primary.compact.button
                         strong #{this}
-            each all_tribes
-                .ui.compact.basic.button.select_tribe(class=cloud_tag_class) 
+            each all_groups
+                .ui.compact.basic.button.select_group(class=cloud_tag_class) 
                     strong #{this.name}
             // i.tags.large.icon
             +i name='tag'

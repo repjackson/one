@@ -58,11 +58,11 @@ template(name='nav')
             // i.large.users.icon
             +i name='gender-neutral-user'
             .mobile.hidden users 
-        a.icon.item.fly_right(href="/tribes" class="{{isActiveRoute 'tribes'}}" title='tribes')
+        a.icon.item.fly_right(href="/groups" class="{{isActiveRoute 'groups'}}" title='groups')
             // i.large.fire.icon
-            |#{tribe_counter}
+            |#{group_counter}
             +i name='campfire'
-            span.mobile.hidden tribes
+            span.mobile.hidden groups
         a.icon.item.fly_right(href="/posts" class="{{isActiveRoute 'posts'}}" title='posts')
             // i.large.blog.icon
             |#{post_counter}

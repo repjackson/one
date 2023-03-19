@@ -556,62 +556,62 @@ if Meteor.isClient
     
     
 if Meteor.isClient
-    Template.tribe_picker.onCreated ->
-        Session.setDefault('tribe_search','')
-        @autorun => @subscribe 'tribe_search_results', Session.get('tribe_search'), ->
-        # @autorun => @subscribe 'model_docs', 'tribe', ->
-    Template.tribe_picker.helpers
-        tribe_results: ->
-            if Session.get('tribe_search').length > 1
+    Template.group_picker.onCreated ->
+        Session.setDefault('group_search','')
+        @autorun => @subscribe 'group_search_results', Session.get('group_search'), ->
+        # @autorun => @subscribe 'model_docs', 'group', ->
+    Template.group_picker.helpers
+        group_results: ->
+            if Session.get('group_search').length > 1
                 Docs.find 
-                    model:'tribe'
-                    title: {$regex:"#{Session.get('tribe_search')}",$options:'i'}
+                    model:'group'
+                    title: {$regex:"#{Session.get('group_search')}",$options:'i'}
                 
-        product_tribes: ->
+        product_groups: ->
             product = Docs.findOne Router.current().params.doc_id
             Docs.find 
-                # model:'tribe'
-                _id:$in:product.tribe_ids
-        tribe_search_value: ->
-            Session.get('tribe_search')
+                # model:'group'
+                _id:$in:product.group_ids
+        group_search_value: ->
+            Session.get('group_search')
         
-    Template.tribe_picker.events
+    Template.group_picker.events
         'click .clear_search': (e,t)->
-            Session.set('tribe_search', null)
-            t.$('.tribe_search').val('')
+            Session.set('group_search', null)
+            t.$('.group_search').val('')
 
             
-        'click .remove_tribe': (e,t)->
-            if confirm "remove #{@title} tribe?"
+        'click .remove_group': (e,t)->
+            if confirm "remove #{@title} group?"
                 Docs.update Router.current().params.doc_id,
                     $pull:
-                        tribe_ids:@_id
-                        tribe_titles:@title
-        'click .pick_tribe': (e,t)->
+                        group_ids:@_id
+                        group_titles:@title
+        'click .pick_group': (e,t)->
             Docs.update Router.current().params.doc_id,
                 $addToSet:
-                    tribe_ids:@_id
-                    tribe_titles:@title
-            Session.set('tribe_search',null)
-            t.$('.tribe_search').val('')
+                    group_ids:@_id
+                    group_titles:@title
+            Session.set('group_search',null)
+            t.$('.group_search').val('')
                     
-        'keyup .tribe_search': (e,t)->
+        'keyup .group_search': (e,t)->
             # if e.which is '13'
-            val = t.$('.tribe_search').val()
-            Session.set('tribe_search', val)
+            val = t.$('.group_search').val()
+            Session.set('group_search', val)
 
-        'click .create_tribe': ->
+        'click .create_group': ->
             new_id = 
                 Docs.insert 
-                    model:'tribe'
-                    title:Session.get('tribe_search')
-            Router.go "/tribe/#{new_id}/edit"
+                    model:'group'
+                    title:Session.get('group_search')
+            Router.go "/group/#{new_id}/edit"
 
 
 if Meteor.isServer 
-    Meteor.publish 'tribe_search_results', (tribe_title_query='')->
-        if tribe_title_query.length>1
+    Meteor.publish 'group_search_results', (group_title_query='')->
+        if group_title_query.length>1
             Docs.find 
-                model:'tribe'
-                title: {$regex:"#{tribe_title_query}",$options:'i'}
+                model:'group'
+                title: {$regex:"#{group_title_query}",$options:'i'}
 

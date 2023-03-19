@@ -490,7 +490,7 @@ template(name='event_view')
                     // .spacer
                     // .spacer
                 .four.wide.column.scrollin
-                    +tribe_widget
+                    +group_widget
                     if link 
                         a.ui.big.basic.fluid.compact.button(href=link target='_window' title=link)
                             i.external.icon
@@ -553,13 +553,13 @@ template(name='event_view')
 template(name='location_map')
     iframe(width='100%' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src="https://maps.google.com/maps?&amp;q=#{location}&amp;output=embed")
 
-template(name='tribe_widget')
-    if current_doc.tribe_ids.length
+template(name='group_widget')
+    if current_doc.group_ids.length
         .ui.header 
             +i name='campfire'
-            |associated tribes
-        each related_tribes
-            a.ui.card.fly_right(href="/tribe/#{_id}")
+            |associated groups
+        each related_groups
+            a.ui.card.fly_right(href="/group/#{_id}")
                 img.ui.image(src="{{c.url image_id width=500 height=500}}")
                 .content
                     .ui.header 
@@ -649,5 +649,5 @@ template(name='event_edit')
                             // div
                     +html_edit key='body' label='description'  
                     +link_edit key='link' label='link'
-                    +tribe_picker
+                    +group_picker
                     

@@ -112,7 +112,7 @@ template(name='task_view')
                     +voting_full
                     +array_view key='location_tags' label='location_tags'  
                     +visibility_settings
-                    +tribe_widget
+                    +group_widget
                 .eight.wide.column.scrolling
                     .ui.header #{title}
                     img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
@@ -178,4 +178,4 @@ template(name='task_edit')
                     +boolean_edit key='private' label='private' 
                     if private 
                         +multi_user_edit key='access_user_ids' label='user picker'  
-                    +tribe_picker
+                    +group_picker

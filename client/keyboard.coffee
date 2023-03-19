@@ -41,7 +41,7 @@ globalHotkeys.add
 	callback: -> Router.go "/events"
 globalHotkeys.add
 	combo: "g g"
-	callback: -> Router.go "/tribes"
+	callback: -> Router.go "/groups"
 globalHotkeys.add
 	combo: "g s"
 	callback: -> Router.go "/products"

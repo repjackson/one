@@ -129,7 +129,7 @@ template(name='post_view')
                     +voting_full
                     +array_view key='location_tags' label='location_tags'  
                     +visibility_settings
-                    +tribe_widget
+                    +group_widget
                 .eight.wide.column.scrolling
                     .ui.header #{title}
                     if youtube_id
@@ -216,4 +216,4 @@ template(name='post_edit')
                     +youtube_edit key='youtube_id' label='youtube' 
                     if private 
                         +multi_user_edit key='access_user_ids' label='user picker'  
-                    +tribe_picker
+                    +group_picker

@@ -15,7 +15,7 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'profile', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'order'
         
-        @autorun => Meteor.subscribe 'user_tribes', Router.current().params.username, ->
+        @autorun => Meteor.subscribe 'user_groups', Router.current().params.username, ->
         @autorun => Meteor.subscribe 'user_posts', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username, ->
         # @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username, ->
@@ -38,7 +38,7 @@ if Meteor.isClient
             Router.go "/transfer/#{new_id}/edit"
                 
     Template.profile.events
-        'click .toggle_tribe_members': -> Session.set('view_tribe_members', !Session.get('view_tribe_members'))
+        'click .toggle_group_members': -> Session.set('view_group_members', !Session.get('view_group_members'))
     
         'click .user_credit_segment': ->
             Router.go "/transfer/#{@_id}"
@@ -85,24 +85,24 @@ if Meteor.isClient
                 model:'event'
                 host_id:user._id
 
-    Template.user_tribes.onCreated ->
-        Session.setDefault 'view_tribe_members', true
-        @autorun -> Meteor.subscribe 'user_member_tribes', Router.current().params.username, ->
-        @autorun -> Meteor.subscribe 'user_leader_tribes', Router.current().params.username, ->
+    Template.user_groups.onCreated ->
+        Session.setDefault 'view_group_members', true
+        @autorun -> Meteor.subscribe 'user_member_groups', Router.current().params.username, ->
+        @autorun -> Meteor.subscribe 'user_leader_groups', Router.current().params.username, ->
 
 
-    Template.user_tribes.helpers 
-        user_member_tribes: ->
+    Template.user_groups.helpers 
+        user_member_groups: ->
             user = Meteor.users.findOne username:@username
             Docs.find
-                model:'tribe'
+                model:'group'
                 member_ids:$in:[user._id]
             
-        user_leader_tribes: ->
+        user_leader_groups: ->
             user = Meteor.users.findOne username:@username
             Docs.find
-                model:'tribe'
-                tribe_leader_ids:$in:[user._id]
+                model:'group'
+                group_leader_ids:$in:[user._id]
 
 
 
@@ -133,7 +133,7 @@ if Meteor.isClient
 
     # Template.user_section.helpers
     #     user_section_template: ->
-    #         "user_#{Router.current().params.tribe}"
+    #         "user_#{Router.current().params.group}"
 
 
     Template.profile.events
@@ -228,22 +228,22 @@ if Meteor.isServer
 
 if Meteor.isServer
     Meteor.methods 
-        enter_tribe: (tribe_id)->
+        enter_group: (group_id)->
             Meteor.users.update Meteor.userId(),
                 $set:
-                    current_tribe_id:tribe_id
+                    current_group_id:group_id
     
-    Meteor.publish 'user_member_tribes', (username)->
+    Meteor.publish 'user_member_groups', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
-            model:'tribe'
+            model:'group'
             member_ids:$in:[user._id]
             
-    Meteor.publish 'user_leader_tribes', (username)->
+    Meteor.publish 'user_leader_groups', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
-            model:'tribe'
-            tribe_leader_ids:$in:[user._id]
+            model:'group'
+            group_leader_ids:$in:[user._id]
             
     Meteor.publish 'user_going_events', (username)->
         user = Meteor.users.findOne username:username

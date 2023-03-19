@@ -8,7 +8,7 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_count', 'task', ->
         @autorun => Meteor.subscribe 'model_count', 'rental', ->
         @autorun => Meteor.subscribe 'model_count', 'product', ->
-        @autorun => Meteor.subscribe 'model_count', 'tribe', ->
+        @autorun => Meteor.subscribe 'model_count', 'group', ->
         @autorun => Meteor.subscribe 'model_count', 'event', ->
         @autorun => Meteor.subscribe 'model_count', 'transfer', ->
         @autorun => Meteor.subscribe 'user_count', ->
@@ -94,7 +94,7 @@ if Meteor.isClient
         event_counter: -> Counts.get('event_counter')
         post_counter: -> Counts.get('post_counter')
         user_counter: -> Counts.get('user_count')
-        tribe_counter: -> Counts.get('tribe_counter')
+        group_counter: -> Counts.get('group_counter')
         task_counter: -> Counts.get('task_counter')
         transfer_counter: -> Counts.get('transfer_counter')
         rental_counter: -> Counts.get('rental_counter')
