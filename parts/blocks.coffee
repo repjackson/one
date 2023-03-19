@@ -358,7 +358,7 @@ if Meteor.isClient
             Router.go "/m/#{@model}/#{new_id}/edit"
 
 
-    Template.remove_button.events
+    Template.delete_button.events
         'click .remove_doc': (e,t)->
             if confirm "remove #{@model}?"
                 if $(e.currentTarget).closest('.card')

@@ -1,5 +1,5 @@
 template(name='users')
-    .ui.padded.stackable.grid
+    .ui.padded.stackable.grid.scrolling
         .sixteen.wide.column
             .ui.inline.header
                 +i name='gender-neutral-user'
@@ -12,7 +12,6 @@ template(name='users')
                 a.ui.button.toggle_friends(class=toggle_friends_class)
                     +i name='friends'
                     |friends
-                
             +i name='campfire'
             if picked_user_tribes
                 #clear_tribes.ui.primary.icon.compact.button
@@ -32,19 +31,20 @@ template(name='users')
                     .unpick_user_tag.ui.primary.compact.button
                         strong #{this}
             each all_user_tags
-                .ui.compact.button.pick_user_tag(class=cloud_tag_class) 
+                .ui.compact.basic.button.pick_user_tag.zoomer(class=cloud_tag_class) 
                     strong #{this.name}
         .sixteen.wide.column
-            +session_icon_button key='view_mode' value='grid' icon='grid' 
-            +session_icon_button key='view_mode' value='list' icon='list'
-            +session_set key='sort_users_direction' value='-1' icon='chevron down'
-            +session_set key='sort_users_direction' value='1' icon='chevron up'
+            +sort_direction_button
+            // +session_icon_button key='view_mode' value='grid' icon='grid' 
+            // +session_icon_button key='view_mode' value='list' icon='list'
+            // +session_set key='sort_users_direction' value='-1' icon='chevron down'
+            // +session_set key='sort_users_direction' value='1' icon='chevron up'
             +session_set key='sort_users_key' value='points' icon='coins'
             +session_set key='sort_users_key' value='created_date' icon='clock'
             // +session_set key='view_limit' value=1
-            +session_set key='view_limit' value=10
-            +session_set key='view_limit' value=20
-            +session_set key='view_limit' value=50
+            // +session_set key='view_limit' value=10
+            // +session_set key='view_limit' value=20
+            // +session_set key='view_limit' value=50
             .ui.icon.input
                 if username_query
                     i.remove.link.red.circular.icon.zoomer.clear_query
@@ -53,12 +53,12 @@ template(name='users')
                 input.search_user(type='text' placeholder='search...' autofocus='' value=username_query)
             +i name='sort'
             +session_set key='sort_by' value='points' label='points' icon='hashtag'
-            +session_set key='sort_by' value='views' label='views' icon='eye'
+            +session_set key='sort_by' value='views' label='views' icon='visible'
             +session_set key='sort_by' value='nearest' label='nearest' icon='marker'
             +session_set key='sort_by' value='name' label='name' icon='user'
             // .ui.header
-            +i name='tag'
-            +i name='campfire'
+            // +i name='tag'
+            // +i name='campfire'
             .scrolling
                 if session_is 'view_mode' 'grid'
                     if one_result

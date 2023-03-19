@@ -120,7 +120,7 @@ template(name='doc_comment')
                 if currentUser
                     +voting_small
                 if can_edit
-                    +remove_button
+                    +delete_button
                     +boolean_edit key='anon' icon='private' label='anon'  
                 if currentUser.admin_mode 
                     +single_user_edit key='_author_id'  
@@ -147,7 +147,7 @@ template(name='reviews')
                             // if currentUser
                         +voting_small
                         // if can_edit
-                        //     +remove_button
+                        //     +delete_button
 
 
 template(name='viewing')
@@ -186,7 +186,7 @@ template(name='session_boolean_toggle')
                 |#{value}
 
 template(name='session_set')
-    .ui.big.image.circular.label.set_session_value.pointer(class=calculated_class title=)
+    .ui.image.circular.label.set_session_value.pointer(class=calculated_class title=)
         if icon
             // i.large.icon(class=icon)
             +i name=icon cl='ui image'
@@ -247,7 +247,7 @@ template(name='events_column')
                                 .date
                                     |#{when}
                                 if in_dev
-                                    +remove_button
+                                    +delete_button
 
 
 
@@ -453,7 +453,7 @@ template(name='view_button')
         +i name='chevron right' cl='ui mini inline image'
 
 
-template(name='remove_button')
+template(name='delete_button')
     .ui.icon.basic.button.remove_doc(title='delete')
         i.remove.red.icon
         //- |Delete

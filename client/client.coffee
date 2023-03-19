@@ -39,8 +39,7 @@ Template.footer.helpers
         
         
 Template.not_found.events
-    'click .browser_back': ->
-          window.history.back();
+    'click .browser_back': -> window.history.back();
 
 
 

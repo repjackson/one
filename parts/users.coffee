@@ -127,7 +127,7 @@ if Meteor.isServer
         if username
             match.username = {$regex:"#{username}", $options: 'i'}
         Meteor.users.find(match,{ 
-            limit:200, 
+            limit:10, 
             fields:
                 roles:1
                 username:1
@@ -139,7 +139,7 @@ if Meteor.isServer
         }
         )
     
-    Meteor.publish 'user_tags', (picked_tags)->
+    Meteor.publish 'user_tags', (picked_tags=[])->
         # user = Meteor.users.findOne @userId
         # current_herd = user.profile.current_herd
     
@@ -149,15 +149,16 @@ if Meteor.isServer
         # picked_tags.push current_herd
         if picked_tags.length > 0
             match.tags = $all: picked_tags
-    
+        user_count = Meteor.users.find(match).count()
         cloud = Meteor.users.aggregate [
             { $match: match }
             { $project: tags: 1 }
             { $unwind: "$tags" }
             { $group: _id: '$tags', count: $sum: 1 }
             { $match: _id: $nin: picked_tags }
+            { $match: count: $lt: user_count }
             { $sort: count: -1, _id: 1 }
-            { $limit: 20 }
+            { $limit: 15 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         cloud.forEach (tag, i) ->

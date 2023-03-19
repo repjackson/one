@@ -577,10 +577,8 @@ template(name='event_edit')
                         // i.large.calendar.icon
                         +icolor name='tear-off-calendar'
                         |editing event
-                    +boolean_edit key='published' label='published'  
-                    .ui.basic.small.compact.circular.button.delete_item(title='delete')
-                        i.remove.red.icon
-                        |delete
+                    +boolean_edit key='published' label='published' 
+                    +delete_button
                     +text_edit key='title' label='title'  
                     +image_edit key='image_id' label='image'  
                     .ui.header 
