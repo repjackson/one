@@ -6,7 +6,6 @@
 
 Template.layout.events 
     'click .clear_search': -> 
-        console.log 'hi'
         Session.set('event_search',null)
         picked_tags.clear()
 Tracker.autorun ->

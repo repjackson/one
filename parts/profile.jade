@@ -45,7 +45,7 @@ template(name='profiles')
 
 
 template(name='profile_view')
-    with current_profile
+    with current_doc
         if background_image_id
             img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
         else 
@@ -139,22 +139,22 @@ template(name='profile_view')
                     .ui.two.column.grid 
                         // .column
                             // +profile_nav_link icon='blog' label='profiles' route='posts'
-                        .column
-                            +profile_posts
-                        .column
-                            +profile_groups
-                        .column
-                            +profile_points
-                        .column
-                            +profile_comments
-                        .column
-                            +profile_friends
-                        .column
-                            +profile_tickets
+                        // .column
+                        //     +profile_posts
+                        // .column
+                        //     +profile_groups
+                        // .column
+                        //     +profile_points
+                        // .column
+                        //     +profile_comments
+                        // .column
+                        //     +profile_friends
+                        // .column
+                        //     +profile_tickets
                         .column
                             |!{body}
-                        .column
-                            +profile_events
+                        // .column
+                        //     +profile_events
 
 
 template(name='profile_posts')                    
@@ -349,7 +349,7 @@ template(name='profile_edit')
                     +html_edit key='body' label='body'  
                 .column.scrolling
                     i.large.link.red.remove.icon.delete_profile
-                    if in_dev
+                    if currentUser.admin_mode
                         +single_user_edit key='_author_id' label='author'  
                     else 
                         .ui.header 
@@ -357,13 +357,16 @@ template(name='profile_edit')
                             |#{_author.username}
                     // +boolean_edit key='has_image' label='has image' icon='content'  
                     // if has_image
-                    +image_edit key='image_id' label='image'  
+                    +image_edit key='image_id' label='image' icon='picture'
+                    +image_edit key='background_image_id' label='background image' icon='layout'
                     div 
                     +array_edit key='tags' label='tags' icon='tags'
                     +boolean_edit key='published' icon='visible' label='published'
                     if in_dev 
                         +text_edit key='model' label='model' icon='shield'
                 .column.scrolling
+                    +link_edit key='oneboulder_link' 
+                    +link_edit key='facebook_link' 
                     +array_edit key='location_tags' label='location tags' icon='marker'  
                     // unless published
                     //     a.ui.fluid.green.button.submit

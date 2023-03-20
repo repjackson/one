@@ -98,7 +98,7 @@ template(name='post_item')
             if youtube_id
                 +youtube_view key='youtube_id'
             if image_id
-                img.ui.small.rounded.image(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                img.ui.rounded.image.zoomer(src="{{c.url image_id height=200 width=400 gravity='face' crop='fill'}}" class=currentUser.invert_class)
         .eight.wide.column
             .ui.small.grey.inline.header #{when}
             .smallscroll
