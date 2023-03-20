@@ -109,6 +109,8 @@ template(name='doc_comment')
                 +session_boolean_toggle key='editing_mode' icon='pencil' 
                 if session_is 'editing_mode' true
                     +text_edit key='body'  
+                    +delete_button
+                    +boolean_edit key='anon' icon='private' label='anon'  
             .meta #{when}
                 |by 
                 if anon 
@@ -119,9 +121,6 @@ template(name='doc_comment')
                     a(href="/user/#{_author.username}") #{_author.name}
                 if currentUser
                     +voting_small
-                if can_edit
-                    +delete_button
-                    +boolean_edit key='anon' icon='private' label='anon'  
                 if currentUser.admin_mode 
                     +single_user_edit key='_author_id'  
                                 

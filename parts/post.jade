@@ -38,7 +38,8 @@ template(name='posts')
                             each post_docs 
                                 +post_item
                 else 
-                    i.massive.yin.yang.loading.grey.icon
+                    .ui.center.aligned.basic.segment
+                        i.massive.yin.yang.loading.grey.icon
 
 
 template(name='set_post_sort_key')
@@ -86,12 +87,14 @@ template(name='post_card')
             if group_id     
                 +group_info
             +voting_full
+            +tip_button
             
         
 template(name='post_item')
     .ui.fluid.segment.stackable.grid.view_post
-        .eight.wide.column
+        .sixteen.wide.center.aligned.column
             a.ui.header(href="/post/#{_id}/view") #{title}
+        .eight.wide.column
             if youtube_id
                 +youtube_view key='youtube_id'
             if image_id
@@ -102,12 +105,27 @@ template(name='post_item')
                 | !{body}
             each seven_tags 
                 .ui.basic.small.label #{this}
+            +voting_full
+            +comments
+            +tip_button 
         
 
 template(name='post_view')
     with current_doc
         .ui.stackable.padded.grid
             .row 
+                .eight.wide.column.scrolling
+                    .ui.header #{title}
+                    if youtube_id
+                        +youtube_view key='youtube_id' label='youtube' 
+                    img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
+                    // a.ui.header(href="/user/#{target.username}")
+                    //     |#{target.username}
+                    |!{body}
+                    if watson 
+                        +watson_view
+                    div 
+                    +comments
                 .four.wide.column.scrolling
                     a.ui.circular.large.button(href="/posts" title='posts')
                         i.chevron.left.icon
@@ -132,23 +150,11 @@ template(name='post_view')
                     +array_view key='tags' label='tags'  
                     +voting_full
                     +array_view key='location_tags' label='location_tags'  
-                    +visibility_settings
-                    +group_widget
-                .eight.wide.column.scrolling
-                    .ui.header #{title}
-                    if youtube_id
-                        +youtube_view key='youtube_id' label='youtube' 
-                    img.ui.rounded.image(src="{{c.url image_id }}" class=currentUser.invert_class)
-                    // a.ui.header(href="/user/#{target.username}")
-                    //     |#{target.username}
-                    |!{body}
-                    if watson 
-                        +watson_view
-                    div 
-                    .spacer
-                    .spacer
-                    +comments
                 .four.wide.column
+                    +visibility
+                    +group_widget
+                    +viewing 
+                    +follow
                     .ui.header viewers 
                     .ui.header bookmarks
                     .ui.fluid.green.button.submit
@@ -157,7 +163,7 @@ template(name='post_view')
 
 
 
-template(name='visibility_settings')
+template(name='visibility')
     .ui.header 
         i.eye.icon
         |visibility settings
@@ -198,7 +204,7 @@ template(name='post_edit')
                     // if has_image
                     +image_edit key='image_id' label='image'  
                     div 
-                    +array_edit key='tags' label='tags'   icon='tags'
+                    +array_edit key='tags' label='tags' icon='tags'
                     +boolean_edit key='published' icon='visible' label='published'
                     if in_dev 
                         +text_edit key='model' label='model' icon='shield'
