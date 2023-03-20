@@ -111,9 +111,6 @@ template(name='user')
                         .column
                             +user_events
 
-template(name='account_finance')
-    .ui.button.add_five_credits
-        |add five
 
 template(name='user_nav_link')
     .ui.button(href="/user/#{current_user.username}/#{route}")

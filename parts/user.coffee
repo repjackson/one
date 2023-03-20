@@ -70,9 +70,6 @@ if Meteor.isClient
             Docs.find
                 model:'post'
                 _author_id:user._id
-            
-
-
         user_going_events: ->
             user = Meteor.users.findOne username:@username
             Docs.find {
@@ -198,9 +195,10 @@ if Meteor.isServer
     Meteor.publish 'username_model_docs', (username, model)->
         user = Meteor.users.findOne username:username
         # if username 
-        Docs.find   
+        Docs.find {
             model:model
             _author_id:user._id
+        }, limit:20
         # else 
         #     Docs.find   
         #         model:model

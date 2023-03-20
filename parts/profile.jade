@@ -348,7 +348,7 @@ template(name='profile_edit')
                     // if has_content
                     +html_edit key='body' label='body'  
                 .column.scrolling
-                    i.large.link.red.remove.icon.delete_profile
+                    +delete_button
                     if currentUser.admin_mode
                         +single_user_edit key='_author_id' label='author'  
                     else 
@@ -411,7 +411,7 @@ template(name='profile_card')
 template(name='profile_item')
     .ui.fluid.segment.stackable.grid.view_profile
         .sixteen.wide.center.aligned.column
-            a.ui.header(href="/profile/#{_id}/view") #{title}
+            a.ui.header(href="/profile/#{_id}") #{title}
         .eight.wide.column
             if youtube_id
                 +youtube_view key='youtube_id'

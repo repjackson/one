@@ -212,14 +212,23 @@ template(name='ios')
 // //-     img.ui.image(src="https://img.icons8.com/office/30/000000/#{name}.png" class=cl)
 template(name='link_edit')
     div
-    +i name='link'
+    if icon
+        +i name=icon
+    else
+        +i name='link'
     .ui.inline.header
-        |#{title} #{label}
+        if label
+            |#{title} #{label}
+        else 
+            |#{key}
     .ui.fluid.input
         input.edit_url(type='url' value=field_value placeholder='url' autocomplete="off")
     .spacer
     if field_value
-        iframe.rounded(width='100%' height='500px' src=field_value frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+        details.ui.accordion
+            summary.title embedded page
+            .content
+                iframe.rounded(width='100%' height='500px' src=field_value frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
 
 template(name='link_view')
     if field_value
