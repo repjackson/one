@@ -1,6 +1,7 @@
 # @picked_sections = new ReactiveArray []
 @picked_tags = new ReactiveArray []
 @picked_user_tags = new ReactiveArray []
+@picked_timestamp_tags = new ReactiveArray []
 # @picked_ingredients = new ReactiveArray []
 
 

@@ -1,4 +1,9 @@
 if Meteor.isClient
+    Router.route '/recipes', (->
+        @layout 'layout'
+        @render 'recipes'
+        ), name:'recipes'
+    
     @picked_recipe_tags = new ReactiveArray()
     
     
