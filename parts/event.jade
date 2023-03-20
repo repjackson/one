@@ -48,24 +48,29 @@ template(name='events')
                         |#{this}
                 each event_tags 
                     .ui.compact.basic.circular.button.pick_tag #{title}
-                div
             .sixteen.wide.column
-                .ui.icon.input
-                    i.search.icon
-                    input.event_search(type='text' placeholder='search...' autofocus='')
-                +session_set key='view_mode' value='grid' icon='cards'
-                +session_set key='view_mode' value='list' icon='list'
-                +session_set key='view_attending' value='going' label='going' icon='checkmark'
-                +session_set key='view_attending' value='maybe' label='maybe' icon='question'
-                +session_set key='view_attending' value='not' label='not going' icon='cancel'
-                .ui.inline.header sort
-                +session_set key='sort_key' value='start_datetime' label='start time/date' icon='calendar'
-                +session_set key='sort_key' value='price' label='price' icon='money'
+                unless one_event_result
+                    .ui.icon.input
+                        i.search.icon
+                        input.event_search(type='text' placeholder='search...' autofocus='')
+                    +session_set key='view_mode' value='grid' icon='cards'
+                    +session_set key='view_mode' value='list' icon='list'
+                    +session_set key='view_attending' value='going' label='going' icon='checkmark'
+                    +session_set key='view_attending' value='maybe' label='maybe' icon='question'
+                    +session_set key='view_attending' value='not' label='not going' icon='cancel'
+                    .ui.inline.header sort
+                    +session_set key='sort_key' value='_timestamp' label='added' icon='clock'
+                    +session_set key='sort_key' value='start_datetime' label='start time/date' icon='calendar'
+                    +session_set key='sort_key' value='price' label='price' icon='money'
                 .spacer
                 if subs_ready
                     if session_is 'view_mode' 'grid'
                         if one_event_result
                             .ui.stackable.one.cards.scrolling
+                                each event_docs
+                                    +event_card
+                        else if two_event_results
+                            .ui.stackable.two.cards.scrolling
                                 each event_docs
                                     +event_card
                         else
@@ -108,9 +113,9 @@ template(name='event_card')
             // .ui.small.grey.inline.header {{from_now start_datetime}}
         if image_id
             a.image.zoom.pointer.mobile.hidden.fly_right(href="/event/#{_id}")
-                img.ui.image(src="{{c.url image_id height=500 width=500 gravity='face' crop='fill'}}" class=currentUser.invert_class)
+                img.ui.image(src="{{c.url image_id height=800 width=800 gravity='face' crop='fill'}}" class=currentUser.invert_class)
             a.image.zoom.pointer.mobile.only.fly_right(href="/event/#{_id}")
-                img.ui.image(src="{{c.url image_id height=400 width=500 gravity='center' crop='fill'}}" class=currentUser.invert_class)
+                img.ui.image(src="{{c.url image_id height=600 width=600 gravity='center' crop='fill'}}" class=currentUser.invert_class)
         .content
             if tags 
                 i.tag.icon

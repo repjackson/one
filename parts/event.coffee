@@ -52,6 +52,7 @@ if Meteor.isClient
 
         @autorun => @subscribe 'event_facets',
             picked_tags.array()
+            Session.get('viewing_past')
             Session.get('limit')
             Session.get('sort_key')
             Session.get('sort_direction')
@@ -61,6 +62,7 @@ if Meteor.isClient
 
         @autorun => @subscribe 'event_results',
             picked_tags.array()
+            Session.get('viewing_past')
             Session.get('event_search')
             Session.get('limit')
             Session.get('sort_key')
@@ -205,7 +207,7 @@ if Meteor.isClient
                 model:'event_tag'
         picked_event_tags: -> picked_tags.array()
         
-        one_result: ->
+        one_event_result: ->
             # console.log moment().format()
             match = {}
             match.model = 'event'
@@ -222,8 +224,26 @@ if Meteor.isClient
             #     match.date = $lt:moment().subtract(1,'days').format("YYYY-MM-DD")
             if Session.get('event_search')
                 match.title = {$regex:"#{Session.get('event_search')}", $options: 'i'}
-            Docs.find(match,
-                sort:"#{Session.get('sort_key')}":parseInt(Session.get('sort_direction'))).count is 1
+            Docs.find(match).count() is 1
+            
+        two_event_results: ->
+            # console.log moment().format()
+            match = {}
+            match.model = 'event'
+            # published:true
+            if picked_tags.array().length > 0
+                match.tags = $all: picked_tags
+            
+            if Session.get('viewing_past')
+                # match.date = $gt:moment().subtract(1,'days').format("YYYY-MM-DD")
+                match.start_datetime = $lt:moment().subtract(1,'days').format()
+            else if Session.get('view_mode', 'all')
+                match.start_datetime = $gt:moment().subtract(1,'days').format()
+            # else
+            #     match.date = $lt:moment().subtract(1,'days').format("YYYY-MM-DD")
+            if Session.get('event_search')
+                match.title = {$regex:"#{Session.get('event_search')}", $options: 'i'}
+            Docs.find(match).count() is 2
             
         
         room_button_class: -> 
@@ -351,6 +371,7 @@ if Meteor.isServer
 
     Meteor.publish 'event_results', (
         picked_tags
+        viewing_past=false
         event_search=''
         doc_limit
         doc_sort_key
@@ -370,6 +391,9 @@ if Meteor.isServer
             sort_direction = parseInt(doc_sort_direction)
         self = @
         match = {model:'event'}
+        if viewing_past
+            match.start_datetime = $lt:moment().subtract(1,'days').format()
+            
         # if view_open
         #     match.open = $ne:false
         # if view_delivery
@@ -408,6 +432,7 @@ if Meteor.isServer
 
     Meteor.publish 'event_facets', (
         picked_tags
+        viewing_past=false
         event_search=''
         picked_timestamp_tags
         doc_limit
@@ -426,6 +451,8 @@ if Meteor.isServer
         match.model = 'event'
         # if view_open
         #     match.open = $ne:false
+        if viewing_past
+            match.start_datetime = $lt:moment().subtract(1,'days').format()
 
         # if view_delivery
         #     match.delivery = $ne:false
