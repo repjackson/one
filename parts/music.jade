@@ -296,7 +296,7 @@ template(name='mood_icon')
 template(name='music_artist')
     with current_artist 
         if strArtistBanner
-            img.ui.image.profile_banner(src=strArtistBanner)
+            img.ui.image.user_banner(src=strArtistBanner)
         .ui.stackable.padded.grid 
             .eight.wide.column.scrollin
                 a.ui.fluid.button.fly_left(href='/music')
@@ -345,7 +345,7 @@ template(name='music_artist')
                         +i name='lastfm'
                         |last fm page
                 // if strFacebook
-                //     a.ui.big.basic.compact.button.zoomer(href=strFacebook target='_window' title='view facebook profile')
+                //     a.ui.big.basic.compact.button.zoomer(href=strFacebook target='_window' title='view facebook user')
                 //         +i name='facebook'
                 // if strTwitter
                 //     a.ui.big.basic.compact.button.zoomer(href=strTwitter target='_window' title='view twitter page')
@@ -406,7 +406,7 @@ template(name='music_artist')
 template(name='album_view')
     with current_album
         if strAlbumBanner
-            img.ui.image.profile_banner(src=strAlbumBanner)
+            img.ui.image.user_banner(src=strAlbumBanner)
         .ui.stackable.padded.grid 
             .eight.wide.column.scrollin
                 a.ui.fluid.button.fly_left(href='/music')
@@ -455,7 +455,7 @@ template(name='album_view')
                         +i name='lastfm'
                         |last fm page
                 // if strFacebook
-                //     a.ui.big.basic.compact.button.zoomer(href=strFacebook target='_window' title='view facebook profile')
+                //     a.ui.big.basic.compact.button.zoomer(href=strFacebook target='_window' title='view facebook user')
                 //         +i name='facebook'
                 // if strTwitter
                 //     a.ui.big.basic.compact.button.zoomer(href=strTwitter target='_window' title='view twitter page')

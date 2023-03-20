@@ -328,11 +328,11 @@ if Meteor.isServer
             #     offline_user = Meteor.users.findOne offline_id
 
             #     Email.send
-            #         to: " #{offline_user.profile.first_name} #{offline_user.profile.last_name} <#{offline_user.emails[0].address}>",
+            #         to: " #{offline_user.user.first_name} #{offline_user.user.last_name} <#{offline_user.emails[0].address}>",
             #         from: "Joyful Giver Admin <no-reply@joyful-giver.com>",
-            #         subject: "New Message from #{message_author.profile.first_name} #{message_author.profile.last_name}",
+            #         subject: "New Message from #{message_author.user.first_name} #{message_author.user.last_name}",
             #         html:
-            #             "<h4>#{message_author.profile.first_name} just sent the following message while you were offline: </h4>
+            #             "<h4>#{message_author.user.first_name} just sent the following message while you were offline: </h4>
             #             #{body} <br><br>
 
             #             Click <a href=#{message_link}> here to view.</a><br><br>
@@ -340,7 +340,7 @@ if Meteor.isServer
             #             "
 
                     # html:
-                    #     "<h4>#{message_author.profile.first_name} just sent the following message: </h4>
+                    #     "<h4>#{message_author.user.first_name} just sent the following message: </h4>
                     #     #{text} <br>
                     #     In chat with tags: #{chat_doc.tags}. \n
                     #     In chat with description: #{chat_doc.description}. \n

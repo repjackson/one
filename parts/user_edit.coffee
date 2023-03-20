@@ -38,17 +38,17 @@ if Meteor.isClient
 
     # Template.phone_editor.helpers
     #     'newNumber': ->
-    #         Phoneformat.formatLocal 'US', Meteor.user().profile.phone
+    #         Phoneformat.formatLocal 'US', Meteor.user().user.phone
 
     Template.phone_editor.events
         'click .remove_phone': (event, template) ->
             Meteor.call 'UpdateMobileNo'
             return
         'click .resend_verification': (event, template) ->
-            Meteor.call 'generateAuthCode', Meteor.userId(), Meteor.user().profile.phone
+            Meteor.call 'generateAuthCode', Meteor.userId(), Meteor.user().user.phone
             bootbox.prompt 'We texted you a validation code. Enter the code below:', (result) ->
                 code = result.toUpperCase()
-                if Meteor.user().profile.phone_auth == code
+                if Meteor.user().user.phone_auth == code
                     Meteor.call 'updatePhoneVerified', (err, res) ->
                         if err
                             toastr.error err.reason
@@ -71,7 +71,7 @@ if Meteor.isClient
                     else
                         bootbox.prompt result.message, (result) ->
                             code = result.toUpperCase()
-                            if Meteor.user().profile.phone_auth == code
+                            if Meteor.user().user.phone_auth == code
                                 Meteor.call 'updatePhoneVerified'
                                 toastr.success 'Your phone was successfully verified!'
                             else
@@ -84,7 +84,7 @@ if Meteor.isClient
                 Meteor.users.remove @_id
                 Router.go "/users"
 
-        # "change input[name='profile_image']": (e) ->
+        # "change input[name='user_image']": (e) ->
         #     files = e.currentTarget.files
         #     Cloudinary.upload files[0],
         #         # folder:"secret" # optional parameters described in http://cloudinary.com/documentation/upload_images#remote_upload
@@ -149,7 +149,7 @@ if Meteor.isClient
 
     # Template.phone_editor.helpers
     #     'newNumber': ->
-    #         Phoneformat.formatLocal 'US', Meteor.user().profile.phone
+    #         Phoneformat.formatLocal 'US', Meteor.user().user.phone
 
     Template.user_edit.events
         'click .remove_user': ->
@@ -157,7 +157,7 @@ if Meteor.isClient
                 Meteor.users.remove @_id
                 Router.go "/users"
 
-        "change input[name='profile_image']": (e) ->
+        "change input[name='user_image']": (e) ->
             files = e.currentTarget.files
             Cloudinary.upload files[0],
                 # folder:"secret" # optional parameters described in http://cloudinary.com/documentation/upload_images#remote_upload

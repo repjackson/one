@@ -84,7 +84,7 @@ if Meteor.isClient
             else
                 Meteor.users.update Meteor.userId(),
                     $addToSet:'roles':'dev'
-        'click .view_profile': ->
+        'click .view_user': ->
             Meteor.call 'calc_user_points', Meteor.userId(), ->
             
         'click .clear_tags': -> picked_tags.clear()

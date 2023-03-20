@@ -175,7 +175,7 @@ Template.registerHelper 'parent_key_value_is', (key, value)->
        
 
 # Template.registerHelper 'parent_template', () -> Template.parentData()
-    # Session.get 'displaying_profile'
+    # Session.get 'displaying_user'
 
 # Template.registerHelper 'checking_in_doc', () ->
 #     Docs.findOne

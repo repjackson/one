@@ -265,8 +265,8 @@ template(name='toggle_edit')
 
 template(name='user_list_info')
     a.ui.button.item(href="/user/#{user._id}/view")
-        img.ui.avatar.image(src=user.profile.profilePic title=name)
-        |#{user.profile.name}
+        img.ui.avatar.image(src=user.user.userPic title=name)
+        |#{user.user.name}
         +user_status user
 
 
@@ -348,7 +348,7 @@ template(name='user_button')
 
 
 template(name='username_info')
-    .ui.small.compact.button.goto_profile
+    .ui.small.compact.button.goto_user
         if is_member
             img.ui.avatar.image(src="{{c.url user.image_id width=100}}")
         else if user.kiosk_photo

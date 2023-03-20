@@ -1,18 +1,18 @@
 if Meteor.isClient
     Router.route '/user/:username', (->
         @layout 'layout'
-        @render 'profile'
-        ), name:'profile'
+        @render 'user'
+        ), name:'user'
 
 
 
-    Template.profile.onCreated ->
-    Template.profile.onCreated ->
+    Template.user.onCreated ->
+    Template.user.onCreated ->
         @autorun -> Meteor.subscribe 'user_hosted_events', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_going_events', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_comments', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'username_model_docs', Router.current().params.username, 'comment', ->
-        # @autorun => Meteor.subscribe 'profile', Router.current().params.username
+        # @autorun => Meteor.subscribe 'user', Router.current().params.username
         # @autorun => Meteor.subscribe 'model_docs', 'order'
         
         @autorun => Meteor.subscribe 'user_groups', Router.current().params.username, ->
@@ -21,7 +21,7 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username, ->
         @autorun -> Meteor.subscribe 'user_event_tickets', Router.current().params.username, ->
         # @autorun -> Meteor.subscribe 'model_docs', 'event'
-    Template.profile.onRendered ->
+    Template.user.onRendered ->
         Meteor.setTimeout ->
             $('.accordion').accordion()
         , 1000
@@ -37,7 +37,7 @@ if Meteor.isClient
                     recipient_username:user.username
             Router.go "/transfer/#{new_id}/edit"
                 
-    Template.profile.events
+    Template.user.events
         'click .toggle_group_members': -> Session.set('view_group_members', !Session.get('view_group_members'))
     
         'click .user_credit_segment': ->
@@ -47,7 +47,7 @@ if Meteor.isClient
             Router.go "/transfer/#{@_id}"
             
             
-    Template.profile.helpers
+    Template.user.helpers
         current_user: ->
             Meteor.users.findOne username:Router.current().params.username
 
@@ -125,7 +125,7 @@ if Meteor.isServer
 
 
 if Meteor.isClient 
-    Template.profile.onRendered ->
+    Template.user.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
         , 2000
@@ -136,7 +136,7 @@ if Meteor.isClient
     #         "user_#{Router.current().params.group}"
 
 
-    Template.profile.events
+    Template.user.events
         'click .logout_other_clients': ->
             Meteor.logoutOtherClients()
 

@@ -1,4 +1,4 @@
-template(name='profile')
+template(name='user')
     with current_user
         if background_image_id
             img.ui.image.checkin_banner(src="{{c.url background_image_id height=1000 crop='crop'}}")
@@ -35,14 +35,14 @@ template(name='profile')
                         |#{points}p
                     // if points
                     if is_current_user
-                        a.ui.circular.icon.compact.large.button(href="/user/#{current_user.username}/edit" title='profile settings')
+                        a.ui.circular.icon.compact.large.button(href="/user/#{current_user.username}/edit" title='user settings')
                             i.cog.icon
-                            |edit profile
+                            |edit user
                     else if currentUser.admin_mode
-                        a.ui.circular.icon.compact.large.button(href="/user/#{current_user.username}/edit" title='profile settings')
+                        a.ui.circular.icon.compact.large.button(href="/user/#{current_user.username}/edit" title='user settings')
                             i.shield.icon
                             +i name='settings' cl='ui avatar image'
-                            // |edit profile
+                            // |edit user
                     unless is_current_user
                         +friend_button
                     if is_current_user
@@ -87,13 +87,13 @@ template(name='profile')
                     +array_view key='food_dislikes' label='food dislikes' icon='disgusting'  
                     // if in_dev
                     //     .ui.small.inline.header #{_id}
-                    +link_view key='profile_link' label='profile link' icon='link'  
+                    +link_view key='user_link' label='user link' icon='link'  
                     +link_view key='genekeys_link' label='genekeys link' icon='link'  
                     +image_view key='human_design' label='human design' icon=''  
                 .twelve.wide.column.scrolling
                     .ui.two.column.grid 
                         // .column
-                            // +profile_nav_link icon='blog' label='posts' route='posts'
+                            // +user_nav_link icon='blog' label='posts' route='posts'
                         .column
                             +user_posts
                         .column
@@ -115,7 +115,7 @@ template(name='account_finance')
     .ui.button.add_five_credits
         |add five
 
-template(name='profile_nav_link')
+template(name='user_nav_link')
     .ui.button(href="/user/#{current_user.username}/#{route}")
         +i name=icon
         |#{label}
@@ -267,7 +267,7 @@ template(name='user_groups')
         // if session_is 'view_group_members' true
         .ui.selection.link.list.smallscroll
             each user_member_groups
-                +profile_group_item
+                +user_group_item
 
 
 template(name='user_tickets')
@@ -308,7 +308,7 @@ template(name='user_friends')
         //     .item #{username}
                     
                            
-template(name='profile_group_item')
+template(name='user_group_item')
     a.item.zoomer(href="/group/#{_id}")
         // .image
         img.ui.avatar.image(src="{{c.url image_id height=400 width=400 crop='fit'}}" class=currentUser.invert_class)

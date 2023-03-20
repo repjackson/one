@@ -20,7 +20,7 @@ Meteor.methods
         # console.log account.stripe
         charge_card = new Future
         # fee_addition = 0
-        # if account.profile.isJGFeesApply
+        # if account.user.isJGFeesApply
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 70)
         # else
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 30)
@@ -51,7 +51,7 @@ Meteor.methods
             Stripe = StripeAPI(Meteor.settings.private.stripe_live_secret)
         charge_card = new Future
         # fee_addition = 0
-        # if account.profile.isJGFeesApply
+        # if account.user.isJGFeesApply
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 70)
         # else
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 30)
@@ -82,7 +82,7 @@ Meteor.methods
             Stripe = StripeAPI(Meteor.settings.private.stripe_live_secret)
         charge_card = new Future
         # fee_addition = 0
-        # if account.profile.isJGFeesApply
+        # if account.user.isJGFeesApply
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 70)
         # else
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 30)
@@ -120,7 +120,7 @@ Meteor.methods
             Stripe = StripeAPI(Meteor.settings.private.stripe_dao_live_secret)
         charge_card = new Future
         # fee_addition = 0
-        # if account.profile.isJGFeesApply
+        # if account.user.isJGFeesApply
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 70)
         # else
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 30)
@@ -156,7 +156,7 @@ Meteor.methods
             Stripe = StripeAPI(Meteor.settings.private.stripe_dao_live_secret)
         charge_card = new Future
         # fee_addition = 0
-        # if account.profile.isJGFeesApply
+        # if account.user.isJGFeesApply
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 70)
         # else
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 30)
@@ -189,7 +189,7 @@ Meteor.methods
             Stripe = StripeAPI(Meteor.settings.private.stripe_live_secret)
         charge_card = new Future
         # fee_addition = 0
-        # if account.profile.isJGFeesApply
+        # if account.user.isJGFeesApply
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 70)
         # else
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 30)
@@ -233,7 +233,7 @@ Meteor.methods
             Stripe = StripeAPI(Meteor.settings.private.stripe_live_secret)
         charge_card = new Future
         # fee_addition = 0
-        # if account.profile.isJGFeesApply
+        # if account.user.isJGFeesApply
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 70)
         # else
         #     fee_addition = Math.round(data.amount * 100 * 0.019 + 30)

@@ -11,7 +11,7 @@ template(name='user_edit')
                     a.ui.green.icon.large.fluid.button.fly_up(href="/user/#{current_user.username}/") 
                         i.checkmark.big.icon
                     .ui.hidden.divider
-                    +image_edit key='image_id' icon='picture' title='profile image'  
+                    +image_edit key='image_id' icon='picture' title='user image'  
                     +image_edit key='background_image_id' icon='image' title='background image'  
                     if is_current_user
                         +password_edit
@@ -41,7 +41,7 @@ template(name='user_edit')
                     +date_edit key='birthday' label='birthday' icon='birthday'
                     +array_edit key='allergens' label='allergens' icon='no-milk'  
                     +array_edit key='food_dislikes' label='food dislikes' icon='disgusting'  
-                    +link_edit key='profile_link' label='profile link' icon='link'  
+                    +link_edit key='user_link' label='user link' icon='link'  
                     +link_edit key='genekeys_link' label='genekeys link' icon='link'  
                     +image_edit key='human_design' label='human design' icon=''  
 
@@ -93,8 +93,8 @@ template(name='phone_editor')
     .ui.icon.fluid.input(title='Add Phone')
         i.plus.icon
         input#phone.form-control(type='phone', name='phone', value='{{newNumber}}')
-    if current_user.profile.phone
-        if current_user.profile.phone_verified
+    if current_user.user.phone
+        if current_user.user.phone_verified
             .ui.label verified
         else
             p
@@ -181,8 +181,8 @@ template(name='emails_edit')
 //     .ui.icon.fluid.input(title='Add Phone')
 //         i.plus.icon
 //         input#phone.form-control(type='phone', name='phone', value='{{newNumber}}')
-//     //- if current_user.profile.phone
-//     //-     if current_user.profile.phone_verified
+//     //- if current_user.user.phone
+//     //-     if current_user.user.phone_verified
 //     //-         .ui.label verified
 //     //-     else
 //     //-         p
@@ -266,7 +266,7 @@ template(name='user_edit_account')
         |account
     .ui.two.column.stackable.grid
         .column
-            +image_edit key='profile_image_id' icon='picture' title='profile image'  
+            +image_edit key='user_image_id' icon='picture' title='user image'  
             +image_edit key='avatar_image_id' icon='picture' title='avatar image'  
             +password_edit
         .column

@@ -304,7 +304,7 @@ if Meteor.isServer
     # Meteor.publish 'event_tags', (picked_tags)->
     #     @unblock()
     #     # user = Meteor.users.findOne @userId
-    #     # current_herd = user.profile.current_herd
+    #     # current_herd = user.user.current_herd
     
     #     self = @
     #     match = {model:'event'}
