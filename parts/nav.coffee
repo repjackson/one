@@ -75,8 +75,8 @@ if Meteor.isClient
             $('.item').transition('pulse', '1000')
             # $('.menu').transition('pulse', '1000')
             $('body').toggleClass('invert')
-            Meteor.users.update Meteor.userId(),
-                $set:admin_mode:!Meteor.user().admin_mode
+            # Meteor.users.update Meteor.userId(),
+            #     $set:admin_mode:!Meteor.user().admin_mode
         'click .toggle_dev': ->
             if 'dev' in Meteor.user().roles
                 Meteor.users.update Meteor.userId(),

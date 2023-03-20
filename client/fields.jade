@@ -218,6 +218,8 @@ template(name='link_edit')
     .ui.fluid.input
         input.edit_url(type='url' value=field_value placeholder='url' autocomplete="off")
     .spacer
+    if field_value
+        iframe.rounded(width='100%' height='500px' src=field_value frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
 
 template(name='link_view')
     if field_value
@@ -228,11 +230,12 @@ template(name='link_view')
         //-     |#{title} #{label}
         a.ui.small.header(href=field_value target='_window' title=field_value)
             |#{label}
+        iframe.rounded(width='100%' height='500px' src=field_value frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
         // div
         // a(href="#{field_value}" target='_window')
         //     |#{field_value}
         //- img.ui.fluid.image(src=field_value)
-        
+
         
 template(name='image_view')
     if field_value
@@ -983,7 +986,7 @@ template(name='multi_doc_view')
 
 template(name='single_user_edit')
     div
-    .ui.header 
+    .ui.inline.header 
         if icon
             // i.icon(class=icon)
             +i name=icon
@@ -1020,11 +1023,10 @@ template(name='single_user_edit')
         // |#{field_value}
         //- |#{this}
         with user_from_id field_value
-            .ui.big.label
-                .ui.inline.header
-                    img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}" class=cl)
-                    |#{name}
-                i.pull_user.remove.link.icon
+            .ui.big.image.label
+                img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}" class=cl)
+                |#{name}
+                i.pull_user.remove.link.icon(title='clear user')
 
 
 template(name='single_user_view')

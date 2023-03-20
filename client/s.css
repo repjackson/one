@@ -5,9 +5,9 @@ body {
     /*font-family: 'Ubuntu', sans-serif !important;*/
     /*font-family: 'Goudy Bookletter 1911', sans-serif !important;*/
     font-size: 110% !important; 
-    animation: fadeInAnimation ease 3s;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
+    /*animation: fadeInAnimation ease 3s;*/
+    /*animation-iteration-count: 1;*/
+    /*animation-fill-mode: forwards;*/
     
     /*line-height: 200% !important;*/
     /*filter: invert(.9) !important;*/
