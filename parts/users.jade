@@ -9,19 +9,19 @@ template(name='users')
                 .ui.icon.button.add_user
                     i.plus.large.icon
             if currentUser
-                a.ui.button.toggle_friends(class=toggle_friends_class)
-                    +i name='friends'
+                a.ui.compact.basic.button.toggle_friends(class=toggle_friends_class)
+                    +i name='groups'
                     |friends
-            +i name='campfire'
-            if picked_user_groups
-                #clear_groups.ui.primary.icon.compact.button
-                    i.remove.icon
-                each picked_user_groups
-                    .unselect_group.ui.primary.compact.button
-                        strong #{this}
-            each all_groups
-                .ui.compact.basic.button.select_group(class=cloud_tag_class) 
-                    strong #{this.name}
+            // +i name='campfire'
+            // if picked_user_groups
+            //     #clear_groups.ui.primary.icon.compact.button
+            //         i.remove.icon
+            //     each picked_user_groups
+            //         .unselect_group.ui.primary.compact.button
+            //             strong #{this}
+            // each all_groups
+            //     .ui.compact.basic.button.select_group(class=cloud_tag_class) 
+            //         strong #{this.name}
             // i.tags.large.icon
             +i name='tag'
             if picked_user_tags
@@ -160,7 +160,7 @@ template(name='user_item')
                 each credit_tags
                     .ui.small.basic.label #{title}
             if tags 
-                each tags 
+                each three_tags 
                     .ui.label #{this}
             if online
                 .ui.green.label online

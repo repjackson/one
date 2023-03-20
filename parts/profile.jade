@@ -265,7 +265,7 @@ template(name='user_groups')
             // else                                    
             //     i.chevron.right.icon
         // if session_is 'view_group_members' true
-        .ui.large.selection.link.list
+        .ui.selection.link.list.smallscroll
             each user_member_groups
                 +profile_group_item
 
@@ -291,22 +291,21 @@ template(name='user_tickets')
 
 
 template(name='user_friends')
-    .ui.fluid.card
-        .content
-            .ui.header 
-                // i.large.handshake.icon
-                +i name='friends'
-                |friends
-            +friend_button
-            // .ui.input
-            //     i.plus.icon
-            //     input.search_friend(type='text' placeholder='add by username...')
-            // if is_current_user
-            +multi_user_view key='friend_ids' label='friends'  
-            // each friend_search_results
-            //     .ui.header #{username}
-            // each user_friends
-            //     .item #{username}
+    .content
+        .ui.header 
+            // i.large.handshake.icon
+            +i name='friends'
+            |friends
+        +friend_button
+        // .ui.input
+        //     i.plus.icon
+        //     input.search_friend(type='text' placeholder='add by username...')
+        // if is_current_user
+        +multi_user_view key='friend_ids' label='friends'  
+        // each friend_search_results
+        //     .ui.header #{username}
+        // each user_friends
+        //     .item #{username}
                     
                            
 template(name='profile_group_item')
@@ -314,9 +313,9 @@ template(name='profile_group_item')
         // .image
         img.ui.avatar.image(src="{{c.url image_id height=400 width=400 crop='fit'}}" class=currentUser.invert_class)
         .content
-            strong #{title}
-                if private 
-                    i.large.lock.icon(title='private')
+            | #{title}
+            if private 
+                i.large.lock.icon(title='private')
                        
                                 
 template(name='event_item_small')
