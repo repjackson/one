@@ -49,10 +49,13 @@ template(name='events')
                 each event_tags 
                     .ui.compact.basic.circular.button.pick_tag #{title}
             .sixteen.wide.column
-                unless one_event_result
-                    .ui.icon.input
+                .ui.icon.input
+                    if current_search
+                        i.remove.large.red.link.icon.clear_search.zoomer(title='clear search')
+                    else
                         i.search.icon
-                        input.event_search(type='text' placeholder='search...' autofocus='')
+                    input.event_search(type='text' placeholder='search...' value=current_search)
+                unless one_event_result
                     +session_set key='view_mode' value='grid' icon='cards'
                     +session_set key='view_mode' value='list' icon='list'
                     +session_set key='view_attending' value='going' label='going' icon='checkmark'

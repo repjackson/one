@@ -202,6 +202,7 @@ if Meteor.isClient
 
             
     Template.events.helpers
+        current_search: -> Session.get('event_search')
         event_tags: ->
             Results.find 
                 model:'event_tag'
@@ -246,8 +247,7 @@ if Meteor.isClient
             Docs.find(match).count() is 2
             
         
-        room_button_class: -> 
-            if Session.equals('viewing_room_id', @_id) then 'blue' else 'basic'
+        room_button_class: -> if Session.equals('viewing_room_id', @_id) then 'blue' else 'basic'
         viewing_past: -> Session.get('viewing_past')
         event_docs: ->
             # console.log moment().format()
