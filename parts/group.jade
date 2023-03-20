@@ -51,10 +51,10 @@ template(name='groups')
                         each group_docs
                             +group_card
                 else
-                    .ui.stackable.three.cards.scrolling
+                    .ui.stackable.centered.cards.scrolling
                         each group_docs
                             +group_card
-            if session_is 'view_mode' 'list'
+            else
                 .ui.selection.divided.animated.list.scrolling
                     each group_docs 
                         +group_item
@@ -198,8 +198,8 @@ template(name='group_view')
                             .content
                                 if leaders_id
                                     .ui.inline.header 
-                                        // +i name='crown' cl='ui avatar image'
-                                        i.crown.icon
+                                        +i name='crown' cl='ui avatar image'
+                                        // i.crown.icon
                                         |leaders: 
                                     each leader_ids 
                                         +user_info
