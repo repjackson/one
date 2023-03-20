@@ -274,7 +274,8 @@ Template.registerHelper 'is_dev', () ->
     #     if 'dev' in Meteor.user().roles then true else false
 
 # Template.registerHelper 'is_eric', () -> if Meteor.userId() and Meteor.userId() in ['ytjpFxiwnWaJELZEd','rDqxdcTBTszjeMh9T'] then true else false
-
+Template.registerHelper 'comma', (input) ->
+    input.toLocaleString("en-US")
 Template.registerHelper 'current_user', () ->  Meteor.users.findOne username:Router.current().params.username
 Template.registerHelper 'is_current_user', () ->
     if Meteor.user()
