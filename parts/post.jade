@@ -54,10 +54,6 @@ template(name='set_post_sort_key')
             |#{label}
         
         
-                
-                
-        
-        
 
 template(name='set_view_mode_post')
     .item.set_view
@@ -80,7 +76,7 @@ template(name='post_card')
             if private 
                 i.large.lock.icon
             .ui.small.grey.inline.header #{_when}
-            .smallscroll
+            .smallscroll.pointer.view_post.fly_down
                 | !{body}
             +comments
             +author_info

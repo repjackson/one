@@ -1,3 +1,9 @@
+template(name='checkin_button')
+    .ui.button.checkin 
+        +i name='checkmark'
+        |checkin 
+
+
 template(name='session_key_value_edit')
     .ui.button.set_key_value(class=set_key_value_class)
         if key_value_is 'key' 'sort_key'
@@ -476,7 +482,7 @@ template(name='add_button')
 
 
 template(name='edit_button')
-    a.ui.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
+    a.ui.button.icon.edit(title='Edit' href="/#{model}/#{_id}/edit")
         i.blue.pencil.icon
         |edit
 
@@ -559,9 +565,9 @@ template(name='group_picker')
             |picked groups
         .ui.list
             each product_groups
-                .ui.item
-                    |#{title}
-                    i.remove.link.icon.zoomer.remove_group
+                .ui.segment
+                    +group_item
+                    i.remove.link.circular.icon.zoomer.remove_group
                     
 
 template(name='set_limit')

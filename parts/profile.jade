@@ -43,7 +43,6 @@ template(name='profiles')
 
 
 
-
 template(name='profile_view')
     with current_doc
         if background_image_id
@@ -57,6 +56,8 @@ template(name='profile_view')
                     a.ui.large.circular.compact.button.fly_left(href='/profiles' title='back to profiles')
                         i.chevron.left.icon
                         +i name='gender-neutral-profile'
+                    if can_edit 
+                        +edit_button
                     // a.item(href="/profile/#{current_profile.profilename}")
                     .ui.center.aligned.inline.header
                         // strong #{name}
@@ -128,6 +129,9 @@ template(name='profile_view')
                             .ui.small.header(title='status' )
                                 i.grey.clock.icon
                                 |!{current_status}
+                    if is_author
+                        a.ui.button.use_profile
+                            |use profile
                     +array_view key='allergens' label='allergens' icon='no-milk'  
                     +array_view key='food_dislikes' label='food dislikes' icon='disgusting'  
                     // if in_dev
@@ -137,24 +141,44 @@ template(name='profile_view')
                     +image_view key='human_design' label='human design' icon=''  
                 .twelve.wide.column.scrolling
                     .ui.two.column.grid 
-                        // .column
-                            // +profile_nav_link icon='blog' label='profiles' route='posts'
-                        // .column
-                        //     +profile_posts
-                        // .column
-                        //     +profile_groups
-                        // .column
-                        //     +profile_points
-                        // .column
-                        //     +profile_comments
-                        // .column
-                        //     +profile_friends
-                        // .column
-                        //     +profile_tickets
+                        .column
+                            +profile_posts
+                        .column
+                            +profile_groups
+                        .column
+                            +profile_points
+                        .column
+                            +profile_comments
+                        .column
+                            +profile_friends
+                        .column
+                            +profile_tickets
                         .column
                             |!{body}
-                        // .column
-                        //     +profile_events
+                        .column
+                            +profile_events
+
+
+template(name='profile_points')
+    .ui.header
+        +i name='leaderboard'
+        |profile points
+    .ui.header 
+        +i name='sent'
+        |sent 
+    .ui.button.send_points
+        |send points
+    .ui.list
+        each sent_transfers
+            .item #{when} #{amount}
+    .ui.header 
+        +i name='gift'
+        |received
+    .ui.list 
+        each received_transfers
+            .item #{when} #{amount}
+            
+
 
 
 template(name='profile_posts')                    
@@ -204,8 +228,6 @@ template(name='profile_posts')
                             a.ui.icon.button(href='/post/#{_id}')
                             i.ui.large.link.chevron.right.icon.edit_address
                 
-                
-                    
 template(name='profile_comments')
     .ui.header 
         +i name='chat'
@@ -316,7 +338,7 @@ template(name='profile_friends')
         //     i.plus.icon
         //     input.search_friend(type='text' placeholder='add by profilename...')
         // if is_current_profile
-        +multi_profile_view key='friend_ids' label='friends'  
+        // +multi_profile_view key='friend_ids' label='friends'  
         // each friend_search_results
         //     .ui.header #{profilename}
         // each profile_friends
@@ -385,8 +407,6 @@ template(name='profile_edit')
                     if private 
                         +multi_user_edit key='access_user_ids' label='user picker'  
                     +group_picker
-                    
-                    
                     
 template(name='profile_card')
     .ui.card(class=profile_card_class)

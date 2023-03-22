@@ -4,6 +4,7 @@
 @picked_timestamp_tags = new ReactiveArray []
 # @picked_ingredients = new ReactiveArray []
 
+
 Template.layout.events 
     'click .clear_search': -> 
         Session.set('event_search',null)

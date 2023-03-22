@@ -131,6 +131,7 @@ template(name='group_edit')
                     +delete_button
                     +image_edit key='image_id' label='image'
                     +image_edit key='logo_image_id' label='logo image'
+                .column 
                     +image_edit key='background_image_id' label='background image'
                 .column 
                     +text_edit key='title' icon='header'
@@ -140,17 +141,14 @@ template(name='group_edit')
                     +multi_user_edit key='leader_ids' label='leaders' icon='crown'
                     +array_edit key='tags' label='tags' icon='tags'
                     +array_edit key='location_tags' label='location tags' icon='marker'
+                .column
                     +text_edit key='contact_info' label='contact info' icon='info'
                     +multi_user_edit key='member_ids' label='members'
+                .column
                     +boolean_edit key='private' label='private'
                     +link_edit key='link' label='link'
-                .column
-                    .ui.header 
-                        i.cubes.icon
-                        |modules
-                    +boolean_edit key='has_checkin' label='checkin' icon='clock'
-                    +boolean_edit key='has_shop' label='shop' icon='shop'
-                    +boolean_edit key='has_posts' label='posts' icon='blog'
+                    +link_edit key='link_facebook' label='facebook' icon='facebook'
+                    +link_edit key='link_instagram' label='instagram' icon='instagram'
                     
                     
 template(name='group_view')
@@ -171,6 +169,10 @@ template(name='group_view')
                             i.setting.large.icon
                             +i name='settings'
                     +image_view key='image_id' icon='image' label='image'
+                    if link_facebook
+                        a(href=link_facebook target='_window')
+                    if link_instagram
+                        a(href=link_instagram target='_window')
                     +array_view key='tags' icon='tags'
                     .spacer
                     if link

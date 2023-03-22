@@ -239,6 +239,27 @@ Template.image_link_edit.events
 
 
 Template.image_edit.events
+Template.image_edit.events
+    # "change input[name='upload_image']": (e) ->
+    "click .upload_image": (e) ->
+        # files = e.currentTarget.files
+        Session.set('loading',true)
+        parent = Template.parentData()
+        # myWidget = cloudinary.openUploadWidget({
+        myWidget = cloudinary.createUploadWidget({
+            cloudName: 'facet', 
+            googleApiKey:Meteor.settings.public.custom_search_api
+            uploadPreset: 'loompreset'}, (error, result) =>
+                if not error and result and result.event is "success"
+                    console.log('Done! Here is the image info: ', result.info); 
+                    Docs.update parent._id,
+                        $set:
+                            # "#{@key}":res.public_id
+                            image_url:result.info.secure_url
+        )
+        myWidget.open();
+        Session.set('loading',false)
+
     "change input[name='upload_image']": (e) ->
         files = e.currentTarget.files
         parent = Template.parentData()
