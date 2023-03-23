@@ -91,7 +91,11 @@ if Meteor.isClient
         'click .view_profile': ->
             Router.go "/profile/#{@_id}"
 
-    # Template.profile_view.events
+    Template.profile_view.events
+        'click .put_on': ->
+            Meteor.users.update Meteor.userId(), 
+                $set:
+                    current_profile_id:@_id
     #     'click .add_profile_recipe': ->
     #         new_id = 
     #             Docs.insert 

@@ -81,6 +81,12 @@ template(name='nav')
                 //     +i name='bell'
                 // a.item(href='/user/#{currentUser.username}/credit' class="{{isActiveRoute 'user_credit'}}" title='current wallet balance')
                 // a.item(href="/user/#{currentUser.username}/credit" class="{{isActiveRoute regex='user_credit'}}" title='your credits')
+                if currentUser.current_profile_id
+                    with current_profile 
+                        a.item(href="/profile/#{_id}" class="{{isActiveRoute 'user'}}" title='user')
+                            img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                        
+                a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute 'user'}}" title='user')
                 a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute 'user'}}" title='user')
                     if currentUser.image_id
                         img.ui.avatar.image(src="{{c.url currentUser.image_id width=200 height=200 gravity='face' crop='fill'}}")

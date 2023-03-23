@@ -87,7 +87,12 @@ Template.registerHelper 'gs', () ->
 Template.registerHelper 'display_mode', () -> Session.get('display_mode',true)
 Template.registerHelper 'is_loading', () -> Session.get 'loading'
 Template.registerHelper 'dev', () -> Meteor.isDevelopment
-# Template.registerHelper 'is_author', ()-> @_author_id is Meteor.userId()
+Template.registerHelper 'current_profile', () -> 
+    if Meteor.userId()
+        Docs.findOne 
+            _id:Meteor.user().current_profile_id
+            
+Template.registerHelper 'is_author', ()-> @_author_id is Meteor.userId()
 # Template.registerHelper 'is_handler', ()-> @handler_username is Meteor.user().username
 # Template.registerHelper 'is_owner', ()-> @owner_username is Meteor.user().username
 Template.registerHelper 'is_grandparent_author', () ->

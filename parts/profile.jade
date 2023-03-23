@@ -131,6 +131,7 @@ template(name='profile_view')
                                 |!{current_status}
                     if is_author
                         a.ui.button.use_profile
+                            +i name='checkmark'
                             |use profile
                     +array_view key='allergens' label='allergens' icon='no-milk'  
                     +array_view key='food_dislikes' label='food dislikes' icon='disgusting'  
@@ -157,6 +158,9 @@ template(name='profile_view')
                             |!{body}
                         .column
                             +profile_events
+
+
+
 
 
 template(name='profile_points')
